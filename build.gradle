@@ -1,0 +1,18 @@
+plugins {
+    id 'org.jetbrains.intellij' version '0.2.17'
+}
+
+group 'org.aerogear'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
