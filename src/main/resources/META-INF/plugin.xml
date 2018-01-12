@@ -26,10 +26,16 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <toolWindow id="Aerogear Mobile" secondary="true" anchor="right"
+                    factoryClass="org.aerogear.plugin.intellij.mobile.ui.MobileToolWindowFactory"/>
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
+        <action id="AerogearMobile" class="org.aerogear.plugin.intellij.mobile.ui.actions.DisplayToolWindow"
+                text="Aerogear Mobile" description="Display Aerogear Mobile Window">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
 
 </idea-plugin>
