@@ -13,7 +13,7 @@ public class CommandBuilder {
 
     }
 
-    public void getServices() throws IOException {
+    public MobileServices getServices() throws IOException {
         System.out.println("Getting services...");
         ProcessBuilder pb = new ProcessBuilder("mobile", "get", "services", "-o=json");
         Process p = pb.start();
@@ -25,5 +25,6 @@ public class CommandBuilder {
         }
         Gson gson = new Gson();
         MobileServices services = gson.fromJson(sb.toString(), MobileServices.class);
+        return services;
     }
 }
