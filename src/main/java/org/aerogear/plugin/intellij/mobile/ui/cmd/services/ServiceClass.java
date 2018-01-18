@@ -17,7 +17,7 @@ public class ServiceClass
     @Override
     public String toString()
     {
-        return "ClassPojo [spec = "+spec+"]";
+        return "" + spec;
     }
 }
 

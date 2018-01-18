@@ -1,5 +1,10 @@
 package org.aerogear.plugin.intellij.mobile.ui.cmd.services;
 
+import javax.swing.*;
+import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class ExternalMetadata
 {
     private String documentationUrl;
@@ -65,6 +70,6 @@ public class ExternalMetadata
     @Override
     public String toString()
     {
-        return "ClassPojo [documentationUrl = "+documentationUrl+", imageUrl = "+imageUrl+", displayName = "+displayName+", providerDisplayName = "+providerDisplayName+", serviceName = "+serviceName+"]";
+        return "" + documentationUrl+", imageUrl = "+imageUrl+", displayName = "+displayName+", providerDisplayName = "+providerDisplayName+", serviceName = "+serviceName+"]";
     }
 }
