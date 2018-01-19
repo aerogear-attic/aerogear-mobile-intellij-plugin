@@ -1,32 +1,35 @@
 package org.aerogear.plugin.intellij.mobile.ui;
 
 import com.intellij.ui.components.JBPanel;
-import org.aerogear.plugin.intellij.mobile.ui.cmd.services.ServiceClass;
+import org.aerogear.plugin.intellij.mobile.api.models.ServiceClass;
+import org.aerogear.plugin.intellij.mobile.api.models.Spec;
 
 import javax.swing.*;
-import java.awt.*;
 import java.net.URL;
 
 public class ServiceClassPanel extends JBPanel {
     private JLabel serviceHeader;
     private JTextArea serviceDescription;
-    private JPanel servicePanel;
     private ImageIcon serviceIcon;
     private URL imgSrc;
 
     public ServiceClassPanel(ServiceClass service) {
-        setLayout(new GridLayout(0, 1));
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-
-        serviceHeader = new JLabel(service.getSpec().getExternalMetadata().getDisplayName());
+        Spec serviceSpec = service.getSpec();
+        serviceHeader = new JLabel(serviceSpec.getExternalMetadata().getDisplayName());
         serviceHeader.setIconTextGap(10);
 
-        serviceDescription = new JTextArea("123123");
+        imgSrc = getClass().getClassLoader().getResource("icons/services/" + serviceSpec.getExternalName() + ".png");
+        serviceIcon = new ImageIcon(imgSrc);
+        serviceHeader.setIcon(serviceIcon);
+        serviceHeader.setText(serviceSpec.getExternalMetadata().getDisplayName());
+        add(serviceHeader);
+
+        serviceDescription = new JTextArea(serviceSpec.getDescription());
         serviceDescription.setLineWrap(true);
         serviceDescription.setWrapStyleWord(true);
         serviceDescription.setEditable(false);
-
-        add(serviceHeader);
         add(serviceDescription);
     }
 }

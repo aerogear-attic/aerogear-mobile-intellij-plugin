@@ -1,20 +1,19 @@
-package org.aerogear.plugin.intellij.mobile.ui.cmd;
+package org.aerogear.plugin.intellij.mobile.api;
 
 import com.google.gson.Gson;
-import org.aerogear.plugin.intellij.mobile.ui.cmd.services.MobileServices;
+import org.aerogear.plugin.intellij.mobile.api.models.MobileServices;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class CommandBuilder {
+public class Client {
 
-    public CommandBuilder() {
+    public Client() {
 
     }
 
     public MobileServices getServices() throws IOException {
-        System.out.println("Getting services...");
         ProcessBuilder pb = new ProcessBuilder("mobile", "get", "services", "-o=json");
         Process p = pb.start();
         BufferedReader bf = new BufferedReader(new InputStreamReader(p.getInputStream()));

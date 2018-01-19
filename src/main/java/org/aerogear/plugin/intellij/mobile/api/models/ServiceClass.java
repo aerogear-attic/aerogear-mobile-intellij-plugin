@@ -1,4 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.ui.cmd.services;
+package org.aerogear.plugin.intellij.mobile.api.models;
 
 public class ServiceClass
 {
@@ -17,7 +17,7 @@ public class ServiceClass
     @Override
     public String toString()
     {
-        return "" + spec;
+        return "spec=" + spec;
     }
 }
 

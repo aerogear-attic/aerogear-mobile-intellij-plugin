@@ -1,9 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.ui.cmd.services;
-
-import javax.swing.*;
-import java.awt.*;
-import java.net.MalformedURLException;
-import java.net.URL;
+package org.aerogear.plugin.intellij.mobile.api.models;
 
 public class ExternalMetadata
 {
@@ -70,6 +65,6 @@ public class ExternalMetadata
     @Override
     public String toString()
     {
-        return "" + documentationUrl+", imageUrl = "+imageUrl+", displayName = "+displayName+", providerDisplayName = "+providerDisplayName+", serviceName = "+serviceName+"]";
+        return "documentationUrl=" + documentationUrl+", imageUrl = " + imageUrl + ", displayName = " + displayName + ", providerDisplayName = " + providerDisplayName + ", serviceName = " + serviceName;
     }
 }

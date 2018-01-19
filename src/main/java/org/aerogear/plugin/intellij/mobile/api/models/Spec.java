@@ -1,4 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.ui.cmd.services;
+package org.aerogear.plugin.intellij.mobile.api.models;
 
 public class Spec
 {
@@ -66,6 +66,6 @@ public class Spec
     @Override
     public String toString()
     {
-        return "ClassPojo [externalMetadata = "+externalMetadata+", externalName = "+externalName+", description = "+description+", externalID = "+externalID+", clusterServiceBrokerName = "+clusterServiceBrokerName+"]";
+        return "externalMetadata = " + externalMetadata + ", externalName = " + externalName + ", description = " + description + ", externalID = " + externalID + ", clusterServiceBrokerName = " + clusterServiceBrokerName ;
     }
 }
