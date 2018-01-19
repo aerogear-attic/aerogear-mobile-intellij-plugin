@@ -1,4 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.api.models;
+package org.aerogear.plugin.intellij.mobile.models;
 
 public class MobileServices
 {
@@ -17,6 +17,6 @@ public class MobileServices
     @Override
     public String toString()
     {
-        return "items = "+items;
+        return "items = " + items;
     }
 }

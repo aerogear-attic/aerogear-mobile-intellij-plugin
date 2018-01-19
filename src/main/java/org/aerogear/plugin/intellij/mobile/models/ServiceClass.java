@@ -1,4 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.api.models;
+package org.aerogear.plugin.intellij.mobile.models;
 
 public class ServiceClass
 {

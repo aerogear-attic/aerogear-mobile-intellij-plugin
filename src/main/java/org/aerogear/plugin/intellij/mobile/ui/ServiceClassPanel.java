@@ -1,8 +1,8 @@
 package org.aerogear.plugin.intellij.mobile.ui;
 
 import com.intellij.ui.components.JBPanel;
-import org.aerogear.plugin.intellij.mobile.api.models.ServiceClass;
-import org.aerogear.plugin.intellij.mobile.api.models.Spec;
+import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
+import org.aerogear.plugin.intellij.mobile.models.Spec;
 
 import javax.swing.*;
 import java.net.URL;
