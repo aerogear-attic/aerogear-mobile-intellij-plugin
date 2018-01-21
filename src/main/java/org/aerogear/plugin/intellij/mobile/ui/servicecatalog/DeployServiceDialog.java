@@ -34,12 +34,15 @@ public class DeployServiceDialog extends DialogWrapper {
         centerPanel = new IdentityDeployment();
         centerPanel.setBackground(Color.WHITE);
         getContentPane().setBackground(Color.WHITE);
+        getContentPanel().setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+
         return centerPanel;
     }
 
     @Override
     protected JComponent createSouthPanel() {
         JComponent sp = super.createSouthPanel();
+        sp.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, new Color(232, 232, 231)));
         sp.setBackground(Color.WHITE);
         return sp;
     }

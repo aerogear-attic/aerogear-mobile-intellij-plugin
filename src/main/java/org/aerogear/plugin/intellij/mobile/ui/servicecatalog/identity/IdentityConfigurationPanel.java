@@ -36,7 +36,6 @@ public class IdentityConfigurationPanel extends javax.swing.JPanel {
         usernameValue = new javax.swing.JTextField();
         password = new javax.swing.JLabel();
         passwordValue = new javax.swing.JTextField();
-        border = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(254, 254, 254));
         setPreferredSize(new java.awt.Dimension(700, 400));
@@ -73,16 +72,15 @@ public class IdentityConfigurationPanel extends javax.swing.JPanel {
                             .addComponent(projectName)
                             .addComponent(username)
                             .addComponent(password))
-                        .addGap(0, 730, Short.MAX_VALUE))
+                        .addGap(0, 498, Short.MAX_VALUE))
                     .addComponent(usernameValue)
                     .addComponent(passwordValue))
                 .addContainerGap())
-            .addComponent(border)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(118, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(projectName)
                 .addGap(18, 18, 18)
                 .addComponent(projectSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -94,8 +92,7 @@ public class IdentityConfigurationPanel extends javax.swing.JPanel {
                 .addComponent(password)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(passwordValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(92, 92, 92)
-                .addComponent(border, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(95, 95, 95))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -109,7 +106,6 @@ public class IdentityConfigurationPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSeparator border;
     private javax.swing.JLabel password;
     private javax.swing.JTextField passwordValue;
     private javax.swing.JLabel projectName;
