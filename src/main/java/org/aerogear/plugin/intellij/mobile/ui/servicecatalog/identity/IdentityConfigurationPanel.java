@@ -1,4 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.ui;/*
+package org.aerogear.plugin.intellij.mobile.ui.servicecatalog.identity;/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.

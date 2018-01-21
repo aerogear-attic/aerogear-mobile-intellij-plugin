@@ -1,4 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.ui;
+package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;

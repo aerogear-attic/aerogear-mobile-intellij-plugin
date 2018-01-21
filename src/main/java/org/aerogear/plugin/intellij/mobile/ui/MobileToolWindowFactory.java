@@ -10,6 +10,8 @@ import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.content.*;
 import org.aerogear.plugin.intellij.mobile.api.*;
 import org.aerogear.plugin.intellij.mobile.models.MobileServices;
+import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.ServiceListPane;
+
 import java.awt.*;
 
 public class MobileToolWindowFactory implements ToolWindowFactory {

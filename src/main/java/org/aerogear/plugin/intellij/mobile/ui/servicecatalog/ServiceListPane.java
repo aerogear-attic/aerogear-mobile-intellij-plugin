@@ -1,4 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.ui;
+package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBScrollPane;

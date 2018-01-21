@@ -1,4 +1,6 @@
-package org.aerogear.plugin.intellij.mobile.ui;
+package org.aerogear.plugin.intellij.mobile.ui.servicecatalog.identity;
+
+import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.Deployable;
 
 import javax.swing.*;
 import java.util.ArrayList;

@@ -1,8 +1,9 @@
-package org.aerogear.plugin.intellij.mobile.ui;
+package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 
 import com.intellij.openapi.ui.DialogWrapper;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
+import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.identity.IdentityDeployment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
