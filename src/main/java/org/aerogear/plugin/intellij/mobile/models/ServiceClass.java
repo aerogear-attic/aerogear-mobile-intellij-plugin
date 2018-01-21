@@ -14,6 +14,21 @@ public class ServiceClass
         this.spec = spec;
     }
 
+    public String getDisplayName() {
+        return getSpec().getExternalMetadata().getDisplayName();
+    }
+
+    public String getServiceName() {
+        return getSpec().getExternalMetadata().getServiceName();
+    }
+
+    public String getExternalName() {
+        return getSpec().getExternalName();
+    }
+
+    public String getDescription() {
+        return getSpec().getDescription();
+    }
     @Override
     public String toString()
     {
