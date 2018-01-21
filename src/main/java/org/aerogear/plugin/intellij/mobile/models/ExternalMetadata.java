@@ -12,6 +12,12 @@ public class ExternalMetadata
 
     private String serviceName;
 
+    public String[] getDependencies() {
+        return dependencies;
+    }
+
+    private String[] dependencies;
+
     public String getDocumentationUrl ()
     {
         return documentationUrl;

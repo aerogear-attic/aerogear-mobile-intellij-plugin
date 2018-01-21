@@ -29,6 +29,11 @@ public class ServiceClass
     public String getDescription() {
         return getSpec().getDescription();
     }
+
+    public String[] getDependencies() {
+        return getSpec().getExternalMetadata().getDependencies();
+    }
+
     @Override
     public String toString()
     {
