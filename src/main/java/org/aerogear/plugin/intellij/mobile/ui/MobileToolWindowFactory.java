@@ -13,7 +13,7 @@ import org.aerogear.plugin.intellij.mobile.models.MobileServices;
 import java.awt.*;
 
 public class MobileToolWindowFactory implements ToolWindowFactory {
-
+    private static final String AEROGEAR_NOTIFICATION_GROUP = "AerogearMobileNotifications";
     private JBPanel mobileToolWindowContent;
     private ToolWindow mobileToolWindow;
 
@@ -34,10 +34,10 @@ public class MobileToolWindowFactory implements ToolWindowFactory {
             if (serviceList != null) {
                 mobileToolWindowContent.add(new ServiceListPane(serviceList.getItems()));
             } else {
-                Notifications.Bus.notify(new Notification("AerogearMobileNotifications", "Mobile Services Unavailable", "There are no mobile services available", NotificationType.WARNING));
+                Notifications.Bus.notify(new Notification(AEROGEAR_NOTIFICATION_GROUP, "Mobile Services Unavailable", "There are no mobile services available", NotificationType.WARNING));
             }
         } catch (CLIException e) {
-            Notifications.Bus.notify(new Notification("AerogearMobileNotifications", "Mobile CLI Exception", e.toString() + e.getCause(), NotificationType.ERROR));
+            Notifications.Bus.notify(new Notification(AEROGEAR_NOTIFICATION_GROUP, "Mobile CLI Exception", e.toString() + e.getCause(), NotificationType.ERROR));
         }
 
         Content content = contentFactory.createContent(mobileToolWindowContent, "", false);
