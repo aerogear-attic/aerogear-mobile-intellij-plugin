@@ -1,6 +1,6 @@
 package org.aerogear.plugin.intellij.mobile.models;
 
-public class Spec
+public class ClusterServiceSpec
 {
     private ExternalMetadata externalMetadata;
 

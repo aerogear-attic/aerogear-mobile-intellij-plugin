@@ -2,14 +2,14 @@ package org.aerogear.plugin.intellij.mobile.models;
 
 public class ServiceClass
 {
-    private Spec spec;
+    private ClusterServiceSpec spec;
 
-    public Spec getSpec ()
+    public ClusterServiceSpec getSpec ()
     {
         return spec;
     }
 
-    public void setSpec (Spec spec)
+    public void setSpec (ClusterServiceSpec spec)
     {
         this.spec = spec;
     }
