@@ -41,7 +41,7 @@ public class MobileAPI {
         return services;
     }
 
-    public void createService(ServiceClass sc, List<String> params) {
+    public void createService(ServiceClass sc, List<String> params) throws CLIException {
         List<String> command = new ArrayList<String>();
         command.add("mobile");
         command.add("create");
@@ -51,11 +51,12 @@ public class MobileAPI {
         for (String param : params) {
             command.add("-p " + param);
         }
+
         ProcessBuilder pb = new ProcessBuilder(command);
         try {
             pb.start();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CLIException("Failed to create mobile service " + sc.getServiceName(), e.getCause());
         }
     }
 }

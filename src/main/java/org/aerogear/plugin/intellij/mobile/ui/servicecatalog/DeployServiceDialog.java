@@ -1,6 +1,10 @@
 package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.ui.DialogWrapper;
+import org.aerogear.plugin.intellij.mobile.api.CLIException;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.identity.IdentityDeployment;
@@ -63,7 +67,11 @@ public class DeployServiceDialog extends DialogWrapper {
         protected void doAction(ActionEvent e) {
             super.doAction(null);
             List<String> params = this.sd.centerPanel.getConfig();
-            new MobileAPI().createService(sd.getServiceClass(), params);
+            try {
+                new MobileAPI().createService(sd.getServiceClass(), params);
+            } catch (CLIException ecpt) {
+                Notifications.Bus.notify(new Notification("AerogearMobileNotifications", "Mobile CLI Exception", e.toString() + ecpt.getCause(), NotificationType.ERROR));
+            }
         }
     }
 }
