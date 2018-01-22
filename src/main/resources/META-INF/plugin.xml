@@ -34,7 +34,7 @@
         <group id="AerogearMobile" text="AerogearMobile" popup="true">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <action id="ListServices" class="org.aerogear.plugin.intellij.mobile.ui.actions.DisplayToolWindow"
-                    text="Display Mobile Services" description="Display available mobile services">
+                    text="Mobile Services" description="Display available mobile services">
             </action>
         </group>
     </actions>
