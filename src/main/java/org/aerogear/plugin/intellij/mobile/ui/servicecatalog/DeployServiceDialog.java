@@ -18,8 +18,9 @@ public class DeployServiceDialog extends DialogWrapper {
 
     protected DeployServiceDialog(ServiceClass sc) {
         super(null);
-        init();
         this.sc = sc;
+        init();
+        setTitle(sc.getDisplayName());
     }
 
     @NotNull
