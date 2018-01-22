@@ -11,7 +11,7 @@ public class MobileAPI {
     public MobileAPI() {
     }
 
-    public MobileServices getServices() {
+    public MobileServices getServices() throws CLIException{
         ProcessBuilder pb = new ProcessBuilder("mobile", "get", "services", "-o=json");
         StringBuilder sb = new StringBuilder();
         BufferedReader bf = null;
@@ -24,7 +24,7 @@ public class MobileAPI {
                 sb.append(line);
             }
         } catch(Exception e) {
-            System.out.println(e);
+            throw new CLIException("Failed to retrieve mobile services from mobile cli", e.getCause());
         } finally {
             try {
                 if (bf != null) bf.close();
