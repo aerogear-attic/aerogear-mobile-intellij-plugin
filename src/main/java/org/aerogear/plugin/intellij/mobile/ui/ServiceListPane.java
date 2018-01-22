@@ -12,7 +12,7 @@ public class ServiceListPane extends JBScrollPane {
 
     public ServiceListPane(ServiceClass[] scl) {
         JBPanel view = new JBPanel();
-        view.setLayout(new BoxLayout(view, BoxLayout.Y_AXIS));
+        view.setLayout(new BoxLayout(view, BoxLayout.PAGE_AXIS));
         setViewportView(view);
         view.withBackground(Color.WHITE);
         for (ServiceClass sc : scl) {
@@ -28,6 +28,7 @@ public class ServiceListPane extends JBScrollPane {
         ImageIcon serviceIcon = new ImageIcon(imgSrc);
         serviceInfo.setIcon(serviceIcon);
         serviceInfo.setText(sc.getDisplayName());
+        serviceInfo.setIconTextGap(10);
 
         return svcPanel;
     }

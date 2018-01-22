@@ -14,16 +14,23 @@ public class MobileAPI {
     public MobileServices getServices() {
         ProcessBuilder pb = new ProcessBuilder("mobile", "get", "services", "-o=json");
         StringBuilder sb = new StringBuilder();
+        BufferedReader bf = null;
 
         try {
             Process p = pb.start();
-            BufferedReader bf = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            bf = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
             while((line = bf.readLine()) != null) {
                 sb.append(line);
             }
-        } catch(Exception exception) {
-            System.out.println(exception);
+        } catch(Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                if (bf != null) bf.close();
+            } catch(Exception e) {
+                System.out.println(e);
+            }
         }
 
         Gson gson = new Gson();
