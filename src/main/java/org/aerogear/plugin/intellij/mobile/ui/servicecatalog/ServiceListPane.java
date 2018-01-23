@@ -32,7 +32,7 @@ public class ServiceListPane extends JBScrollPane {
         try {
             imgSrc = new URL(sc.getSpec().getExternalMetadata().getImageUrl());
         } catch (MalformedURLException e) {
-            throw new CLIException("Failed to retrieve service icon", e.getCause());
+            throw new CLIException("Failed to retrieve service icon ", e.getCause());
         }
 
         if (imgSrc != null) {
@@ -44,12 +44,7 @@ public class ServiceListPane extends JBScrollPane {
 
         serviceInfo.setText(sc.getDisplayName());
 
-        svcPanel.getDeploy().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                new DeployServiceDialog(sc).show();
-            }
-        });
+        svcPanel.getDeploy().addActionListener(actionEvent -> new DeployServiceDialog(sc).show());
 
         return svcPanel;
     }

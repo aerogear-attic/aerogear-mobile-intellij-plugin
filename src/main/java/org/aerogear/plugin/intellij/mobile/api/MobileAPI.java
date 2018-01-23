@@ -27,7 +27,7 @@ public class MobileAPI {
                 sb.append(line);
             }
         } catch(Exception e) {
-            throw new CLIException("Failed to retrieve mobile services from mobile cli", e.getCause());
+            throw new CLIException("Failed to retrieve mobile services from mobile cli ", e.getCause());
         } finally {
             try {
                 if (bf != null) bf.close();
@@ -47,9 +47,8 @@ public class MobileAPI {
         command.add("create");
         command.add("serviceinstance");
         command.add(sc.getServiceName());
-        command.add("--namespace=myproject");
         for (String param : params) {
-            command.add("-p " + param);
+            command.add(param);
         }
 
         ProcessBuilder pb = new ProcessBuilder(command);

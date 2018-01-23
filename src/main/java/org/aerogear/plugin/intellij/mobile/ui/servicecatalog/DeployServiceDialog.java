@@ -17,8 +17,10 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class DeployServiceDialog extends DialogWrapper {
+    private String AEROGEAR_NOTIFICATIONS_GROUP = "AerogearMobileNotifications";
     private ServiceClass sc;
     private IdentityDeployment centerPanel;
+    private MobileAPI mobileAPI = new MobileAPI();
 
     protected DeployServiceDialog(ServiceClass sc) {
         super(null);
@@ -68,9 +70,9 @@ public class DeployServiceDialog extends DialogWrapper {
             super.doAction(null);
             List<String> params = this.sd.centerPanel.getConfig();
             try {
-                new MobileAPI().createService(sd.getServiceClass(), params);
+                mobileAPI.createService(sd.getServiceClass(), params);
             } catch (CLIException ecpt) {
-                Notifications.Bus.notify(new Notification("AerogearMobileNotifications", "Mobile CLI Exception", e.toString() + ecpt.getCause(), NotificationType.ERROR));
+                Notifications.Bus.notify(new Notification(AEROGEAR_NOTIFICATIONS_GROUP, "Mobile CLI Exception", ecpt.toString() + ecpt.getCause(), NotificationType.ERROR));
             }
         }
     }

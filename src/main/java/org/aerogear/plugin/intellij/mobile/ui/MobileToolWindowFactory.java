@@ -33,7 +33,7 @@ public class MobileToolWindowFactory implements ToolWindowFactory {
         MobileServices serviceList;
         try {
             serviceList = new MobileAPI().getServices();
-            if (serviceList != null) {
+            if (serviceList.getItems() != null) {
                 mobileToolWindowContent.add(new ServiceListPane(serviceList.getItems()));
             } else {
                 Notifications.Bus.notify(new Notification("AerogearMobileNotifications", "Mobile Services Unavailable", "There are no mobile services available", NotificationType.WARNING));
