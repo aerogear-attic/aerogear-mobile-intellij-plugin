@@ -31,11 +31,11 @@
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
-        <action id="AerogearMobile" class="org.aerogear.plugin.intellij.mobile.ui.actions.DisplayToolWindow"
-                text="Aerogear Mobile" description="Display Aerogear Mobile Window">
+        <group id="AerogearMobile" text="AerogearMobile" popup="true">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
-        </action>
+            <action id="ListServices" class="org.aerogear.plugin.intellij.mobile.ui.actions.DisplayToolWindow"
+                    text="Mobile Services" description="Display available mobile services">
+            </action>
+        </group>
     </actions>
-
 </idea-plugin>
