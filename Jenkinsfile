@@ -16,6 +16,7 @@ podTemplate(label: 'idea-gradle', cloud: "openshift", containers: [goIdeaGradle]
     
     stage ("Build") {
       sh "./gradlew dist"
+      archiveArtifacts artifacts: 'build/distributions/*', onlyIfSuccessful: true
     }
   }
 }
