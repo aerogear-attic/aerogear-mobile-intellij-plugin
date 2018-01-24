@@ -1,4 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.ui;
+package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBScrollPane;
@@ -8,6 +8,8 @@ import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class ServiceListPane extends JBScrollPane {
@@ -30,7 +32,7 @@ public class ServiceListPane extends JBScrollPane {
         try {
             imgSrc = new URL(sc.getSpec().getExternalMetadata().getImageUrl());
         } catch (MalformedURLException e) {
-            throw new CLIException("Failed to retrieve service icon", e.getCause());
+            throw new CLIException("Failed to retrieve service icon ", e.getCause());
         }
 
         if (imgSrc != null) {
@@ -41,6 +43,8 @@ public class ServiceListPane extends JBScrollPane {
         }
 
         serviceInfo.setText(sc.getDisplayName());
+
+        svcPanel.getDeploy().addActionListener(actionEvent -> new DeployServiceDialog(sc).show());
 
         return svcPanel;
     }

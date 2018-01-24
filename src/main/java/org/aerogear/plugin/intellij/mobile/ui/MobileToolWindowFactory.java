@@ -10,6 +10,8 @@ import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.content.*;
 import org.aerogear.plugin.intellij.mobile.api.*;
 import org.aerogear.plugin.intellij.mobile.models.MobileServices;
+import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.ServiceListPane;
+
 import java.awt.*;
 
 public class MobileToolWindowFactory implements ToolWindowFactory {
@@ -31,7 +33,7 @@ public class MobileToolWindowFactory implements ToolWindowFactory {
         MobileServices serviceList;
         try {
             serviceList = new MobileAPI().getServices();
-            if (serviceList != null) {
+            if (serviceList.getItems() != null) {
                 mobileToolWindowContent.add(new ServiceListPane(serviceList.getItems()));
             } else {
                 Notifications.Bus.notify(new Notification(AEROGEAR_NOTIFICATION_GROUP, "Mobile Services Unavailable", "There are no mobile services available", NotificationType.WARNING));
