@@ -1,12 +1,15 @@
 package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
+import com.intellij.notification.*;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.aerogear.plugin.intellij.mobile.api.CLIException;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
+import org.aerogear.plugin.intellij.mobile.api.Watch;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
+import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.identity.IdentityDeployment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class DeployServiceDialog extends DialogWrapper {
-    private String AEROGEAR_NOTIFICATIONS_GROUP = "AerogearMobileNotifications";
     private ServiceClass sc;
     private IdentityDeployment centerPanel;
     private MobileAPI mobileAPI = new MobileAPI();
@@ -60,20 +62,28 @@ public class DeployServiceDialog extends DialogWrapper {
 
     private class DeployOnOkAction extends OkAction {
         private DeployServiceDialog sd;
+        private MobileNotificationsService notifier;
 
         public DeployOnOkAction(DeployServiceDialog sd) {
             this.sd = sd;
+            notifier = ServiceManager.getService(MobileNotificationsService.class);
         }
 
         @Override
         protected void doAction(ActionEvent e) {
             super.doAction(null);
             List<String> params = this.sd.centerPanel.getConfig();
-            try {
-                mobileAPI.createService(sd.getServiceClass(), params);
-            } catch (CLIException ecpt) {
-                Notifications.Bus.notify(new Notification(AEROGEAR_NOTIFICATIONS_GROUP, "Mobile CLI Exception", ecpt.toString() + ecpt.getCause(), NotificationType.ERROR));
-            }
+            mobileAPI.createService(sd.getServiceClass(), params, new Watch() {
+                @Override
+                public void onError(Exception e) {
+                    notifier.notifyError("", "Error while " + sc.getServiceName() + " deployed: " + e.toString());
+                }
+
+                @Override
+                public void onSuccess(Object obj) {
+                    notifier.notifyInformation("", sc.getServiceName() + " deployment complete.");
+                }
+            });
         }
     }
 }

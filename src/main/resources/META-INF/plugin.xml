@@ -28,6 +28,7 @@
         <!-- Add your extensions here -->
         <toolWindow id="Aerogear Mobile" secondary="true" anchor="right"
                     factoryClass="org.aerogear.plugin.intellij.mobile.ui.MobileToolWindowFactory"/>
+        <applicationService serviceImplementation="org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService" />
     </extensions>
 
     <actions>
