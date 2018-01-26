@@ -22,6 +22,18 @@ configurations {
 dependencies {
     ideaSdk fileTree(dir: 'lib/sdk/', include: ['*/lib/*.jar'])
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    testCompile 'org.testng:testng:6.8.21'
+}
+
+sourceSets {
+
+    // Set test source
+    test {
+        java {
+            java.srcDir 'src/test/java'
+        }
+    }
 }
 
 def IDEA_SDK_URL = 'https://download-cf.jetbrains.com/idea/ideaIC-2017.3.3.tar.gz'
@@ -30,6 +42,8 @@ def IDEA_SDK_NAME = 'IntelliJ IDEA Community Edition IC-173.4301.25'
 test {
     // Avoid parallel execution, since the IntelliJ boilerplate is not up to that
     maxParallelForks = 1
+
+    useTestNG()
 }
 
 task downloadIdeaSdk(type: Download) {
