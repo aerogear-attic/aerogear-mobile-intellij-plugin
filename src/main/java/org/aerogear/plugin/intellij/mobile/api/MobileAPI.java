@@ -67,9 +67,7 @@ public class MobileAPI {
     private void watch(List<String> command, Watch w) {
         ProcessBuilder pb = new ProcessBuilder(command);
         ExecutorService executor = Executors.newFixedThreadPool(1);
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
+        executor.execute(() -> {
                 try {
                     Process p = pb.start();
                     StringBuilder input = getResult(p.getInputStream());
@@ -82,7 +80,6 @@ public class MobileAPI {
                 } catch (IOException e) {
                     w.onError(e);
                 }
-            }
         });
     }
 
