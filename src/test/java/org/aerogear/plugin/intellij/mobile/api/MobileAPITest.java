@@ -1,13 +1,14 @@
 package org.aerogear.plugin.intellij.mobile.api;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class MobileAPITest {
+    @BeforeClass
+    public void setup() {
+    }
+
     @Test
     public void testGetServices() {
-        System.out.println("Get Services Test");
-        Assert.assertEquals(0, 0);
     }
 
 }
