@@ -1,5 +1,7 @@
 .idea/*
+.settings/*
 lib/*
+bin/*
 *.iml
 *.ipr
 *.iws
@@ -9,3 +11,4 @@ build/*
 out/*
 *.zip
 lib/*
+.project

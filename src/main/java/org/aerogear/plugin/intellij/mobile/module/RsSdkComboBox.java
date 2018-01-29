@@ -18,7 +18,6 @@ import java.util.List;
  * @author Konstantin Bulenkov
  */
 public class RsSdkComboBox extends ComboboxWithBrowseButton {
-
   public RsSdkComboBox() {
     getComboBox().setRenderer(new ColoredListCellRenderer() {
       @Override
