@@ -38,6 +38,9 @@ It's very easy to set it up as an IntelliJ project.
 
 Once ```build.gradle``` gets updated, you need to "Refresh all Gradle projects" in the Gradle panel.
 
+Run the plugin tests
+1. Ensure that the ```Gradle``` plugin is enabled and properly configured in IntelliJ as detailed above.
+2. Open the ```Gradle``` panel and run the task ```test``` under "Tasks" -> "Verification" -> "test"
 
 Contributing
 ------------

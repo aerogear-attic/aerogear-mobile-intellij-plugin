@@ -30,6 +30,7 @@
                     factoryClass="org.aerogear.plugin.intellij.mobile.ui.MobileToolWindowFactory"/>
         <moduleType id="MY_MODULE" implementationClass="org.aerogear.plugin.intellij.mobile.module.AppRepresentation"/>
         <moduleBuilder builderClass="org.aerogear.plugin.intellij.mobile.module.AppRepresentationBuilder"/>
+        <applicationService serviceImplementation="org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService" />
     </extensions>
 
     <actions>
