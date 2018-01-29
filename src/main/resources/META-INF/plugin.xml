@@ -8,6 +8,7 @@
       Enter short description for your plugin here.<br>
       <em>most HTML tags may be used</em>
     ]]></description>
+    <depends>com.intellij.modules.lang</depends>
 
     <change-notes><![CDATA[
       Add change notes here.<br>
@@ -28,6 +29,8 @@
         <!-- Add your extensions here -->
         <toolWindow id="Aerogear Mobile" secondary="true" anchor="right"
                     factoryClass="org.aerogear.plugin.intellij.mobile.ui.MobileToolWindowFactory"/>
+        <moduleType id="MOBILE_MODULE" implementationClass="org.aerogear.plugin.intellij.mobile.wizard.CreateClientType"/>
+        <moduleBuilder builderClass="org.aerogear.plugin.intellij.mobile.wizard.CreateClientBuilder"/>
         <applicationService serviceImplementation="org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService" />
         <projectConfigurable groupId="tools" displayName="AeroGearMobileConfigurable" id="aerogear.mobile.configurable" instance="org.aerogear.plugin.intellij.mobile.ui.settings.AeroGearMobileConfigurable" />
         <projectService serviceInterface="org.aerogear.plugin.intellij.mobile.ui.settings.AeroGearMobileConfiguration" serviceImplementation="org.aerogear.plugin.intellij.mobile.ui.settings.AeroGearMobileConfiguration"/>

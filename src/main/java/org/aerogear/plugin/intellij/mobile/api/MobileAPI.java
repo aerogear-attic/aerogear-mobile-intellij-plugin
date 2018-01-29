@@ -41,21 +41,21 @@ public class MobileAPI {
         }
         cliRunner.executeAsync(cmd, w);
     }
-    
-    
-    public MobileClient createClient(String name, String clientType, String bundleID)throws CLIException{
-        if("".equals(name) || "".equals(clientType) || "".equals(bundleID)){
+
+
+    public MobileClient createClient(String name, String clientType, String bundleID) throws CLIException {
+        if (name.isEmpty() || clientType.isEmpty() || bundleID.isEmpty()) {
             throw new CLIException("expected a client name, a client type and a bundle id");
         }
-        String res = cliRunner.executeSync(Arrays.asList("create","client",name,clientType,bundleID));
-        
-        try{
+        String res = cliRunner.executeSync(Arrays.asList("create", "client", "--", name, clientType, bundleID, "-o=json"));
+
+        try {
             Gson gson = new Gson();
-            MobileClient client =  gson.fromJson(res,MobileClient.class);
+            MobileClient client = gson.fromJson(res, MobileClient.class);
             return client;
-        }catch (JsonSyntaxException e) {
+        } catch (JsonSyntaxException e) {
             throw new CLIException("unexpected response from CLI: " + res);
         }
     }
-    
+
 }
