@@ -1,9 +1,6 @@
 package org.aerogear.plugin.intellij.mobile.module;
 
-import com.intellij.ide.util.projectWizard.AbstractModuleBuilder;
-import com.intellij.ide.util.projectWizard.ModuleBuilder;
-import com.intellij.ide.util.projectWizard.ModuleWizardStep;
-import com.intellij.ide.util.projectWizard.WizardContext;
+import com.intellij.ide.util.projectWizard.*;
 import com.intellij.openapi.module.ModifiableModuleModel;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleType;
@@ -17,16 +14,25 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.util.List;
 
-public class AppRepresentationBuilder extends ModuleBuilder {
+public class AppRepresentationModuleBuilder extends ModuleBuilder implements ModuleBuilderListener{
 
   @Override
   public void setupRootModel(ModifiableRootModel modifiableRootModel) throws ConfigurationException {
-    System.out.println(">>>>>>");
+    //TODO
   }
 
   @Override
   public ModuleType getModuleType() {
-    System.out.println(">>>>>>>222222");
-    return null;
+    return new AppRepresentationModuleType();
+  }
+
+  @Override
+  public ModuleWizardStep[] createWizardSteps(WizardContext wizardContext, ModulesProvider modulesProvider) {
+    return new ModuleWizardStep[]{new AppRepresentationWizardStep(this)};
+  }
+
+  @Override
+  public void moduleCreated(@NotNull Module module) {
+    //TODO
   }
 }
