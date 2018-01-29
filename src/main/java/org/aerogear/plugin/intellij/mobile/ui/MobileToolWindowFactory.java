@@ -15,6 +15,7 @@ import java.awt.*;
 public class MobileToolWindowFactory implements ToolWindowFactory {
     private JBPanel mobileToolWindowContent;
     MobileNotificationsService notifier;
+    private CLIRunner cliRunner = new CliRunnerImpl();
 
 
     public MobileToolWindowFactory() {
@@ -29,7 +30,7 @@ public class MobileToolWindowFactory implements ToolWindowFactory {
 
         MobileServices serviceList;
         try {
-            serviceList = new MobileAPI().getServices();
+            serviceList = new MobileAPI(cliRunner).getServices();
             if (serviceList.getItems() != null) {
                 mobileToolWindowContent.add(new ServiceListPane(serviceList.getItems()));
             } else {

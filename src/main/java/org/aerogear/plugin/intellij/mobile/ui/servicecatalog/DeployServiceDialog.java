@@ -6,6 +6,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.aerogear.plugin.intellij.mobile.api.CLIException;
+import org.aerogear.plugin.intellij.mobile.api.CLIRunner;
+import org.aerogear.plugin.intellij.mobile.api.CliRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.api.Watch;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
@@ -22,7 +24,8 @@ import java.util.List;
 public class DeployServiceDialog extends DialogWrapper {
     private ServiceClass sc;
     private IdentityDeployment centerPanel;
-    private MobileAPI mobileAPI = new MobileAPI();
+    private CLIRunner cliRunner = new CliRunnerImpl();
+    private MobileAPI mobileAPI = new MobileAPI(cliRunner);
 
     protected DeployServiceDialog(ServiceClass sc) {
         super(null);
