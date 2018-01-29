@@ -74,15 +74,18 @@ compileJava.dependsOn extractIdeaSdk
 apply plugin: 'idea'
 
 intellij {
-  updateSinceUntilBuild false
-  version '172.4343.14'
-  plugins = ['properties', 'Groovy', 'gradle', 'android']
-// UnComment one of the following lines and set your path to Android Studio.
-// Example for linux
-//    alternativeIdePath = '/home/$USER/Programs/android-studio'
-// Example for Mac
-//    alternativeIdePath = '/Applications/Android Studio.app'
+    updateSinceUntilBuild false
+    version '172.4343.14'
+    plugins = ['properties', 'Groovy', 'gradle', 'android']
 
+// Uncomment line matching path to the IDE you want to run the plugin with.
+
+// Android studio linux
+//    alternativeIdePath = '/home/summers/Programs/android-studio'
+
+// Android studio and Webstorm, Mac
+//    alternativeIdePath = '/Applications/Webstorm.app'
+//    alternativeIdePath = '/Applications/Android Studio.app'
 
 }
 
@@ -124,7 +127,7 @@ idea {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.0'
+    gradleVersion = '4.1'
 }
 
 // ========= Custom tasks ========= //
