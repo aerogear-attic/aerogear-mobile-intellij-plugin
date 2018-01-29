@@ -5,6 +5,7 @@ import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import javax.swing.*;
 
 public class AppRepresentationWizardStep extends ModuleWizardStep{
+  private final RsSdkPanel sdkPanel = new RsSdkPanel();
   private AppRepresentationModuleBuilder myBuilder;
 
   public AppRepresentationWizardStep(AppRepresentationModuleBuilder builder){
@@ -12,7 +13,7 @@ public class AppRepresentationWizardStep extends ModuleWizardStep{
   }
   @Override
   public JComponent getComponent() {
-    return null;
+    return sdkPanel;
   }
 
   @Override
