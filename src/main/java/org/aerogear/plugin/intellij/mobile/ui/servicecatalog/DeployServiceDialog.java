@@ -1,11 +1,7 @@
 package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 
-import com.intellij.notification.*;
 import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.DialogWrapper;
-import org.aerogear.plugin.intellij.mobile.api.CLIException;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunner;
 import org.aerogear.plugin.intellij.mobile.api.CliRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;

@@ -8,8 +8,6 @@ import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class ServiceListPane extends JBScrollPane {

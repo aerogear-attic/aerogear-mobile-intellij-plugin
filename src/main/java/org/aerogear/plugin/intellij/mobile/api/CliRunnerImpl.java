@@ -45,7 +45,7 @@ public class CliRunnerImpl implements CLIRunner {
     return cmd ;
   }
   
-  private void runAndWatch(List<String> command, Watch w) {
+  public void runAndWatch(List<String> command, Watch w) {
     ProcessBuilder pb = new ProcessBuilder(command);
     ExecutorService executor = Executors.newFixedThreadPool(1);
     executor.execute(() -> {
