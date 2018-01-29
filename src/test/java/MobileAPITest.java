@@ -12,7 +12,7 @@ public class MobileAPITest {
   @Test
   public void testGetServices_ok() throws Exception {
     CLIRunner runner = mock(CLIRunner.class);
-    when(runner.runCmd(anyList(),anyInt())).thenReturn("{\n"
+    when(runner.executeCmd(anyList())).thenReturn("{\n"
         + "  \"metadata\": {},\n"
         + "  \"items\": [\n"
         + "    {\n"
@@ -62,7 +62,7 @@ public class MobileAPITest {
   @Test(expectedExceptions = CLIException.class)
   public void testGetServices_exception()throws Exception{
     CLIRunner runner = mock(CLIRunner.class);
-    when(runner.runCmd(anyList(),anyInt())).thenThrow(new CLIException("failed to execute command"));
+    when(runner.executeCmd(anyList())).thenThrow(new CLIException("failed to execute command"));
     MobileAPI api = new MobileAPI(runner);
     api.getServices();
   }
@@ -70,7 +70,7 @@ public class MobileAPITest {
   @Test (expectedExceptions = CLIException.class)
   public void testGetServices_handles_bad_input()throws CLIException{
     CLIRunner runner = mock(CLIRunner.class);
-    when(runner.runCmd(anyList(),anyInt())).thenReturn("Error: failed to list service classes: User \"system:anonymous\" cannot list clusterserviceclasses.servicecatalog.k8s.io at the cluster scope: User \"system:anonymous\" cannot list all clusterserviceclasses.servicecatalog.k8s.io in the cluster (get clusterserviceclasses.servicecatalog.k8s.io)\n"
+    when(runner.executeCmd(anyList())).thenReturn("Error: failed to list service classes: User \"system:anonymous\" cannot list clusterserviceclasses.servicecatalog.k8s.io at the cluster scope: User \"system:anonymous\" cannot list all clusterserviceclasses.servicecatalog.k8s.io in the cluster (get clusterserviceclasses.servicecatalog.k8s.io)\n"
         + "error: exit status 1");
     MobileAPI api = new MobileAPI(runner);
     api.getServices();
@@ -81,7 +81,7 @@ public class MobileAPITest {
   public void testCreateClient_ok()throws CLIException{
     CLIRunner runner = mock(CLIRunner.class);
     MobileAPI api = new MobileAPI(runner);
-    when(runner.runCmd(anyList(),anyInt())).thenReturn("{\n"
+    when(runner.executeCmd(anyList())).thenReturn("{\n"
         + "\t\"kind\": \"MobileClient\",\n"
         + "\t\"apiVersion\": \"mobile.k8s.io/v1alpha1\",\n"
         + "\t\"metadata\": {\n"

@@ -12,12 +12,15 @@ import java.util.concurrent.TimeUnit;
 
 public class CliRunnerImpl implements CLIRunner {
   
-  @Override public String runCmd(List<String> cmd, int timeoutInSeconds) throws CLIException {
+  public static int CMD_TIMEOUT_SECONDS = 10;
+  
+  @Override public String executeCmd(List<String>args) throws CLIException {
+    List<String>cmd = prepareCmd(args);
     String outPut;
     try {
       ProcessBuilder pb = new ProcessBuilder(cmd);
       Process p = pb.start();
-      if (! p.waitFor(timeoutInSeconds, TimeUnit.SECONDS )){
+      if (! p.waitFor(CMD_TIMEOUT_SECONDS, TimeUnit.SECONDS )){
         //timed out
         throw new CLIException("timed out waiting for the list of services. Is your OpenShift cluster running?");
       }
@@ -34,7 +37,7 @@ public class CliRunnerImpl implements CLIRunner {
     return outPut;
   }
   
-  public List<String>prepareCmd(String... args){
+  private List<String>prepareCmd(List<String>args){
     List<String>  cmd = new ArrayList<>();
     cmd.add("oc");
     cmd.add("plugin");
@@ -45,7 +48,7 @@ public class CliRunnerImpl implements CLIRunner {
     return cmd ;
   }
   
-  public void runAndWatch(List<String> command, Watch w) {
+  public void executeAndWatch(List<String> command, Watch w) {
     ProcessBuilder pb = new ProcessBuilder(command);
     ExecutorService executor = Executors.newFixedThreadPool(1);
     executor.execute(() -> {
@@ -55,8 +58,8 @@ public class CliRunnerImpl implements CLIRunner {
         String error = readOutput(p.getErrorStream());
         if (input.length() != 0) {
           w.onSuccess(input);
-        } else if (error.length() != 0) {
-          w.onError(new Exception(error.toString()));
+        } else if (!"".equals(error)) {
+          w.onError(new CLIException(error));
         }
       } catch (IOException e) {
         w.onError(e);

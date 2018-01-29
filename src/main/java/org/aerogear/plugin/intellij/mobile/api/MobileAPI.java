@@ -6,6 +6,7 @@ import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 import org.aerogear.plugin.intellij.mobile.models.MobileServices;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -22,9 +23,7 @@ public class MobileAPI {
     }
     
     public MobileServices getServices() throws CLIException{
-        
-        List<String> cmd = cliRunner.prepareCmd("get", "services","--", "-o=json");
-        String outPut = cliRunner.runCmd(cmd,5);
+        String outPut = cliRunner.executeCmd(Arrays.asList("get", "services","--", "-o=json"));
         Gson gson = new Gson();
         try {
             MobileServices services = gson.fromJson(outPut, MobileServices.class);
@@ -37,14 +36,12 @@ public class MobileAPI {
     
 
     public void createService(ServiceClass sc, List<String> params, Watch w) {
-        List<String> cmd = cliRunner.prepareCmd("create","serviceinstance",sc.getServiceName(),"--");
-        
+        List<String> cmd = Arrays.asList("create","serviceinstance",sc.getServiceName(),"--");
         for (String param : params) {
             cmd.add("-p");
             cmd.add(param);
         }
-        
-        cliRunner.runAndWatch(cmd, w);
+        cliRunner.executeAndWatch(cmd, w);
     }
     
     
@@ -52,8 +49,7 @@ public class MobileAPI {
         if("".equals(name) || "".equals(clientType) || "".equals(bundleID)){
             throw new CLIException("expected a client name, a client type and a bundle id");
         }
-        List<String> cmd = cliRunner.prepareCmd("create","client",name,clientType,bundleID);
-        String res = cliRunner.runCmd(cmd,5);
+        String res = cliRunner.executeCmd(Arrays.asList("create","client",name,clientType,bundleID));
         
         try{
             Gson gson = new Gson();
