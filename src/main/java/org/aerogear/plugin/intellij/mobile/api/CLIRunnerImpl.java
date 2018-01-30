@@ -54,10 +54,11 @@ public class CLIRunnerImpl implements CLIRunner {
     return cmd;
   }
 
-  public void executeAsync(List<String> command, Watcher w) {
+  public void executeAsync(List<String> args, Watcher w) {
+    List<String> cmd = prepareCmd(args);
     Executors.newSingleThreadExecutor()
         .execute(() -> {
-          ProcessBuilder pb = new ProcessBuilder(command);
+          ProcessBuilder pb = new ProcessBuilder(cmd);
           Process p = null;
           try {
             p = pb.start();
@@ -84,7 +85,7 @@ public class CLIRunnerImpl implements CLIRunner {
     try (BufferedReader bf = new BufferedReader(new InputStreamReader(in))) {
       String line;
       while ((line = bf.readLine()) != null) {
-        sb.append(line);
+        sb.append(line + "\n");
       }
     }
     return sb.toString();

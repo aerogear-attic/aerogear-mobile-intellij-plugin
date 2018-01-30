@@ -9,8 +9,7 @@ public class MobileNotificationsService {
 
     public static final String AEROGEAR_NOTIFICATION_GROUP = "Aerogear Mobile Notifications";
 
-    public MobileNotificationsService() {
-    }
+    public MobileNotificationsService() {}
 
     public void notifyInformation(String title, String content) {
         Notifications.Bus.notify(new Notification(AEROGEAR_NOTIFICATION_GROUP, title, content, NotificationType.INFORMATION));
@@ -42,6 +41,10 @@ public class MobileNotificationsService {
                 NotificationType.WARNING,
                 notificationListener
         ));
+    }
+
+    public void notifyWarning(String content, NotificationListener nl) {
+        Notifications.Bus.notify(new Notification(AEROGEAR_NOTIFICATION_GROUP, "", content, NotificationType.WARNING, nl));
     }
 
     public static MobileNotificationsService getInstance() {

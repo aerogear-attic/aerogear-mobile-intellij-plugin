@@ -1,6 +1,7 @@
 package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 
-import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunner;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunnerImpl;
@@ -8,32 +9,30 @@ import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.api.Watcher;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
+import org.aerogear.plugin.intellij.mobile.ui.sdkconfig.ServiceDeployedNotification;
 import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.identity.IdentityDeployment;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class DeployServiceDialog extends DialogWrapper {
+    private Project project;
     private ServiceClass sc;
     private IdentityDeployment centerPanel;
     private CLIRunner cliRunner = new CLIRunnerImpl();
     private MobileAPI mobileAPI = new MobileAPI(cliRunner);
+    private MobileNotificationsService notifier = MobileNotificationsService.getInstance();
 
-    protected DeployServiceDialog(ServiceClass sc) {
-        super(null);
+    protected DeployServiceDialog(Project project, ServiceClass sc) {
+        super(project);
+
+        this.project = project;
         this.sc = sc;
+
         init();
         setTitle(sc.getDisplayName());
-    }
-
-    @NotNull
-    @Override
-    protected Action[] createActions() {
-        return new Action[]{new DeployOnOkAction(this), getCancelAction()};
     }
 
     @Nullable
@@ -55,24 +54,15 @@ public class DeployServiceDialog extends DialogWrapper {
         return sp;
     }
 
-    public ServiceClass getServiceClass() {
-        return sc;
-    }
+    @Override
+    protected void doOKAction() {
+        super.doOKAction();
 
-    private class DeployOnOkAction extends OkAction {
-        private DeployServiceDialog sd;
-        private MobileNotificationsService notifier;
-
-        public DeployOnOkAction(DeployServiceDialog sd) {
-            this.sd = sd;
-            notifier = ServiceManager.getService(MobileNotificationsService.class);
-        }
-
-        @Override
-        protected void doAction(ActionEvent e) {
-            super.doAction(null);
-            List<String> params = this.sd.centerPanel.getConfig();
-            mobileAPI.createService(sd.getServiceClass(), params, new Watcher() {
+        List<String> params = this.centerPanel.getConfig();
+        Project project = this.project;
+        ServiceClass sc = this.sc;
+        ApplicationManager.getApplication().invokeLater(() -> {
+            mobileAPI.createService(sc, params, new Watcher() {
                 @Override
                 public void onError(Exception e) {
                     notifier.notifyError("", "Error while " + sc.getServiceName() + " deployed: " + e.toString());
@@ -80,9 +70,9 @@ public class DeployServiceDialog extends DialogWrapper {
 
                 @Override
                 public void onSuccess(Object obj) {
-                    notifier.notifyInformation("", sc.getServiceName() + " deployment complete.");
+                    notifier.notify(new ServiceDeployedNotification(project, sc));
                 }
             });
-        }
+        });
     }
 }

@@ -6,6 +6,7 @@ import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 

@@ -35,7 +35,7 @@ public class MobileToolWindowFactory implements ToolWindowFactory {
         try {
             serviceList = new MobileAPI(cliRunner).getServices();
             if (serviceList.getItems() != null) {
-                mobileToolWindowContent.add(new ServiceListPane(serviceList.getItems()));
+                mobileToolWindowContent.add(new ServiceListPane(project, serviceList.getItems()));
             } else {
                 notifier.notifyInformation("Mobile Services Unavailable", "There are no mobile services available");
             }
