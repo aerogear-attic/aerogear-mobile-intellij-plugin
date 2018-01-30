@@ -1,12 +1,15 @@
 package org.aerogear.plugin.intellij.mobile.module;
 
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
+import com.intellij.openapi.options.ConfigurationException;
 
 import javax.swing.*;
 import java.util.Map;
 
 public class AppRepresentationFirstStepWizard extends ModuleWizardStep {
   private CreateClientForm clientForm;
+  private Map inputsMap;
+
 
   public AppRepresentationFirstStepWizard() {
     clientForm = new CreateClientForm();
@@ -20,16 +23,18 @@ public class AppRepresentationFirstStepWizard extends ModuleWizardStep {
 
   @Override
   public void updateDataModel() {
-    //TODO this executes on "next"
-    Map map = clientForm.getInputs();
+  }
 
+  public boolean validate() throws ConfigurationException {
+    inputsMap = clientForm.getInputs();
 
-    //TODO do not proceed to the next step if name is missing
-    if (map.get("name").equals("")) {
+    if (inputsMap.get("name").equals("")) {
       clientForm.invalidNameNotify();
+      return false;
     } else {
       clientForm.validNameNotify();
+      return true;
     }
-
   }
+
 }
