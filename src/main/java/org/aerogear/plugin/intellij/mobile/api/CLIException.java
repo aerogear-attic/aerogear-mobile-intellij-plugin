@@ -4,4 +4,7 @@ public class CLIException extends Exception {
     public CLIException(String message, Throwable cause) {
         super(message, cause);
     }
+    public CLIException(String message) {
+        super(message);
+    }
 }

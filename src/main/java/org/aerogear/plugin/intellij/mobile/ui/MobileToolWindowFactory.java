@@ -5,16 +5,20 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.*;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.content.*;
-import org.aerogear.plugin.intellij.mobile.api.*;
 import org.aerogear.plugin.intellij.mobile.models.MobileServices;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.ServiceListPane;
+import org.aerogear.plugin.intellij.mobile.api.CLIException;
+import org.aerogear.plugin.intellij.mobile.api.CLIRunner;
+import org.aerogear.plugin.intellij.mobile.api.CliRunnerImpl;
+import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 
 import java.awt.*;
 
 public class MobileToolWindowFactory implements ToolWindowFactory {
     private JBPanel mobileToolWindowContent;
     MobileNotificationsService notifier;
+    private CLIRunner cliRunner = new CliRunnerImpl();
 
 
     public MobileToolWindowFactory() {
@@ -29,7 +33,7 @@ public class MobileToolWindowFactory implements ToolWindowFactory {
 
         MobileServices serviceList;
         try {
-            serviceList = new MobileAPI().getServices();
+            serviceList = new MobileAPI(cliRunner).getServices();
             if (serviceList.getItems() != null) {
                 mobileToolWindowContent.add(new ServiceListPane(serviceList.getItems()));
             } else {

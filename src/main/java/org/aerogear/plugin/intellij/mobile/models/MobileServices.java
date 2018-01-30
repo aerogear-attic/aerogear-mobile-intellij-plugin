@@ -2,7 +2,7 @@ package org.aerogear.plugin.intellij.mobile.models;
 
 public class MobileServices
 {
-    private ServiceClass[] items;
+    private ServiceClass[] items = new ServiceClass[0];
 
     public ServiceClass[] getItems ()
     {

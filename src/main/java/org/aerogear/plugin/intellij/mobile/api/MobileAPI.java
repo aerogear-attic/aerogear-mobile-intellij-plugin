@@ -1,98 +1,61 @@
 package org.aerogear.plugin.intellij.mobile.api;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 import org.aerogear.plugin.intellij.mobile.models.MobileServices;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 public class MobileAPI {
-
-    public MobileAPI() {}
-
-    public MobileServices getServices() throws CLIException {
-        List<String> command = new ArrayList<String>();
-        command.add("mobile");
-        command.add("get");
-        command.add("services");
-        command.add("-o=json");
-        ProcessBuilder pb = new ProcessBuilder(command);
-        MobileServices services = null;
-
+    
+    
+    private CLIRunner cliRunner;
+    
+    
+    public MobileAPI(CLIRunner cliRunner) {
+        this.cliRunner = cliRunner;
+    }
+    
+    public MobileServices getServices() throws CLIException{
+        String outPut = cliRunner.executeCmd(Arrays.asList("get", "services","--", "-o=json"));
+        Gson gson = new Gson();
         try {
-            Process p = pb.start();
-            StringBuilder input = getResult(p.getInputStream());
-            StringBuilder error = getResult(p.getErrorStream());
-            if (input.length() != 0) {
-                services = new Gson().fromJson(input.toString(), MobileServices.class);
-            } else if (error.length() != 0) {
-                throw new CLIException("Failed to retrieve mobile services from mobile cli", new Throwable(error.toString()));
-            }
-        } catch (IOException e) {
-            throw new CLIException("Failed to retrieve mobile services from mobile cli", e.getCause());
+            MobileServices services = gson.fromJson(outPut, MobileServices.class);
+            return services;
+        }catch(JsonSyntaxException e){
+            throw new CLIException("unexpected response from CLI: " + outPut);
         }
-
-        return services;
     }
 
-    private StringBuilder getResult(InputStream s) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(s));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        try {
-            while ((line = bf.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            throw e;
-        } finally {
-            try {
-                if (bf != null) bf.close();
-            } catch (Exception e) {
-                throw e;
-            }
-
-        }
-
-        return sb;
-    }
-
-    private void watch(List<String> command, Watch w) {
-        ProcessBuilder pb = new ProcessBuilder(command);
-        ExecutorService executor = Executors.newFixedThreadPool(1);
-        executor.execute(() -> {
-                try {
-                    Process p = pb.start();
-                    StringBuilder input = getResult(p.getInputStream());
-                    StringBuilder error = getResult(p.getErrorStream());
-                    if (input.length() != 0) {
-                        w.onSuccess(input);
-                    } else if (error.length() != 0) {
-                        w.onError(new Exception(error.toString()));
-                    }
-                } catch (IOException e) {
-                    w.onError(e);
-                }
-        });
-    }
+    
 
     public void createService(ServiceClass sc, List<String> params, Watch w) {
-        List<String> command = new ArrayList<String>();
-        command.add("mobile");
-        command.add("create");
-        command.add("serviceinstance");
-        command.add(sc.getServiceName());
+        List<String> cmd = Arrays.asList("create","serviceinstance",sc.getServiceName(),"--");
         for (String param : params) {
-            command.add(param);
+            cmd.add("-p");
+            cmd.add(param);
         }
-
-        this.watch(command, w);
+        cliRunner.executeAndWatch(cmd, w);
     }
+    
+    
+    public MobileClient createClient(String name, String clientType, String bundleID)throws CLIException{
+        if("".equals(name) || "".equals(clientType) || "".equals(bundleID)){
+            throw new CLIException("expected a client name, a client type and a bundle id");
+        }
+        String res = cliRunner.executeCmd(Arrays.asList("create","client",name,clientType,bundleID));
+        
+        try{
+            Gson gson = new Gson();
+            MobileClient client =  gson.fromJson(res,MobileClient.class);
+            return client;
+        }catch (JsonSyntaxException e) {
+            throw new CLIException("unexpected response from CLI: " + res);
+        }
+    }
+    
 }

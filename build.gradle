@@ -11,6 +11,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 configurations {
@@ -24,6 +25,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     testCompile 'org.testng:testng:6.8.21'
+    testCompile "org.mockito:mockito-core:2.+"
 }
 
 sourceSets {
