@@ -1,7 +1,5 @@
 package org.aerogear.plugin.intellij.mobile.module;
 
-import com.intellij.uiDesigner.core.GridLayoutManager;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +12,8 @@ public class CreateClientForm extends JPanel{
 
   public CreateClientForm() {
     super();
-    add(clientPanel, FlowLayout.LEFT);
+    this.setLayout(new FlowLayout(FlowLayout.LEFT));
+    add(clientPanel);
   }
 
 
