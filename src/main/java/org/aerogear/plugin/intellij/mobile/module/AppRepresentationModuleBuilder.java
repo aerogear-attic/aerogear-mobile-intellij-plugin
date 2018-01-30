@@ -1,18 +1,16 @@
 package org.aerogear.plugin.intellij.mobile.module;
 
 import com.intellij.ide.util.projectWizard.*;
-import com.intellij.openapi.module.ModifiableModuleModel;
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.List;
 
 public class AppRepresentationModuleBuilder extends ModuleBuilder implements ModuleBuilderListener{
 
@@ -23,16 +21,25 @@ public class AppRepresentationModuleBuilder extends ModuleBuilder implements Mod
 
   @Override
   public ModuleType getModuleType() {
-    return new AppRepresentationModuleType();
+    return AppRepresentationModuleType.getInstance();
   }
 
+
+  @Nullable
   @Override
-  public ModuleWizardStep[] createWizardSteps(WizardContext wizardContext, ModulesProvider modulesProvider) {
-    return new ModuleWizardStep[]{new AppRepresentationWizardStep(this)};
+  public ModuleWizardStep getCustomOptionsStep(WizardContext context, Disposable parentDisposable) {
+    return new AppRepresentationFirstStepWizard();
   }
+
 
   @Override
   public void moduleCreated(@NotNull Module module) {
     //TODO
+  }
+
+
+  @Override
+  public ModuleWizardStep[] createWizardSteps(@NotNull WizardContext wizardContext, @NotNull ModulesProvider modulesProvider) {
+    return new ModuleWizardStep[]{new AppRepresentationSecondStepWizard()};
   }
 }
