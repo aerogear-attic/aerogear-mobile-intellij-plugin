@@ -12,7 +12,7 @@ public class MobileAPITest {
   @Test
   public void testGetServices_ok() throws Exception {
     CLIRunner runner = mock(CLIRunner.class);
-    when(runner.executeCmd(anyList())).thenReturn("{\n"
+    when(runner.executeCmd(anyList()  )).thenReturn("{\n"
         + "  \"metadata\": {},\n"
         + "  \"items\": [\n"
         + "    {\n"

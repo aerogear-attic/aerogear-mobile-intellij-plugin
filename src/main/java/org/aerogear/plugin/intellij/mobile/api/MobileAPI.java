@@ -15,8 +15,6 @@ public class MobileAPI {
     
     private CLIRunner cliRunner;
     
-    public MobileAPI(){}
-    
     
     public MobileAPI(CLIRunner cliRunner) {
         this.cliRunner = cliRunner;
