@@ -12,7 +12,7 @@ public class AppRepresentationFirstStepWizard extends ModuleWizardStep{
 
   @Override
   public JComponent getComponent() {
-    return new JLabel("custom step from builder Provide some setting here");
+    return new CreateClientForm();
   }
 
   @Override
