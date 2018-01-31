@@ -63,4 +63,14 @@ public class MobileClientSpec {
     result = 31 * result + (appIdentifier != null ? appIdentifier.hashCode() : 0);
     return result;
   }
+
+  @Override
+  public String toString() {
+    return "{\n" +
+            "  name: " +           name + ",\n" +
+            "  apiKey: " +         apiKey  +",\n" +
+            "  clientType: " +     clientType  +",\n" +
+            "  appIdentifier: " +  appIdentifier  +",\n" +
+            '}';
+  }
 }
