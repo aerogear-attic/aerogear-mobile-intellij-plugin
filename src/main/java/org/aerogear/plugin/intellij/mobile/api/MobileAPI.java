@@ -8,6 +8,7 @@ import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 public class MobileAPI {
@@ -57,5 +58,9 @@ public class MobileAPI {
             throw new CLIException("unexpected response from CLI: " + res);
         }
     }
-    
+
+    public void createApprepresentation(Map map){
+        System.out.println(map);
+        System.out.println(">>>>>");
+    }
 }

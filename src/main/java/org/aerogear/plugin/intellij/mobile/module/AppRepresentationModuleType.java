@@ -1,16 +1,12 @@
 package org.aerogear.plugin.intellij.mobile.module;
 
-import com.intellij.ide.util.projectWizard.ModuleBuilder;
-import com.intellij.ide.util.projectWizard.ModuleWizardStep;
-import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.module.ModuleType;
-import com.intellij.ide.util.projectWizard.EmptyModuleBuilder;
 import com.intellij.openapi.module.ModuleTypeManager;
-import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
 import org.aerogear.plugin.intellij.mobile.ui.MobileIcons;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
+import javax.swing.Icon;
+
 
 public class AppRepresentationModuleType extends ModuleType<AppRepresentationModuleBuilder> {
   private static final String ID = "MOBILE_MODULE";
@@ -44,14 +40,7 @@ public class AppRepresentationModuleType extends ModuleType<AppRepresentationMod
 
   @Override
   public Icon getNodeIcon(boolean isOpened) {
-    return MobileIcons.Feedhenry;
+    return MobileIcons.FEEDHENRY;
   }
-
-//  @NotNull
-//  @Override
-//  public ModuleWizardStep[] createWizardSteps(@NotNull WizardContext wizardContext, @NotNull AppRepresentationModuleBuilder moduleBuilder, @NotNull ModulesProvider modulesProvider) {
-//    return super.createWizardSteps(wizardContext, moduleBuilder, modulesProvider);
-//  }
-
 
 }

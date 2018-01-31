@@ -1,6 +1,9 @@
 package org.aerogear.plugin.intellij.mobile.module;
 
-import com.intellij.ide.util.projectWizard.*;
+import com.intellij.ide.util.projectWizard.ModuleBuilder;
+import com.intellij.ide.util.projectWizard.ModuleBuilderListener;
+import com.intellij.ide.util.projectWizard.ModuleWizardStep;
+import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleType;
@@ -10,9 +13,8 @@ import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
 
-public class AppRepresentationModuleBuilder extends ModuleBuilder implements ModuleBuilderListener{
+public class AppRepresentationModuleBuilder extends ModuleBuilder implements ModuleBuilderListener {
 
   @Override
   public void setupRootModel(ModifiableRootModel modifiableRootModel) throws ConfigurationException {
@@ -34,7 +36,7 @@ public class AppRepresentationModuleBuilder extends ModuleBuilder implements Mod
 
   @Override
   public void moduleCreated(@NotNull Module module) {
-    //TODO
+    //TODO what do we do after the module has been created
   }
 
 

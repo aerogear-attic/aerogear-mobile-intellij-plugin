@@ -2,7 +2,9 @@ package org.aerogear.plugin.intellij.mobile.module;
 
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+
 
 public class AppRepresentationSecondStepWizard extends ModuleWizardStep{
 
