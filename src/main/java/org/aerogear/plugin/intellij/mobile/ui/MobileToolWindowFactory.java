@@ -10,7 +10,7 @@ import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.ServiceListPane;
 import org.aerogear.plugin.intellij.mobile.api.CLIException;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunner;
-import org.aerogear.plugin.intellij.mobile.api.CliRunnerImpl;
+import org.aerogear.plugin.intellij.mobile.api.CLIRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 
 import java.awt.*;
@@ -18,7 +18,7 @@ import java.awt.*;
 public class MobileToolWindowFactory implements ToolWindowFactory {
     private JBPanel mobileToolWindowContent;
     MobileNotificationsService notifier;
-    private CLIRunner cliRunner = new CliRunnerImpl();
+    private CLIRunner cliRunner = new CLIRunnerImpl();
 
 
     public MobileToolWindowFactory() {
