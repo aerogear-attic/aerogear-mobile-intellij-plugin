@@ -3,9 +3,9 @@ package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunner;
-import org.aerogear.plugin.intellij.mobile.api.CliRunnerImpl;
+import org.aerogear.plugin.intellij.mobile.api.CLIRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
-import org.aerogear.plugin.intellij.mobile.api.Watch;
+import org.aerogear.plugin.intellij.mobile.api.Watcher;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.aerogear.plugin.intellij.mobile.ui.servicecatalog.identity.IdentityDeployment;
@@ -20,7 +20,7 @@ import java.util.List;
 public class DeployServiceDialog extends DialogWrapper {
     private ServiceClass sc;
     private IdentityDeployment centerPanel;
-    private CLIRunner cliRunner = new CliRunnerImpl();
+    private CLIRunner cliRunner = new CLIRunnerImpl();
     private MobileAPI mobileAPI = new MobileAPI(cliRunner);
 
     protected DeployServiceDialog(ServiceClass sc) {
@@ -72,7 +72,7 @@ public class DeployServiceDialog extends DialogWrapper {
         protected void doAction(ActionEvent e) {
             super.doAction(null);
             List<String> params = this.sd.centerPanel.getConfig();
-            mobileAPI.createService(sd.getServiceClass(), params, new Watch() {
+            mobileAPI.createService(sd.getServiceClass(), params, new Watcher() {
                 @Override
                 public void onError(Exception e) {
                     notifier.notifyError("", "Error while " + sc.getServiceName() + " deployed: " + e.toString());

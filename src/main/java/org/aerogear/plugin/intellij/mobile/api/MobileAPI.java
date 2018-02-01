@@ -21,7 +21,7 @@ public class MobileAPI {
     }
     
     public MobileServices getServices() throws CLIException{
-        String outPut = cliRunner.executeCmd(Arrays.asList("get", "services","--", "-o=json"));
+        String outPut = cliRunner.executeSync(Arrays.asList("get", "services","--", "-o=json"));
         Gson gson = new Gson();
         try {
             MobileServices services = gson.fromJson(outPut, MobileServices.class);
@@ -33,13 +33,13 @@ public class MobileAPI {
 
     
 
-    public void createService(ServiceClass sc, List<String> params, Watch w) {
+    public void createService(ServiceClass sc, List<String> params, Watcher w) {
         List<String> cmd = Arrays.asList("create","serviceinstance",sc.getServiceName(),"--");
         for (String param : params) {
             cmd.add("-p");
             cmd.add(param);
         }
-        cliRunner.executeAndWatch(cmd, w);
+        cliRunner.executeAsync(cmd, w);
     }
     
     
@@ -47,7 +47,7 @@ public class MobileAPI {
         if("".equals(name) || "".equals(clientType) || "".equals(bundleID)){
             throw new CLIException("expected a client name, a client type and a bundle id");
         }
-        String res = cliRunner.executeCmd(Arrays.asList("create","client",name,clientType,bundleID));
+        String res = cliRunner.executeSync(Arrays.asList("create","client",name,clientType,bundleID));
         
         try{
             Gson gson = new Gson();
