@@ -5,6 +5,6 @@ import com.intellij.openapi.util.IconLoader;
 import javax.swing.*;
 
 public class MobileIcons {
-  public static final Icon FEEDHENRY = IconLoader.get1xIcon(IconLoader.getIcon("/icons/fh_icon.png"));
-  public static final Icon AEROGEAR = IconLoader.get1xIcon(IconLoader.getIcon("/icons/aerogear.png"));
+  public static final Icon FEEDHENRY = IconLoader.getIcon("/icons/fh_icon.png");
+  public static final Icon AEROGEAR = IconLoader.getIcon("/icons/aerogear.png");
 }

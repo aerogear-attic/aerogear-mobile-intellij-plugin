@@ -1,5 +1,8 @@
 package org.aerogear.plugin.intellij.mobile.wizard;
 
+/**
+ * Store of data inputs in the create client form
+ */
 public class CreateClientFormInputs {
     private String name;
     private String clientType;
@@ -31,6 +34,22 @@ public class CreateClientFormInputs {
 
     public void setAppIdentifier(String appIdentifier) {
         this.appIdentifier = appIdentifier;
+    }
+
+    /**
+     * validates client name
+     * @return true - name is invalid, false - valid
+     */
+    public boolean isInvalidName(){
+        return name.isEmpty();
+    }
+
+    /**
+     * validates app id
+     * @return true - app id is invalid, false - valid
+     */
+    public boolean isInvalidAppIdentifier(){
+        return appIdentifier.isEmpty();
     }
 
 }

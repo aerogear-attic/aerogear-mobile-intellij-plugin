@@ -45,10 +45,18 @@ public class CreateClientBuilder extends ModuleBuilder implements ModuleBuilderL
         return new ModuleWizardStep[]{new CreateClientSecondStep(this)};
     }
 
+    /**
+     * returns output of the create client command that was set in first step
+     * @return output of create client command
+     */
     public String getCommandOutput() {
         return commandOutput;
     }
 
+    /**
+     * sets commandOutput, used in first step to save the state between two steps.
+     * @param commandOutput
+     */
     public void setCommandOutput(String commandOutput) {
         this.commandOutput = commandOutput;
     }

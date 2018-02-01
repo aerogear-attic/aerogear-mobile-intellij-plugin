@@ -45,18 +45,19 @@ class CreateClientFirstStep extends ModuleWizardStep {
         System.out.println(output);
     }
 
+    @Override
     public boolean validate() {
         clientFormInputs = clientForm.getInputs();
         clientForm.resetValidationNotifications();
         boolean validName = true;
         boolean validId = true;
 
-        if (clientFormInputs.getName().isEmpty()) {
+        if (clientFormInputs.isInvalidName()) {
             clientForm.invalidNameNotify();
             validName = false;
         }
 
-        if (clientFormInputs.getAppIdentifier().isEmpty()) {
+        if (clientFormInputs.isInvalidAppIdentifier()) {
             clientForm.invalidAppIdNotify();
             validId = false;
         }

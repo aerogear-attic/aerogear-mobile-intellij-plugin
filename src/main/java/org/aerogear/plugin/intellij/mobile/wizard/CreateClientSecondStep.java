@@ -29,6 +29,7 @@ class CreateClientSecondStep extends ModuleWizardStep {
 
     }
 
+    @Override
     public boolean validate() {
         boolean hasError = textArea.getText().toLowerCase().startsWith("error");
         if (hasError) {
