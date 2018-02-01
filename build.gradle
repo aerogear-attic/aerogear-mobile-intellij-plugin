@@ -73,6 +73,22 @@ compileJava.dependsOn extractIdeaSdk
 
 apply plugin: 'idea'
 
+intellij {
+    updateSinceUntilBuild false
+    version '172.4343.14'
+    plugins = ['properties', 'Groovy', 'gradle', 'android']
+
+// Uncomment line matching path to the IDE you want to run the plugin with.
+
+// Android studio linux
+//    alternativeIdePath = '/home/summers/Programs/android-studio'
+
+// Android studio and Webstorm, Mac
+//    alternativeIdePath = '/Applications/Webstorm.app'
+//    alternativeIdePath = '/Applications/Android Studio.app'
+
+}
+
 idea {
     project {
         languageLevel = '1.8'
