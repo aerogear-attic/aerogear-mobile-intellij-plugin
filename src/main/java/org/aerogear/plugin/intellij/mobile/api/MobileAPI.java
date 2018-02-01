@@ -44,7 +44,7 @@ public class MobileAPI {
 
 
     public MobileClient createClient(String name, String clientType, String bundleID) throws CLIException {
-        if ("".equals(name) || "".equals(clientType) || "".equals(bundleID)) {
+        if (name.isEmpty() || clientType.isEmpty() || bundleID.isEmpty()) {
             throw new CLIException("expected a client name, a client type and a bundle id");
         }
         String res = cliRunner.executeSync(Arrays.asList("create", "client", "--", name, clientType, bundleID, "-o=json"));

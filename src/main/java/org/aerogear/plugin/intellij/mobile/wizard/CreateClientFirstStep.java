@@ -2,7 +2,7 @@ package org.aerogear.plugin.intellij.mobile.wizard;
 
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import org.aerogear.plugin.intellij.mobile.api.CLIException;
-import org.aerogear.plugin.intellij.mobile.api.CliRunnerImpl;
+import org.aerogear.plugin.intellij.mobile.api.CLIRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 
@@ -19,7 +19,7 @@ class CreateClientFirstStep extends ModuleWizardStep {
     CreateClientFirstStep(CreateClientBuilder createClientBuilder) {
         this.createClientBuilder = createClientBuilder;
         clientForm = new CreateClientForm();
-        mobileAPI = new MobileAPI(new CliRunnerImpl());
+        mobileAPI = new MobileAPI(new CLIRunnerImpl());
     }
 
     @Override
