@@ -73,4 +73,8 @@ public class CertPanel extends javax.swing.JPanel {
     private javax.swing.JButton edit;
     // End of variables declaration//GEN-END:variables
 
+
+    public JButton getEdit() {
+        return edit;
+    }
 }

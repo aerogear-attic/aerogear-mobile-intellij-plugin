@@ -20,6 +20,7 @@ public class CertPane extends JBScrollPane {
     public JPanel createCertPanel() throws CLIException {
         CertPanel certPanel = new CertPanel();
         // todo add action listener to pinned cert panel
+        certPanel.getEdit().addActionListener(actionEvent -> new PinnedCertDialog().show());
         return certPanel;
     }
 }
