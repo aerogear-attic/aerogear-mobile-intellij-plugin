@@ -31,6 +31,7 @@
                     factoryClass="org.aerogear.plugin.intellij.mobile.ui.MobileToolWindowFactory"/>
         <applicationService serviceImplementation="org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService" />
         <projectConfigurable groupId="tools" displayName="AeroGearMobileConfigurable" id="aerogear.mobile.configurable" instance="org.aerogear.plugin.intellij.mobile.ui.settings.AeroGearMobileConfigurable" />
+        <postStartupActivity implementation="org.aerogear.plugin.intellij.mobile.ui.actions.ClientCreatedCheckAction"/>
         <projectService serviceInterface="org.aerogear.plugin.intellij.mobile.ui.settings.AeroGearMobileConfiguration" serviceImplementation="org.aerogear.plugin.intellij.mobile.ui.settings.AeroGearMobileConfiguration"/>
     </extensions>
 
