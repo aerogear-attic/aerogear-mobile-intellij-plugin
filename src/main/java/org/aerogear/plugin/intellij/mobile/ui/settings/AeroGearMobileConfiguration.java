@@ -45,4 +45,6 @@ public class AeroGearMobileConfiguration implements PersistentStateComponent<Aer
     public void setConfigPath(String configPath) {
         this.configPath = configPath;
     }
+
 }
+
