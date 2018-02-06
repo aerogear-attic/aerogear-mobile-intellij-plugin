@@ -6,6 +6,7 @@ import com.intellij.notification.NotificationType;
 import com.intellij.notification.impl.NotificationFullContent;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.Project;
+import org.aerogear.plugin.intellij.mobile.api.CLIException;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
@@ -24,7 +25,14 @@ public class ServiceDeployedNotification extends Notification implements Notific
         this.project = project;
         this.sc = sc;
 
-        String sdkConfigPath = AeroGearMobileConfiguration.getInstance(project).getConfigPath();
+
+        String content = this.createContent();
+        this.setContent(content);
+        this.setListener(this.getNotificationListener());
+    }
+
+    private String createContent() {
+        String sdkConfigPath = AeroGearMobileConfiguration.getInstance(this.project).getConfigPath();
         String content = "";
         if (sdkConfigPath == null || sdkConfigPath.isEmpty()) {
             content += "<p>SDK config settings are not set.</p>";
@@ -36,8 +44,7 @@ public class ServiceDeployedNotification extends Notification implements Notific
             content += "<a href=\"update-config\">Update SDK config</a>";
         }
 
-        this.setContent(content);
-        this.setListener(this.getNotificationListener());
+        return content;
     }
 
     private NotificationListener getNotificationListener() {
@@ -51,7 +58,11 @@ public class ServiceDeployedNotification extends Notification implements Notific
                 } else if (event.getDescription().equals("open-settings")) {
                     ShowSettingsUtil.getInstance().showSettingsDialog(project, "AeroGear Mobile");
                 } else if (event.getDescription().equals("update-config")) {
-                    SDKConfigManager.getInstance(project).updateSDKConfig(project);
+                    try {
+                        SDKConfigManager.getInstance(project).updateSDKConfig(project);
+                    } catch(CLIException ex) {
+                        MobileNotificationsService.getInstance().notifyError("Error from mobile plugin: " + ex.toString());
+                    }
                 }
             }
         };

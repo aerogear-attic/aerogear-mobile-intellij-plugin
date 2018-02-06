@@ -5,11 +5,14 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import org.aerogear.plugin.intellij.mobile.api.CLIException;
+import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.aerogear.plugin.intellij.mobile.services.sdkconfig.SDKConfigManager;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 
 public class CreateConfigDialog extends DialogWrapper {
 
@@ -41,6 +44,15 @@ public class CreateConfigDialog extends DialogWrapper {
     protected void doOKAction() {
         super.doOKAction();
         String fullPath = this.destination.getText() + File.separator + this.fileName.getText();
-        SDKConfigManager.getInstance(this.project).createAndOpenFile(this.project, fullPath);
+        try {
+            SDKConfigManager.getInstance(this.project).createAndOpenFile(this.project, fullPath);
+        } catch (Exception e) {
+            if (e instanceof CLIException) {
+                MobileNotificationsService.getInstance().notifyError("Error from mobile plugin: " + e.toString());
+            }
+            if (e instanceof IOException) {
+                MobileNotificationsService.getInstance().notifyError("Error creating SDK Config file: " + e.toString());
+            }
+        }
     }
 }
