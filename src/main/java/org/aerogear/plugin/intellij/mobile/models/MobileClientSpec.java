@@ -61,7 +61,7 @@ public class MobileClientSpec {
 
   public String toJsonPrettyPrint(){
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    return gson.toJson(this, MobileClient.class);
+    return gson.toJson(this, MobileClientSpec.class);
   }
   
   @Override public int hashCode() {

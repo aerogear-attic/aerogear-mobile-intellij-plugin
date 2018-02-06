@@ -34,7 +34,7 @@
         <projectService serviceInterface="org.aerogear.plugin.intellij.mobile.ui.settings.AeroGearMobileConfiguration" serviceImplementation="org.aerogear.plugin.intellij.mobile.ui.settings.AeroGearMobileConfiguration"/>
 
         <!-- HOOKS -->
-        <postStartupActivity implementation="org.aerogear.plugin.intellij.mobile.ui.actions.ClientCreatedCheckAction"/>
+        <postStartupActivity implementation="org.aerogear.plugin.intellij.mobile.ui.actions.ClientCreatedCheck"/>
     </extensions>
 
     <actions>
@@ -42,6 +42,9 @@
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <action id="ListServices" class="org.aerogear.plugin.intellij.mobile.ui.actions.DisplayToolWindow"
                     text="Mobile Services" description="Display available mobile services">
+            </action>
+            <action id="CreateClient" class="org.aerogear.plugin.intellij.mobile.ui.actions.ClientCreatedCheckAction"
+                    text="Create Client" description="Create client">
             </action>
         </group>
     </actions>
