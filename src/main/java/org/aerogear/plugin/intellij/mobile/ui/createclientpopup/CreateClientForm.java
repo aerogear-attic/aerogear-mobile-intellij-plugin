@@ -1,24 +1,24 @@
 package org.aerogear.plugin.intellij.mobile.ui.createclientpopup;
 
-import com.intellij.ui.JBColor;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.ValidationInfo;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Insets;
 
 import com.intellij.openapi.ui.ComboBox;
+import org.aerogear.plugin.intellij.mobile.api.CLIException;
+import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
+import org.aerogear.plugin.intellij.mobile.models.MobileClient;
+import org.jetbrains.annotations.Nullable;
 
 
-public class CreateClientForm extends JPanel {
+public class CreateClientForm extends DialogWrapper {
     private JPanel clientPanel;
     private JLabel clientNameLabel;
     private JTextField clientNameTxtField;
@@ -30,73 +30,72 @@ public class CreateClientForm extends JPanel {
     private JLabel errorMessage;
     private Border defaultClientNameBorder;
     private CreateClientFormInputs formInputs;
+    private MobileAPI mobileAPI;
 
-
-    public CreateClientForm() {
-        super();
-        this.setLayout(new FlowLayout(FlowLayout.LEFT));
-        add(clientPanel);
+    public CreateClientForm(@Nullable Project project, MobileAPI mobileAPI) {
+        super(project);
+        this.mobileAPI = mobileAPI;
+        init();
+        setTitle("Create Client");
     }
 
     private void createUIComponents() {
         clientTypeComboBox = new ComboBox<>(Constants.CLIENT_TYPES);
     }
 
-    /**
-     * Returns form as map <name, value>
-     *
-     * @return map
-     */
-    public CreateClientFormInputs getInputs() {
+    private void getInputs() {
         CreateClientFormInputs formInputs = new CreateClientFormInputs();
         formInputs.setName(clientNameTxtField.getText());
         formInputs.setClientType(String.valueOf(clientTypeComboBox.getSelectedItem()));
         formInputs.setAppIdentifier(clientAppIdTxtField.getText());
 
-        return formInputs;
+        this.formInputs = formInputs;
     }
 
-    /**
-     * Set border RED on clientName input to indicate missing/invalid input.
-     */
-    public void invalidNameNotify() {
-        errorLabel.setText("Error");
-        errorMessage.setText("Client Name is required");
-        defaultClientNameBorder = clientNameTxtField.getBorder();
-        clientNameTxtField.setBorder(BorderFactory.createLineBorder(JBColor.RED, 1));
+
+    @Nullable
+    @Override
+    protected ValidationInfo doValidate() {
+        getInputs();
+        //TODO duplicate client name validation
+        if (formInputs.isInvalidName()) {
+            return new ValidationInfo(formInputs.invalidNameMessage(), clientNameTxtField);
+        }
+
+
+        if (formInputs.isInvalidAppIdentifier()) {
+            return new ValidationInfo(formInputs.getInvalidAppIdentifierMessage(), clientAppIdTxtField);
+        }
+
+        String clientId = (formInputs.getName() + "-" + formInputs.getClientType()).toLowerCase();
+
+        try {
+            MobileClient mobileClient = this.mobileAPI.getClient(clientId);
+            return new ValidationInfo("Client name and type duplicate");
+        } catch (CLIException e) {
+            // this is fine https://i.imgur.com/mtGc7Sl.gif
+        }
+
+        return null;
     }
 
-    /**
-     * Set default border on clientName input, to indicate valid input.
-     */
-    private void validNameNotify() {
-        errorLabel.setText("");
-        errorMessage.setText("");
-        clientNameTxtField.setBorder(defaultClientNameBorder);
+    @Nullable
+    @Override
+    protected JComponent createCenterPanel() {
+        return clientPanel;
     }
 
-    /**
-     * Set border RED on clientName input to indicate missing/invalid input.
-     */
-    public void invalidAppIdNotify() {
-        errorLabel.setText("Error");
-        errorMessage.setText("app identifier, bundleID|packageName is required");
-        defaultClientNameBorder = clientNameTxtField.getBorder();
-        clientAppIdTxtField.setBorder(BorderFactory.createLineBorder(JBColor.RED, 1));
+
+    public String getName(){
+        return formInputs.getName();
     }
 
-    /**
-     * Set default border on clientName input, to indicate valid input.
-     */
-    private void validAppIdNotify() {
-        errorLabel.setText("");
-        errorMessage.setText("");
-        clientAppIdTxtField.setBorder(defaultClientNameBorder);
+    public String getClientType(){
+        return formInputs.getClientType();
     }
 
-    public void resetValidationNotifications() {
-        validNameNotify();
-        validAppIdNotify();
+    public String getAppId(){
+        return formInputs.getAppIdentifier();
     }
 
 }

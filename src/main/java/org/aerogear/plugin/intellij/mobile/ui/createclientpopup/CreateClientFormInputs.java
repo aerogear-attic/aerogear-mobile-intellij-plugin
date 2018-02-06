@@ -44,12 +44,20 @@ public class CreateClientFormInputs {
         return name.isEmpty();
     }
 
+    public String invalidNameMessage(){
+        return "Client app name is required";
+    }
+
     /**
      * validates app id
      * @return true - app id is invalid, false - valid
      */
     public boolean isInvalidAppIdentifier(){
         return appIdentifier.isEmpty();
+    }
+
+    public String getInvalidAppIdentifierMessage(){
+        return "appIdentifier bundleID|packageName is required";
     }
 
 }

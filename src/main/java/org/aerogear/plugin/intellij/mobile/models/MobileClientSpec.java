@@ -1,5 +1,8 @@
 package org.aerogear.plugin.intellij.mobile.models;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class MobileClientSpec {
   
   public String name;
@@ -55,6 +58,11 @@ public class MobileClientSpec {
       return false;
     return appIdentifier != null ? appIdentifier.equals(that.appIdentifier) : that.appIdentifier == null;
   }
+
+  public String toJsonPrettyPrint(){
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    return gson.toJson(this, MobileClient.class);
+  }
   
   @Override public int hashCode() {
     int result = name != null ? name.hashCode() : 0;
@@ -70,7 +78,7 @@ public class MobileClientSpec {
             "  name: " +           name + ",\n" +
             "  apiKey: " +         apiKey  +",\n" +
             "  clientType: " +     clientType  +",\n" +
-            "  appIdentifier: " +  appIdentifier  +",\n" +
+            "  appIdentifier: " +  appIdentifier  +"\n" +
             '}';
   }
 }
