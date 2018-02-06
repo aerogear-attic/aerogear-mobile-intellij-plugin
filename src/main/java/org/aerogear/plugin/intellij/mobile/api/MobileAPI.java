@@ -12,9 +12,7 @@ import java.util.List;
 
 public class MobileAPI {
 
-
     private CLIRunner cliRunner;
-
 
     public MobileAPI(CLIRunner cliRunner) {
         this.cliRunner = cliRunner;
@@ -31,7 +29,6 @@ public class MobileAPI {
         }
     }
 
-
     public void createService(ServiceClass sc, List<String> params, Watcher w) {
         List<String> cmd = Arrays.asList("create", "serviceinstance", sc.getServiceName(), "--");
         for (String param : params) {
@@ -41,27 +38,24 @@ public class MobileAPI {
         cliRunner.executeAsync(cmd, w);
     }
 
-
     public MobileClient createClient(String name, String clientType, String bundleID) throws CLIException {
         if (name.isEmpty() || clientType.isEmpty() || bundleID.isEmpty()) {
             throw new CLIException("expected a client name, a client type and a bundle id");
         }
         String res = cliRunner.executeSync(Arrays.asList("create", "client", "--", name, clientType, bundleID, "-o=json"));
 
-        return getMobiliClientFromRes(res);
+        return getMobileClientFromRes(res);
     }
 
     public MobileClient getClient(String name) throws CLIException {
         if (name.isEmpty()) {
-            throw new CLIException("expected a client name, a client type and a bundle id");
+            throw new CLIException("expected a client name");
         }
         String res = cliRunner.executeSync(Arrays.asList("get", "client", "--", name, "-o=json"));
-        return getMobiliClientFromRes(res);
-
+        return getMobileClientFromRes(res);
     }
 
-
-    private MobileClient getMobiliClientFromRes(String res) {
+    private MobileClient getMobileClientFromRes(String res) {
         try {
             Gson gson = new Gson();
             return gson.fromJson(res, MobileClient.class);

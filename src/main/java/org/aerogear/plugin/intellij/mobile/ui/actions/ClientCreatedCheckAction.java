@@ -13,25 +13,24 @@ import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.CreateClientForm
 import org.aerogear.plugin.intellij.mobile.utils.WriteToFileRunnable;
 
 public class ClientCreatedCheckAction extends AnAction {
-    @Override
-    public void actionPerformed(AnActionEvent e) {
-        MobileAPI mobileAPI = new MobileAPI(new CLIRunnerImpl());
-        String filePath = e.getProject().getBasePath() + "/" + Constants.DOT_FILENAME;
-        showCreateClientForm(e.getProject(), mobileAPI, filePath);
+
+  @Override
+  public void actionPerformed(AnActionEvent e) {
+    MobileAPI mobileAPI = new MobileAPI(new CLIRunnerImpl());
+    String filePath = e.getProject().getBasePath() + "/" + Constants.DOT_FILENAME;
+    showCreateClientForm(e.getProject(), mobileAPI, filePath);
+  }
+
+  public void showCreateClientForm(Project project, MobileAPI mobileAPI, String filePath) {
+    CreateClientForm clientForm = new CreateClientForm(project, mobileAPI);
+    clientForm.show();
+
+    if (CreateClientForm.OK_EXIT_CODE == clientForm.getExitCode()) {
+      MobileClient mobileClient = mobileAPI.createClient(clientForm.getName(), clientForm.getClientType(), clientForm.getAppId());
+
+      CharSequence charSeq = mobileClient.getSpec().toJsonPrettyPrint();
+      WriteToFileRunnable writeToFile = new WriteToFileRunnable(project, filePath, charSeq, Constants.DOT_FILENAME, JsonFileType.INSTANCE);
+      WriteCommandAction.runWriteCommandAction(project, writeToFile);
     }
-
-    public void showCreateClientForm(Project project, MobileAPI mobileAPI, String filePath) {
-        CreateClientForm clientForm = new CreateClientForm(project, mobileAPI);
-        clientForm.show();
-
-        if (CreateClientForm.OK_EXIT_CODE == clientForm.getExitCode()) {
-            MobileClient mobileClient = mobileAPI.createClient(clientForm.getName(), clientForm.getClientType(), clientForm.getAppId()
-            );
-
-            CharSequence cs = mobileClient.getSpec().toJsonPrettyPrint();
-
-            WriteToFileRunnable writeToFile = new WriteToFileRunnable(project, filePath, cs, Constants.DOT_FILENAME, JsonFileType.INSTANCE);
-            WriteCommandAction.runWriteCommandAction(project, writeToFile);
-        }
-    }
+  }
 }

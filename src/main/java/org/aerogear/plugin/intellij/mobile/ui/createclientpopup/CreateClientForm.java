@@ -19,84 +19,82 @@ import org.jetbrains.annotations.Nullable;
 
 
 public class CreateClientForm extends DialogWrapper {
-    private JPanel clientPanel;
-    private JLabel clientNameLabel;
-    private JTextField clientNameTxtField;
-    private JLabel clientTypeLabel;
-    private JComboBox<String> clientTypeComboBox;
-    private JLabel appIdLabel;
-    private JTextField clientAppIdTxtField;
-    private JLabel errorLabel;
-    private JLabel errorMessage;
-    private Border defaultClientNameBorder;
-    private CreateClientFormInputs formInputs;
-    private MobileAPI mobileAPI;
+  private JPanel clientPanel;
+  private JLabel clientNameLabel;
+  private JTextField clientNameTxtField;
+  private JLabel clientTypeLabel;
+  private JComboBox<String> clientTypeComboBox;
+  private JLabel appIdLabel;
+  private JTextField clientAppIdTxtField;
+  private JLabel errorLabel;
+  private JLabel errorMessage;
+  private Border defaultClientNameBorder;
+  private CreateClientFormInputs formInputs;
+  private MobileAPI mobileAPI;
 
-    public CreateClientForm(@Nullable Project project, MobileAPI mobileAPI) {
-        super(project);
-        this.mobileAPI = mobileAPI;
-        init();
-        setTitle("Create Client");
-    }
+  public CreateClientForm(@Nullable Project project, MobileAPI mobileAPI) {
+    super(project);
+    this.mobileAPI = mobileAPI;
+    init();
+    setTitle("Create Client");
+  }
 
-    private void createUIComponents() {
-        clientTypeComboBox = new ComboBox<>(Constants.CLIENT_TYPES);
-    }
+  private void createUIComponents() {
+    clientTypeComboBox = new ComboBox<>(Constants.CLIENT_TYPES);
+  }
 
-    private void getInputs() {
-        CreateClientFormInputs formInputs = new CreateClientFormInputs();
-        formInputs.setName(clientNameTxtField.getText());
-        formInputs.setClientType(String.valueOf(clientTypeComboBox.getSelectedItem()));
-        formInputs.setAppIdentifier(clientAppIdTxtField.getText());
+  private void getInputs() {
+    CreateClientFormInputs formInputs = new CreateClientFormInputs();
+    formInputs.setName(clientNameTxtField.getText());
+    formInputs.setClientType(String.valueOf(clientTypeComboBox.getSelectedItem()));
+    formInputs.setAppIdentifier(clientAppIdTxtField.getText());
 
-        this.formInputs = formInputs;
-    }
+    this.formInputs = formInputs;
+  }
 
-
-    @Nullable
-    @Override
-    protected ValidationInfo doValidate() {
-        getInputs();
-        //TODO duplicate client name validation
-        if (formInputs.isInvalidName()) {
-            return new ValidationInfo(formInputs.invalidNameMessage(), clientNameTxtField);
-        }
-
-
-        if (formInputs.isInvalidAppIdentifier()) {
-            return new ValidationInfo(formInputs.getInvalidAppIdentifierMessage(), clientAppIdTxtField);
-        }
-
-        String clientId = (formInputs.getName() + "-" + formInputs.getClientType()).toLowerCase();
-
-        try {
-            MobileClient mobileClient = this.mobileAPI.getClient(clientId);
-            return new ValidationInfo("Client name and type duplicate");
-        } catch (CLIException e) {
-            // this is fine https://i.imgur.com/mtGc7Sl.gif
-        }
-
-        return null;
-    }
-
-    @Nullable
-    @Override
-    protected JComponent createCenterPanel() {
-        return clientPanel;
+  @Nullable
+  @Override
+  protected ValidationInfo doValidate() {
+    getInputs();
+    //TODO duplicate client name validation
+    if (formInputs.isInvalidName()) {
+      return new ValidationInfo(formInputs.invalidNameMessage(), clientNameTxtField);
     }
 
 
-    public String getName(){
-        return formInputs.getName();
+    if (formInputs.isInvalidAppIdentifier()) {
+      return new ValidationInfo(formInputs.getInvalidAppIdentifierMessage(), clientAppIdTxtField);
     }
 
-    public String getClientType(){
-        return formInputs.getClientType();
+    String clientId = (formInputs.getName() + "-" + formInputs.getClientType()).toLowerCase();
+
+    try {
+      MobileClient mobileClient = this.mobileAPI.getClient(clientId);
+      return new ValidationInfo("Client name and type duplicate");
+    } catch (CLIException e) {
+      // this is fine https://i.imgur.com/mtGc7Sl.gif
     }
 
-    public String getAppId(){
-        return formInputs.getAppIdentifier();
-    }
+    return null;
+  }
+
+  @Nullable
+  @Override
+  protected JComponent createCenterPanel() {
+    return clientPanel;
+  }
+
+  public String getName() {
+    return formInputs.getName();
+  }
+
+  public String getClientType() {
+    return formInputs.getClientType();
+  }
+
+  public String getAppId() {
+    return formInputs.getAppIdentifier();
+  }
 
 }
 

@@ -14,22 +14,19 @@ import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.aerogear.plugin.intellij.mobile.ui.MobileIcons;
+import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.Constants;
 import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.CreateClientForm;
 import org.aerogear.plugin.intellij.mobile.utils.WriteToFileRunnable;
 import org.jetbrains.annotations.NotNull;
 
 
 public class ClientCreatedCheck implements StartupActivity {
-    private static final String dotFileName = ".aerogear.json";
-
-
 
     @Override
     public void runActivity(@NotNull Project project) {
         String projectPath = project.getBasePath();
-        checkFile(projectPath + '/' + dotFileName, project);
+        checkFile(projectPath + '/' + Constants.DOT_FILENAME, project);
     }
-
 
     public void checkFile(String filePath, @NotNull Project project) {
         VirtualFile file = LocalFileSystem.getInstance().refreshAndFindFileByPath(filePath);
@@ -49,14 +46,7 @@ public class ClientCreatedCheck implements StartupActivity {
                     " <a href=\"" + "here" + "\" target=\"blank\">Create new client app definition</a> </html>",
                     notificationListener
             );
-
         }
-
-
     }
-
-
-
-
 
 }
