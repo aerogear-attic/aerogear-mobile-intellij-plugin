@@ -7,7 +7,6 @@ import org.aerogear.plugin.intellij.mobile.ui.certconfiguration.pinnedcerts.Pinn
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class PinnedCertDialog extends DialogWrapper {
     private PinnedCertPanel centerPanel;

@@ -8,7 +8,7 @@ package org.aerogear.plugin.intellij.mobile.ui.certconfiguration.pinnedcerts;
 import com.intellij.openapi.components.ServiceManager;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -215,4 +215,16 @@ public class PinnedCertPanel extends javax.swing.JPanel {
     private javax.swing.JTextField tfHostURL;
     // End of variables declaration//GEN-END:variables
 
+
+    public JTextField getBuildType() {
+        return tfBuildType;
+    }
+
+    public JTextField getHostName() {
+        return tfHostName;
+    }
+
+    public JTextField getHostURL() {
+        return tfHostURL;
+    }
 }

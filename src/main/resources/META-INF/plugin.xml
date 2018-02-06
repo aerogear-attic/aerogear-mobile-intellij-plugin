@@ -37,6 +37,9 @@
             <action id="ListServices" class="org.aerogear.plugin.intellij.mobile.ui.actions.DisplayToolWindow"
                     text="Mobile Services" description="Display available mobile services">
             </action>
+            <action id="AerogearMobile.ViewCertConfiguration" class="org.aerogear.plugin.intellij.mobile.ui.actions.ViewCertConfiguration"
+                    text="View Cert Configuration" description="Display pinned certificates">
+            </action>
         </group>
     </actions>
 </idea-plugin>
