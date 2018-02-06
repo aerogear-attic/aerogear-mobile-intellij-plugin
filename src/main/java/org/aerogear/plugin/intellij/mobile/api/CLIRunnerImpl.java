@@ -48,9 +48,9 @@ public class CLIRunnerImpl implements CLIRunner {
     cmd.add("oc");
     cmd.add("plugin");
     cmd.add("mobile");
-    for (String a : args) {
-      cmd.add(a);
-    }
+
+    cmd.addAll(args);
+
     return cmd;
   }
 
