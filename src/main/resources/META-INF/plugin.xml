@@ -37,7 +37,7 @@
     </extensions>
 
     <actions>
-        <group id="AerogearMobile" text="Aerogear Mobile" popup="true">
+        <group id="AerogearMobile" text="Aerogear Mobile" popup="true" icon="/icons/aerogear.png">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <action id="AerogearMobile.ListServices" class="org.aerogear.plugin.intellij.mobile.ui.actions.DisplayToolWindow"
                     text="Mobile Services" description="Display available mobile services">
