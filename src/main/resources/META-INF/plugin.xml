@@ -2,12 +2,15 @@
     <id>org.aerogear.plugin.intellij.mobile</id>
     <name>Aerogear Mobile Intellij Plugin</name>
     <version>1.0</version>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="aerogear-dev@lists.jboss.org" url="http://www.jboss.org">JBoss Community</vendor>
 
     <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
-    ]]></description>
+        <p>The aerogear-mobile-intellij-plugin relies on the
+            <a href="https://github.com/aerogear/mobile-cli">Aerogear mobile-cli</a>
+            to communicate with your Openshift cluster.
+        </p>
+    ]]>
+    </description>
     <depends>com.intellij.modules.lang</depends>
 
     <change-notes><![CDATA[
@@ -19,11 +22,7 @@
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="145.0"/>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
-    <!-- uncomment to enable plugin in all products
     <depends>com.intellij.modules.lang</depends>
-    -->
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
