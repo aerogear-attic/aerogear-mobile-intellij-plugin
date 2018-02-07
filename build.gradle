@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'org.aerogear'
-version '1.0-SNAPSHOT'
+version '0.0.1-alpha'
 
 apply plugin: 'java'
 
