@@ -18,7 +18,7 @@ public class SDKConfigManager {
         File configFile = new File(path);
         configFile.createNewFile();
 
-        Runnable updateConfigRunner = new WriteToFileRunnable(project, path, getClientConfig());
+        Runnable updateConfigRunner = new WriteToFileRunnable(project, path, getClientConfig(project));
         Runnable openConfigRunner = new OpenFileRunnable(project, path);
 
         this.asyncRefreshFiles(() -> {
@@ -32,23 +32,22 @@ public class SDKConfigManager {
         String sdkConfigPath = AeroGearMobileConfiguration.getInstance(project).getConfigPath();
         if (sdkConfigPath != null && !sdkConfigPath.isEmpty()) {
             this.asyncRefreshFiles(() -> {
-                Runnable updateConfigRunner = new WriteToFileRunnable(project, sdkConfigPath, getClientConfig());
+                Runnable updateConfigRunner = new WriteToFileRunnable(project, sdkConfigPath, getClientConfig(project));
                 WriteCommandAction.runWriteCommandAction(project, updateConfigRunner);
             });
         }
     }
 
-    private String getClientName() {
-        //@TODO: implement getClientName based on client creation work
-        return "";
+    private String getClientName(Project project) {
+        return AeroGearMobileConfiguration.getInstance(project).getClientName();
     }
 
     private void asyncRefreshFiles(Runnable r) {
         VirtualFileManager.getInstance().asyncRefresh(r);
     }
 
-    private CharSequence getClientConfig() throws CLIException {
-        String clientName = this.getClientName();
+    private CharSequence getClientConfig(Project project) throws CLIException {
+        String clientName = this.getClientName(project);
         return new MobileAPI(new CLIRunnerImpl()).getClientConfig(clientName);
     }
 

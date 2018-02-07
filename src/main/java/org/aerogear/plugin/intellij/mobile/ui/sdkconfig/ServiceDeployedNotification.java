@@ -3,7 +3,6 @@ package org.aerogear.plugin.intellij.mobile.ui.sdkconfig;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationListener;
 import com.intellij.notification.NotificationType;
-import com.intellij.notification.impl.NotificationFullContent;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.Project;
 import org.aerogear.plugin.intellij.mobile.api.CLIException;
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.event.HyperlinkEvent;
 
-public class ServiceDeployedNotification extends Notification implements NotificationFullContent {
+public class ServiceDeployedNotification extends Notification {
     private Project project;
     private ServiceClass sc;
 
