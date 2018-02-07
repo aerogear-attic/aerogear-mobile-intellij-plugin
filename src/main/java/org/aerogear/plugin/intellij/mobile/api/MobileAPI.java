@@ -6,6 +6,7 @@ import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 import org.aerogear.plugin.intellij.mobile.models.MobileServices;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class MobileAPI {
     }
 
     public void createService(ServiceClass sc, List<String> params, Watcher w) {
-        List<String> cmd = Arrays.asList("create", "serviceinstance", sc.getServiceName(), "--");
+        List<String> cmd = new ArrayList<>(Arrays.asList("create","serviceinstance",sc.getServiceName(),"--"));
         for (String param : params) {
             cmd.add("-p");
             cmd.add(param);
@@ -64,4 +65,7 @@ public class MobileAPI {
         }
     }
 
+    public String getClientConfig(String clientName) throws CLIException {
+        return cliRunner.executeSync(Arrays.asList("get", "clientconfig", "--", clientName, "-o=json"));
+    }
 }

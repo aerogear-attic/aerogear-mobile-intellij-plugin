@@ -1,4 +1,4 @@
-package org.aerogear.plugin.intellij.mobile.ui.settings;
+package org.aerogear.plugin.intellij.mobile.services;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class AeroGearMobileConfiguration implements PersistentStateComponent<AeroGearMobileConfiguration> {
     private String configPath;
+    private String clientName;
 
     @Nullable
     @Override
@@ -46,5 +47,12 @@ public class AeroGearMobileConfiguration implements PersistentStateComponent<Aer
         this.configPath = configPath;
     }
 
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public String getClientName() {
+        return this.clientName;
+    }
 }
 

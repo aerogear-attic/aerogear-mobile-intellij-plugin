@@ -8,6 +8,7 @@ import com.intellij.openapi.project.Project;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.models.MobileClient;
+import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.Constants;
 import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.CreateClientForm;
 import org.aerogear.plugin.intellij.mobile.utils.WriteToFileRunnable;
@@ -27,6 +28,7 @@ public class ClientCreatedCheckAction extends AnAction {
 
     if (CreateClientForm.OK_EXIT_CODE == clientForm.getExitCode()) {
       MobileClient mobileClient = mobileAPI.createClient(clientForm.getName(), clientForm.getClientType(), clientForm.getAppId());
+      AeroGearMobileConfiguration.getInstance(project).setClientName(mobileClient.getSpec().getName() + "-" + mobileClient.getSpec().getClientType());
 
       CharSequence charSeq = mobileClient.getSpec().toJsonPrettyPrint();
       WriteToFileRunnable writeToFile = new WriteToFileRunnable(project, filePath, charSeq, Constants.DOT_FILENAME, JsonFileType.INSTANCE);
