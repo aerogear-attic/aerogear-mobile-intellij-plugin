@@ -44,7 +44,7 @@ public class IdentityConfigurationPanel extends javax.swing.JPanel {
 
         projectName.setText("* Add to Project");
 
-        projectSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "myproject" }));
+        projectSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "myproject","mobile","myapp" }));
         projectSelector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 projectSelectorActionPerformed(evt);
