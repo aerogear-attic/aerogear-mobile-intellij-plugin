@@ -45,7 +45,9 @@ public class CLIRunnerImpl implements CLIRunner {
       throw new CLIException("unexpected io error executing cli command : " + e.getMessage(), e.getCause());
     } catch (InterruptedException e) {
       throw new CLIException("cli command was unexpectedly interrupted : " + e.getMessage(), e.getCause());
-    } finally {
+    } catch (Exception e){
+      throw new CLIException("unexpected exception executing cli command : " + e.getMessage(), e.getCause());
+    }finally {
       if (p != null)
         p.destroyForcibly();
     }

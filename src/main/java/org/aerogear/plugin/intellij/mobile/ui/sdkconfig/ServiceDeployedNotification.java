@@ -19,7 +19,7 @@ public class ServiceDeployedNotification extends Notification {
     private ServiceClass sc;
 
     public ServiceDeployedNotification(Project project, ServiceClass sc) {
-        super(MobileNotificationsService.AEROGEAR_NOTIFICATION_GROUP,sc.getDisplayName() + " deployment complete", "", NotificationType.INFORMATION);
+        super(MobileNotificationsService.AEROGEAR_NOTIFICATION_GROUP,sc.getDisplayName() + " deployment complete", "deployment", NotificationType.INFORMATION);
 
         this.project = project;
         this.sc = sc;
