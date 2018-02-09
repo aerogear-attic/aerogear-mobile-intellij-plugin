@@ -1,5 +1,6 @@
 package org.aerogear.plugin.intellij.mobile.api;
 
+import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -8,11 +9,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class CLIRunnerImpl implements CLIRunner {
-
+  
+  MobileNotificationsService notificationsService;
+  
+  public CLIRunnerImpl() {
+    this.notificationsService = new MobileNotificationsService();
+  }
+  
+  private final String OUTPUT_TYPE_ERROR = "error";
+  private final String OUTPUT_TYPE_STD = "std";
+  
   private static int CMD_TIMEOUT_SECONDS = 10;
 
   @Override
@@ -28,15 +37,17 @@ public class CLIRunnerImpl implements CLIRunner {
         throw new CLIException("timed out waiting for the list of services. Is your OpenShift cluster running?");
       }
       if (p.exitValue() != 0) {
-        outPut = readOutput(p.getErrorStream());
+        outPut = readOutput(OUTPUT_TYPE_ERROR,p.getErrorStream(), false);
         throw new CLIException(outPut);
       }
-      outPut = readOutput(p.getInputStream());
+      outPut = readOutput(OUTPUT_TYPE_STD,p.getInputStream(),false);
     } catch (IOException e) {
       throw new CLIException("unexpected io error executing cli command : " + e.getMessage(), e.getCause());
     } catch (InterruptedException e) {
       throw new CLIException("cli command was unexpectedly interrupted : " + e.getMessage(), e.getCause());
-    } finally {
+    } catch (Exception e){
+      throw new CLIException("unexpected exception executing cli command : " + e.getMessage(), e.getCause());
+    }finally {
       if (p != null)
         p.destroyForcibly();
     }
@@ -55,36 +66,52 @@ public class CLIRunnerImpl implements CLIRunner {
   }
 
   public void executeAsync(List<String> args, Watcher w) {
+    final ExecutorService ex = Executors.newFixedThreadPool(3);
     List<String> cmd = prepareCmd(args);
-    Executors.newSingleThreadExecutor()
-        .execute(() -> {
+    ex.execute(() -> {
           ProcessBuilder pb = new ProcessBuilder(cmd);
-          Process p = null;
+        
           try {
-            p = pb.start();
-            String input = readOutput(p.getInputStream());
-            String error = readOutput(p.getErrorStream());
-            if (!input.isEmpty()) {
-              w.onSuccess(input);
-            } else if (!error.isEmpty()) {
+            final Process p = pb.start();
+            Callable<String> inputRead = new Callable<String>() {
+              @Override public String call() throws Exception {
+                return readOutput(OUTPUT_TYPE_STD,p.getInputStream(), true);
+              }
+            };
+            Callable<String> errorRead = new Callable<String>() {
+              @Override public String call() throws Exception {
+                return readOutput(OUTPUT_TYPE_ERROR,p.getErrorStream(),true);
+              }
+            } ;
+            Future<String>  cmdInput = ex.submit(inputRead);
+            Future<String>  cmdErr = Executors.newSingleThreadExecutor().submit(errorRead);
+            String input = cmdInput.get();
+            String error = cmdErr.get();
+            if (!error.isEmpty()) {
               w.onError(new CLIException(error));
             }
-          } catch (IOException e) {
+            else if (!input.isEmpty()) {
+              w.onSuccess(input);
+            } else
+            p.destroyForcibly();
+          } catch (Exception e) {
             w.onError(e);
-          } finally {
-            if (p != null)
-              p.destroyForcibly();
           }
         });
   }
 
   @NotNull
-  private String readOutput(InputStream in) throws IOException {
+  private String readOutput(String outputType,InputStream in, Boolean shouldNotify) throws IOException {
     StringBuilder sb = new StringBuilder();
 
     try (BufferedReader bf = new BufferedReader(new InputStreamReader(in))) {
       String line;
       while ((line = bf.readLine()) != null) {
+        if (outputType.equals("error") && shouldNotify){
+          this.notificationsService.notifyError("cli error",line);
+        } else if (shouldNotify) {
+          this.notificationsService.notifyInformation("cli output", line);
+        }
         sb.append(line + "\n");
       }
     }

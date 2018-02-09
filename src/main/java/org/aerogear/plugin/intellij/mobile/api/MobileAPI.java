@@ -66,6 +66,8 @@ public class MobileAPI {
     }
 
     public String getClientConfig(String clientName) throws CLIException {
-        return cliRunner.executeSync(Arrays.asList("get", "clientconfig", "--", clientName, "-o=json"));
+        return cliRunner.executeSync(
+            Arrays.asList("get", "clientconfig", "--", clientName, "-o=json")
+        );
     }
 }
