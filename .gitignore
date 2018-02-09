@@ -4,6 +4,7 @@
 *.zip
 .gradle/*
 .idea/*
+.vscode/*
 .classPath
 .project
 .settings/*
