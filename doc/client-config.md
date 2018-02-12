@@ -7,7 +7,7 @@ The Aerogear Mobile Android Studio Plugin allows you to do the following things:
 - Generate a new configuration file
 - Regenerate a configuration file (for example, if new mobile services are provisioned).
 
-For the purpose of this document, we expect that you have installed and enabled the plugin.
+For the purpose of this document, we expect that you have [installed and enabled](https://github.com/aerogear/aerogear-mobile-intellij-plugin/blob/master/README.md) the plugin.
 
 
 ## Generating a new config file
