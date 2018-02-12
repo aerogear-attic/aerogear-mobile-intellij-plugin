@@ -9,12 +9,18 @@ import org.aerogear.plugin.intellij.mobile.api.CLIRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
+import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.Constants;
 import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.CreateClientForm;
 import org.aerogear.plugin.intellij.mobile.utils.WriteToFileRunnable;
 
 public class ClientCreatedCheckAction extends AnAction {
-
+  MobileNotificationsService notificationsService;
+  
+  public ClientCreatedCheckAction() {
+    this.notificationsService = new MobileNotificationsService();
+  }
+  
   @Override
   public void actionPerformed(AnActionEvent e) {
     MobileAPI mobileAPI = new MobileAPI(new CLIRunnerImpl());
@@ -33,6 +39,7 @@ public class ClientCreatedCheckAction extends AnAction {
       CharSequence charSeq = mobileClient.getSpec().toJsonPrettyPrint();
       WriteToFileRunnable writeToFile = new WriteToFileRunnable(project, filePath, charSeq, Constants.DOT_FILENAME, JsonFileType.INSTANCE);
       WriteCommandAction.runWriteCommandAction(project, writeToFile);
+      this.notificationsService.notifyInformation("Mobile Client", "successfully created a mobile client ");
     }
   }
 }

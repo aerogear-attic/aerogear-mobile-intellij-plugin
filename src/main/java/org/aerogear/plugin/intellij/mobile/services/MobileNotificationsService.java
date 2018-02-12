@@ -1,9 +1,12 @@
 package org.aerogear.plugin.intellij.mobile.services;
 
-import com.intellij.notification.*;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationListener;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.components.ServiceManager;
 
-import javax.swing.Icon;
+import javax.swing.*;
 
 public class MobileNotificationsService {
 
@@ -30,7 +33,7 @@ public class MobileNotificationsService {
     public void notifyError(String content) {
         Notifications.Bus.notify(new Notification(AEROGEAR_NOTIFICATION_GROUP, "", content, NotificationType.ERROR));
     }
-
+    
     public void notifyWarning(Icon icon, String title, String content, NotificationListener notificationListener) {
         Notifications.Bus.notify(new Notification(
                 AEROGEAR_NOTIFICATION_GROUP,
