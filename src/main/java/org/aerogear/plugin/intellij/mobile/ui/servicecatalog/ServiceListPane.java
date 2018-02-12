@@ -30,10 +30,13 @@ public class ServiceListPane extends JBScrollPane {
     public JPanel createServicePanel(ServiceClass sc) throws CLIException {
         ServicePanel svcPanel = new ServicePanel();
         JLabel serviceInfo = svcPanel.getServiceInfo();
-        URL imgSrc;
+        URL imgSrc = null;
 
         try {
-            imgSrc = new URL(sc.getSpec().getExternalMetadata().getImageUrl());
+            String imagerURL = sc.getSpec().getExternalMetadata().getImageUrl();
+            if (null != imagerURL) {
+                imgSrc = new URL(imagerURL);
+            }
         } catch (MalformedURLException e) {
             throw new CLIException("Failed to retrieve service icon ", e.getCause());
         }
