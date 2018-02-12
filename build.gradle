@@ -1,11 +1,14 @@
 plugins {
     id 'org.jetbrains.intellij' version '0.2.17'
+    id "com.github.breadmoirai.github-release" version "1.1.3"
+    id "net.researchgate.release" version "2.4.0"
 }
 
 group 'org.aerogear'
-version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply from: "gradle/autovers.gradle"
+apply from: "gradle/download.gradle"
 
 sourceCompatibility = 1.8
 
@@ -18,7 +21,6 @@ configurations {
     ideaSdk
     bundle // dependencies bundled with the plugin
 }
-
 
 dependencies {
     ideaSdk fileTree(dir: 'lib/sdk/', include: ['*/lib/*.jar'])
@@ -48,7 +50,7 @@ test {
     useTestNG()
 }
 
-task downloadIdeaSdk(type: Download) {
+downloadIdeaSdk {
     sourceUrl = IDEA_SDK_URL
     target = file('lib/idea-sdk.tar.gz')
 }
@@ -109,7 +111,7 @@ idea {
     }
 
     module {
-        scopes.COMPILE.minus = [ configurations.ideaSdk ]
+        scopes.COMPILE.minus = [configurations.ideaSdk]
 
         iml {
             beforeMerged { module ->
@@ -126,25 +128,49 @@ idea {
     }
 }
 
+release {
+    failOnCommitNeeded = false
+    failOnPublishNeeded = false
+    failOnSnapshotDependencies = false
+    failOnUnversionedFiles = false
+    failOnUpdateNeeded = false
+    revertOnFail = false
+    preTagCommitMessage = '[AG Mobile Release] - pre tag commit: '
+    tagCommitMessage = '[AG Mobile Release] - creating tag: '
+    newVersionCommitMessage = '[AG Mobile Release] - new version commit: '
+    tagTemplate = 'v${version}'
+    buildTasks = ['buildPlugin']
+
+    scmAdapters = [
+            net.researchgate.release.GitAdapter
+    ]
+
+    git {
+        requireBranch = /t_release_automation/ // TODO change it to master branch
+        pushToRemote = 'origin'
+        pushToBranchPrefix = ''
+        commitVersionFileOnly = false
+    }
+}
+updateVersion.dependsOn tasks.githubRelease
+
+githubRelease {
+    targetCommitish = /t_release_automation/ // TODO change it to master branch
+    name = "Aerogear Mobile Intellij Plugin v${project['release.releaseVersion']}"
+    token = "$System.env.GITHUB_TOKEN" // required
+    body = "Wham, bam! Thank you for new release!" // TODO, create task to generate CHANGELOG
+    draft = false
+    prerelease = true
+    FilenameFilter filter = { dir, file -> file.contains("${project['release.releaseVersion']}") }
+    releaseAssets = { -> buildPlugin.archivePath.parentFile.listFiles filter }
+}
+// TODO Create task Add CHANGELOG to plugin.xml file
+
 task wrapper(type: Wrapper) {
     gradleVersion = '4.1'
 }
 
-// ========= Custom tasks ========= //
-
-class Download extends DefaultTask {
-    @Input
-    String sourceUrl
-
-    @OutputFile
-    File target
-
-    @TaskAction
-    void download() {
-        if (!target.parentFile.exists()) {
-           target.parentFile.mkdirs()
-        }
-        logger.lifecycle "Downloading ${sourceUrl}, this might take a minute..."
-        ant.get(src: sourceUrl, dest: target, skipexisting: 'true')
-    }
+processResources {
+    inputs.property "version", project.version
+    filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: project.version])
 }
