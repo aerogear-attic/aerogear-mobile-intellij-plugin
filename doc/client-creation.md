@@ -8,8 +8,8 @@ you have installed the plugin.
 The mobile client representation provides the following things: 
 - Gives you a visual representation of your mobile client within Kubernetes or OpenShift. 
 - It is used to integrate with existing mobile services such as the 
-Aeroogear digger (a service for building clients via JenkinsPipelines).
-- The details in the mobile client representation are also uses as part of the mobile
+Aerogear digger (a service for building clients via JenkinsPipelines).
+- The details in the mobile client representation are also used as part of the mobile
 configuration and are likely to be used as part of the Android SDK.
 
 
