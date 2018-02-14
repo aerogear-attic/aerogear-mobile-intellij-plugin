@@ -129,12 +129,6 @@ idea {
 }
 
 release {
-    failOnCommitNeeded = false
-    failOnPublishNeeded = false
-    failOnSnapshotDependencies = false
-    failOnUnversionedFiles = false
-    failOnUpdateNeeded = false
-    revertOnFail = false
     preTagCommitMessage = '[AG Mobile Release] - pre tag commit: '
     tagCommitMessage = '[AG Mobile Release] - creating tag: '
     newVersionCommitMessage = '[AG Mobile Release] - new version commit: '
