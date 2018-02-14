@@ -146,7 +146,7 @@ release {
     ]
 
     git {
-        requireBranch = /t_release_automation/ // TODO change it to master branch
+        requireBranch = /master/
         pushToRemote = 'origin'
         pushToBranchPrefix = ''
         commitVersionFileOnly = false
@@ -155,7 +155,7 @@ release {
 updateVersion.dependsOn tasks.githubRelease
 
 githubRelease {
-    targetCommitish = /t_release_automation/ // TODO change it to master branch
+    targetCommitish = /master/
     name = "Aerogear Mobile Intellij Plugin v${project['release.releaseVersion']}"
     token = "$System.env.GITHUB_TOKEN" // required
     body = "Wham, bam! Thank you for new release!" // TODO, create task to generate CHANGELOG
