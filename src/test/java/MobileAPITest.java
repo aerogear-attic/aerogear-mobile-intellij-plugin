@@ -10,9 +10,9 @@ import static org.mockito.Mockito.*;
 
 public class MobileAPITest {
   @Test
-  public void testGetServices_ok() throws Exception {
+  public void testGetServices_ok() {
     CLIRunner runner = mock(CLIRunner.class);
-    when(runner.executeSync(anyList()  )).thenReturn("{\n"
+    when(runner.executeSync(anyList()  )).thenReturn("{\n" // TODO ADD testing assets here and NOT use strings
         + "  \"metadata\": {},\n"
         + "  \"items\": [\n"
         + "    {\n"
@@ -60,7 +60,7 @@ public class MobileAPITest {
   }
   
   @Test(expectedExceptions = CLIException.class)
-  public void testGetServices_exception()throws Exception{
+  public void testGetServices_exception() {
     CLIRunner runner = mock(CLIRunner.class);
     when(runner.executeSync(anyList())).thenThrow(new CLIException("failed to execute command"));
     MobileAPI api = new MobileAPI(runner);
@@ -81,7 +81,7 @@ public class MobileAPITest {
   public void testCreateClient_ok()throws CLIException{
     CLIRunner runner = mock(CLIRunner.class);
     MobileAPI api = new MobileAPI(runner);
-    when(runner.executeSync(anyList())).thenReturn("{\n"
+    when(runner.executeSync(anyList())).thenReturn("{\n" // TODO ADD testing assets here and NOT use strings
         + "\t\"kind\": \"MobileClient\",\n"
         + "\t\"apiVersion\": \"mobile.k8s.io/v1alpha1\",\n"
         + "\t\"metadata\": {\n"

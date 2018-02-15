@@ -1,6 +1,7 @@
 package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBScrollPane;
 import org.aerogear.plugin.intellij.mobile.api.CLIException;
@@ -12,7 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ServiceListPane extends JBScrollPane {
-    private Project project;
+    private final Project project;
 
     public ServiceListPane(Project project, ServiceClass[] scl) throws CLIException {
         this.project = project;
@@ -20,14 +21,14 @@ public class ServiceListPane extends JBScrollPane {
         JBPanel view = new JBPanel();
         view.setLayout(new BoxLayout(view, BoxLayout.PAGE_AXIS));
         setViewportView(view);
-        view.withBackground(Color.WHITE);
+        view.withBackground(JBColor.WHITE);
 
         for (ServiceClass sc : scl) {
             view.add(createServicePanel(sc));
         }
     }
 
-    public JPanel createServicePanel(ServiceClass sc) throws CLIException {
+    private JPanel createServicePanel(ServiceClass sc) throws CLIException {
         ServicePanel svcPanel = new ServicePanel();
         JLabel serviceInfo = svcPanel.getServiceInfo();
         URL imgSrc = null;

@@ -2,7 +2,6 @@ package org.aerogear.plugin.intellij.mobile.ui.settings;
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
@@ -14,8 +13,8 @@ import javax.swing.*;
 
 public class AeroGearMobileConfigurable implements Configurable {
 
-    private AeroGearMobileConfiguration config;
-    private Project project;
+    private final AeroGearMobileConfiguration config;
+    private final Project project;
     private TextFieldWithBrowseButton configPathValue;
 
     public AeroGearMobileConfigurable(Project project) {
@@ -45,7 +44,7 @@ public class AeroGearMobileConfigurable implements Configurable {
     }
 
     @Override
-    public void apply() throws ConfigurationException {
+    public void apply() {
         this.config.setConfigPath(this.configPathValue.getText());
     }
 

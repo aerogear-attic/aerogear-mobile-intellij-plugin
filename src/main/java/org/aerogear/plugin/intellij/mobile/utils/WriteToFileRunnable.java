@@ -12,14 +12,16 @@ import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.file.PsiDirectoryFactory;
 
+import java.util.Objects;
+
 
 public class WriteToFileRunnable implements Runnable {
 
-  private CharSequence charSeq;
-  private String fileName;
-  private FileType fileType;
-  private String path;
-  private Project project;
+  private final CharSequence charSeq;
+  private final String fileName;
+  private final FileType fileType;
+  private final String path;
+  private final Project project;
 
 
   public WriteToFileRunnable(Project project, String path, CharSequence cs, String fileName, FileType fileType) {
@@ -43,8 +45,8 @@ public class WriteToFileRunnable implements Runnable {
 
     } else {
       PsiFile psiFile = PsiManager.getInstance(this.project).findFile(existingFile);
-      Document document = PsiDocumentManager.getInstance(this.project).getDocument(psiFile);
-      document.setText(this.charSeq);
+      Document document = PsiDocumentManager.getInstance(this.project).getDocument(Objects.requireNonNull(psiFile));
+      Objects.requireNonNull(document).setText(this.charSeq);
     }
 
   }

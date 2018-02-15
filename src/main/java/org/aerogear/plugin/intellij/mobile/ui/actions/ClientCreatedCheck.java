@@ -9,7 +9,6 @@ import org.aerogear.plugin.intellij.mobile.api.CLIRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.aerogear.plugin.intellij.mobile.ui.MobileIcons;
-import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.Constants;
 import org.jetbrains.annotations.NotNull;
 
 public class ClientCreatedCheck implements StartupActivity {
@@ -20,17 +19,13 @@ public class ClientCreatedCheck implements StartupActivity {
         checkFile(projectPath + '/' + Constants.DOT_FILENAME, project);
     }
 
-    public void checkFile(String filePath, @NotNull Project project) {
+    private void checkFile(String filePath, @NotNull Project project) {
         VirtualFile file = LocalFileSystem.getInstance().refreshAndFindFileByPath(filePath);
 
         if (file == null) {
-            MobileAPI mobileAPI = new MobileAPI(new CLIRunnerImpl());
+            MobileAPI mobileAPI = new MobileAPI(CLIRunnerImpl.getInstance());
 
-            NotificationListener notificationListener = (notification, event) -> {
-                {
-                    new ClientCreatedCheckAction().showCreateClientForm(project, mobileAPI, filePath);
-                }
-            };
+            NotificationListener notificationListener = (notification, event) -> new ClientCreatedCheckAction().showCreateClientForm(project, mobileAPI, filePath);
 
             new MobileNotificationsService().notifyWarning(
                     MobileIcons.AEROGEAR,

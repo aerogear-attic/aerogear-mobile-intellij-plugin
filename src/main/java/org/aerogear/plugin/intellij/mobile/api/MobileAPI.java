@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MobileAPI {
 
-    private CLIRunner cliRunner;
+    private final CLIRunner cliRunner;
 
     public MobileAPI(CLIRunner cliRunner) {
         this.cliRunner = cliRunner;
@@ -23,8 +23,7 @@ public class MobileAPI {
         String outPut = cliRunner.executeSync(Arrays.asList("get", "services", "--", "-o=json"));
         Gson gson = new Gson();
         try {
-            MobileServices services = gson.fromJson(outPut, MobileServices.class);
-            return services;
+            return gson.fromJson(outPut, MobileServices.class);
         } catch (JsonSyntaxException e) {
             throw new CLIException("unexpected response from CLI: " + outPut);
         }

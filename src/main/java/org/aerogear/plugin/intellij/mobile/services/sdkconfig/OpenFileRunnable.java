@@ -6,11 +6,12 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 
 import java.io.File;
+import java.util.Objects;
 
-public class OpenFileRunnable implements Runnable {
+class OpenFileRunnable implements Runnable {
 
-    private Project project;
-    private String path;
+    private final Project project;
+    private final String path;
 
 
     public OpenFileRunnable(Project project, String path) {
@@ -22,6 +23,6 @@ public class OpenFileRunnable implements Runnable {
     public void run() {
         File file = new File(this.path);
         VirtualFile vConfig = LocalFileSystem.getInstance().findFileByIoFile(file);
-        new OpenFileDescriptor(project, vConfig).navigate(true);
+        new OpenFileDescriptor(project, Objects.requireNonNull(vConfig)).navigate(true);
     }
 }

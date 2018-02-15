@@ -12,13 +12,13 @@ import org.aerogear.plugin.intellij.mobile.api.CLIException;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunner;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
 public class MobileToolWindowFactory implements ToolWindowFactory {
-    private JBPanel mobileToolWindowContent;
-    MobileNotificationsService notifier;
-    private CLIRunner cliRunner = new CLIRunnerImpl();
+    private final MobileNotificationsService notifier;
+    private final CLIRunner cliRunner = CLIRunnerImpl.getInstance();
 
 
     public MobileToolWindowFactory() {
@@ -26,8 +26,8 @@ public class MobileToolWindowFactory implements ToolWindowFactory {
     }
 
     @Override
-    public void createToolWindowContent(Project project, ToolWindow toolWindow){
-        mobileToolWindowContent = new JBPanel();
+    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow){
+        JBPanel mobileToolWindowContent = new JBPanel();
         mobileToolWindowContent.setLayout(new GridLayout(0, 1));
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
 

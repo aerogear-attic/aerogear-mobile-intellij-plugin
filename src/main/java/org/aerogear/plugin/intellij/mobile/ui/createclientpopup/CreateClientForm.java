@@ -30,13 +30,13 @@ public class CreateClientForm extends DialogWrapper {
   private JLabel errorMessage;
   private Border defaultClientNameBorder;
   private CreateClientFormInputs formInputs;
-  private MobileAPI mobileAPI;
+  private final MobileAPI mobileAPI;
 
   public CreateClientForm(@Nullable Project project, MobileAPI mobileAPI) {
     super(project);
     this.mobileAPI = mobileAPI;
     init();
-    setTitle("Create Client");
+    setTitle(Constants.CREATE_CLIENT);
   }
 
   private void createUIComponents() {
@@ -58,19 +58,19 @@ public class CreateClientForm extends DialogWrapper {
     getInputs();
     //TODO duplicate client name validation
     if (formInputs.isInvalidName()) {
-      return new ValidationInfo(formInputs.invalidNameMessage(), clientNameTxtField);
+      return new ValidationInfo(Constants.CLIENT_APP_NAME_IS_REQUIRED, clientNameTxtField);
     }
 
 
     if (formInputs.isInvalidAppIdentifier()) {
-      return new ValidationInfo(formInputs.getInvalidAppIdentifierMessage(), clientAppIdTxtField);
+      return new ValidationInfo(Constants.APP_IDENTIFIER_BUNDLE_ID_PACKAGE_NAME_IS_REQUIRED, clientAppIdTxtField);
     }
 
     String clientId = (formInputs.getName() + "-" + formInputs.getClientType()).toLowerCase();
 
     try {
       MobileClient mobileClient = this.mobileAPI.getClient(clientId);
-      return new ValidationInfo("Client name and type duplicate");
+      return new ValidationInfo(String.format("Client name and type duplicate: %s", mobileClient.spec.name));
     } catch (CLIException e) {
       // this is fine https://i.imgur.com/mtGc7Sl.gif
     }

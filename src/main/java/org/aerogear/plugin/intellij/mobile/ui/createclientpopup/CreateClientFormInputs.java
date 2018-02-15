@@ -3,14 +3,10 @@ package org.aerogear.plugin.intellij.mobile.ui.createclientpopup;
 /**
  * Store of data inputs in the create client form
  */
-public class CreateClientFormInputs {
+class CreateClientFormInputs {
   private String name;
   private String clientType;
   private String appIdentifier;
-
-
-  CreateClientFormInputs() {
-  }
 
   public String getName() {
     return name;
@@ -45,10 +41,6 @@ public class CreateClientFormInputs {
     return name.isEmpty();
   }
 
-  public String invalidNameMessage() {
-    return "Client app name is required";
-  }
-
   /**
    * validates app id
    *
@@ -56,10 +48,6 @@ public class CreateClientFormInputs {
    */
   public boolean isInvalidAppIdentifier() {
     return appIdentifier.isEmpty();
-  }
-
-  public String getInvalidAppIdentifierMessage() {
-    return "appIdentifier bundleID|packageName is required";
   }
 
 }

@@ -3,6 +3,7 @@ package org.aerogear.plugin.intellij.mobile.ui.servicecatalog;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.ui.JBColor;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunner;
 import org.aerogear.plugin.intellij.mobile.api.CLIRunnerImpl;
 import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
@@ -17,19 +18,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class DeployServiceDialog extends DialogWrapper {
-    private Project project;
-    private ServiceClass sc;
-    private IdentityDeployment centerPanel;
-    private CLIRunner cliRunner = new CLIRunnerImpl();
-    private MobileAPI mobileAPI = new MobileAPI(cliRunner);
-    private MobileNotificationsService notifier = MobileNotificationsService.getInstance();
+class DeployServiceDialog extends DialogWrapper {
+    private final Project project;
+    private final ServiceClass sc;
+    private final MobileAPI mobileAPI;
+    private final MobileNotificationsService notifier = MobileNotificationsService.getInstance();
 
-    protected DeployServiceDialog(Project project, ServiceClass sc) {
+    private IdentityDeployment centerPanel;
+
+    DeployServiceDialog(Project project, ServiceClass sc) {
         super(project);
 
         this.project = project;
         this.sc = sc;
+        CLIRunner cliRunner = CLIRunnerImpl.getInstance();
+        mobileAPI = new MobileAPI(cliRunner);
 
         init();
         setTitle(sc.getDisplayName());
@@ -39,8 +42,8 @@ public class DeployServiceDialog extends DialogWrapper {
     @Override
     protected JComponent createCenterPanel() {
         centerPanel = new IdentityDeployment();
-        centerPanel.setBackground(Color.WHITE);
-        getContentPane().setBackground(Color.WHITE);
+        centerPanel.setBackground(JBColor.WHITE);
+        getContentPane().setBackground(JBColor.WHITE);
         getContentPanel().setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
         return centerPanel;
@@ -49,8 +52,8 @@ public class DeployServiceDialog extends DialogWrapper {
     @Override
     protected JComponent createSouthPanel() {
         JComponent sp = super.createSouthPanel();
-        sp.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, new Color(232, 232, 231)));
-        sp.setBackground(Color.WHITE);
+        sp.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, new JBColor(new Color(232, 232, 231), JBColor.DARK_GRAY)));
+        sp.setBackground(JBColor.WHITE);
         return sp;
     }
 
@@ -61,18 +64,16 @@ public class DeployServiceDialog extends DialogWrapper {
         List<String> params = this.centerPanel.getConfig();
         Project project = this.project;
         ServiceClass sc = this.sc;
-        ApplicationManager.getApplication().invokeLater(() -> {
-            mobileAPI.createService(sc, params, new Watcher() {
-                @Override
-                public void onError(Exception e) {
-                    notifier.notifyError("", "Error while " + sc.getServiceName() + " deployed: " + e.toString());
-                }
+        ApplicationManager.getApplication().invokeLater(() -> mobileAPI.createService(sc, params, new Watcher() {
+            @Override
+            public void onError(Exception e) {
+                notifier.notifyError("", "Error while " + sc.getServiceName() + " deployed: " + e.toString());
+            }
 
-                @Override
-                public void onSuccess(Object obj) {
-                    notifier.notify(new ServiceDeployedNotification(project, sc));
-                }
-            });
-        });
+            @Override
+            public void onSuccess(Object obj) {
+                notifier.notify(new ServiceDeployedNotification(project, sc, obj));
+            }
+        }));
     }
 }

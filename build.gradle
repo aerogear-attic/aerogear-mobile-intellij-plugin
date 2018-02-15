@@ -166,5 +166,9 @@ task wrapper(type: Wrapper) {
 
 processResources {
     inputs.property "version", project.version
-    filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: project.version])
+    eachFile { file ->
+        if (!file.name.endsWith('.png')) {
+            filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: project.version])
+        }
+    }
 }

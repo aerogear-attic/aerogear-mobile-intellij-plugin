@@ -47,16 +47,13 @@ public class MobileClientSpec {
       return true;
     if (o == null || getClass() != o.getClass())
       return false;
-    
+
     MobileClientSpec that = (MobileClientSpec) o;
-    
-    if (name != null ? !name.equals(that.name) : that.name != null)
-      return false;
-    if (apiKey != null ? !apiKey.equals(that.apiKey) : that.apiKey != null)
-      return false;
-    if (clientType != null ? !clientType.equals(that.clientType) : that.clientType != null)
-      return false;
-    return appIdentifier != null ? appIdentifier.equals(that.appIdentifier) : that.appIdentifier == null;
+
+    return (name != null ? name.equals(that.name) : that.name == null)
+        && (apiKey != null ? apiKey.equals(that.apiKey) : that.apiKey == null)
+        && (clientType != null ? clientType.equals(that.clientType) : that.clientType == null)
+        && (appIdentifier != null ? appIdentifier.equals(that.appIdentifier) : that.appIdentifier == null);
   }
 
   public String toJsonPrettyPrint(){
@@ -74,11 +71,8 @@ public class MobileClientSpec {
 
   @Override
   public String toString() {
-    return "{\n" +
-            "  name: " +           name + ",\n" +
-            "  apiKey: " +         apiKey  +",\n" +
-            "  clientType: " +     clientType  +",\n" +
-            "  appIdentifier: " +  appIdentifier  +"\n" +
-            '}';
+
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    return gson.toJson(this);
   }
 }

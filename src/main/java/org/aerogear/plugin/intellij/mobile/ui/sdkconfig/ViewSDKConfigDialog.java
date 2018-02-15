@@ -4,17 +4,16 @@ import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ViewSDKConfigDialog extends DialogWrapper {
-    private String sdkConfig;
+    private final String sdkConfig;
 
     public ViewSDKConfigDialog(String sdkConfig) {
         super(null);
         this.sdkConfig = sdkConfig;
 
         init();
-        setTitle("SDK config");
+        setTitle(Constants.SDK_CONFIG);
     }
 
     @Nullable

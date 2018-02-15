@@ -10,21 +10,22 @@ import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
-import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.Constants;
 import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.CreateClientForm;
 import org.aerogear.plugin.intellij.mobile.utils.WriteToFileRunnable;
 
+import java.util.Objects;
+
 public class ClientCreatedCheckAction extends AnAction {
-  MobileNotificationsService notificationsService;
-  
+  private final MobileNotificationsService notificationsService;
+
   public ClientCreatedCheckAction() {
     this.notificationsService = new MobileNotificationsService();
   }
   
   @Override
   public void actionPerformed(AnActionEvent e) {
-    MobileAPI mobileAPI = new MobileAPI(new CLIRunnerImpl());
-    String filePath = e.getProject().getBasePath() + "/" + Constants.DOT_FILENAME;
+    MobileAPI mobileAPI = new MobileAPI(CLIRunnerImpl.getInstance());
+    String filePath = Objects.requireNonNull(e.getProject()).getBasePath() + "/" + Constants.DOT_FILENAME;
     showCreateClientForm(e.getProject(), mobileAPI, filePath);
   }
 
@@ -34,12 +35,12 @@ public class ClientCreatedCheckAction extends AnAction {
 
     if (CreateClientForm.OK_EXIT_CODE == clientForm.getExitCode()) {
       MobileClient mobileClient = mobileAPI.createClient(clientForm.getName(), clientForm.getClientType(), clientForm.getAppId());
-      AeroGearMobileConfiguration.getInstance(project).setClientName(mobileClient.getSpec().getName() + "-" + mobileClient.getSpec().getClientType());
+      Objects.requireNonNull(AeroGearMobileConfiguration.getInstance(project)).setClientName(mobileClient.getSpec().getName() + "-" + mobileClient.getSpec().getClientType());
 
       CharSequence charSeq = mobileClient.getSpec().toJsonPrettyPrint();
       WriteToFileRunnable writeToFile = new WriteToFileRunnable(project, filePath, charSeq, Constants.DOT_FILENAME, JsonFileType.INSTANCE);
       WriteCommandAction.runWriteCommandAction(project, writeToFile);
-      this.notificationsService.notifyInformation("Mobile Client", "successfully created a mobile client ");
+      this.notificationsService.notifyInformation(Constants.MOBILE_CLIENT, "successfully created a mobile client ");
     }
   }
 }

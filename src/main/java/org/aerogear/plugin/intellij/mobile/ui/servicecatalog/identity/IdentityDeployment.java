@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IdentityDeployment extends JPanel implements Deployable {
-    private IdentityConfigurationPanel configPanel;
+    private final IdentityConfigurationPanel configPanel;
 
     public IdentityDeployment() {
         this.configPanel = new IdentityConfigurationPanel();
@@ -16,7 +16,7 @@ public class IdentityDeployment extends JPanel implements Deployable {
 
     @Override
     public List<String> getConfig() {
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
 
         params.add("--namespace=" + this.configPanel.getProjectSelector().getSelectedItem());
         params.add("-p ADMIN_NAME=" + this.configPanel.getUsernameValue().getText());
