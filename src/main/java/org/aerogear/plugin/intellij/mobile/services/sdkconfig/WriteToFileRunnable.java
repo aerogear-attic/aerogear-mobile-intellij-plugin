@@ -8,12 +8,13 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import java.io.File;
+import java.util.Objects;
 
-public class WriteToFileRunnable implements Runnable {
+class WriteToFileRunnable implements Runnable {
 
-    private Project project;
-    private String path;
-    private CharSequence cs;
+    private final Project project;
+    private final String path;
+    private final CharSequence cs;
 
 
     public WriteToFileRunnable(Project project, String path, CharSequence cs) {
@@ -26,8 +27,8 @@ public class WriteToFileRunnable implements Runnable {
     public void run() {
         File configFile = new File(this.path);
         VirtualFile vConfig = LocalFileSystem.getInstance().findFileByIoFile(configFile);
-        PsiFile psiConfig = PsiManager.getInstance(this.project).findFile(vConfig);
-        Document d =  PsiDocumentManager.getInstance(this.project).getDocument(psiConfig);
-        d.setText(this.cs);
+        PsiFile psiConfig = PsiManager.getInstance(this.project).findFile(Objects.requireNonNull(vConfig));
+        Document d =  PsiDocumentManager.getInstance(this.project).getDocument(Objects.requireNonNull(psiConfig));
+        Objects.requireNonNull(d).setText(this.cs);
     }
 }

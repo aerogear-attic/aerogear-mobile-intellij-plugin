@@ -10,19 +10,18 @@ import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
 import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
 import org.aerogear.plugin.intellij.mobile.services.sdkconfig.SDKConfigManager;
-import org.jetbrains.annotations.NotNull;
 
-import javax.swing.event.HyperlinkEvent;
+import java.util.Objects;
 
 public class ServiceDeployedNotification extends Notification {
-    private Project project;
-    private ServiceClass sc;
+    private final Project project;
+    private final Object deployOutput;
 
-    public ServiceDeployedNotification(Project project, ServiceClass sc) {
+    public ServiceDeployedNotification(Project project, ServiceClass sc, Object obj) {
         super(MobileNotificationsService.AEROGEAR_NOTIFICATION_GROUP,sc.getDisplayName() + " deployment complete", "deployment", NotificationType.INFORMATION);
 
         this.project = project;
-        this.sc = sc;
+        this.deployOutput = obj;
 
 
         String content = this.createContent();
@@ -31,39 +30,46 @@ public class ServiceDeployedNotification extends Notification {
     }
 
     private String createContent() {
-        String sdkConfigPath = AeroGearMobileConfiguration.getInstance(this.project).getConfigPath();
-        String content = "";
+        String sdkConfigPath = Objects.requireNonNull(AeroGearMobileConfiguration.getInstance(this.project)).getConfigPath();
+        StringBuilder content = new StringBuilder(); // TODO issues/19
         if (sdkConfigPath == null || sdkConfigPath.isEmpty()) {
-            content += "<p>SDK config settings are not set.</p>";
-            content += "<p>If you haven't already, <a href=\"create-config\">add sdk config file</a></p>";
-            content += "<p>or</p>";
-            content += "<p>if SDK config file exists <a href=\"open-settings\">set SDK config path setting</a></p>";
-            content += "<p>then <a href=\"update-config\">Update SDK config</a></p>";
+            content.append("<p>SDK config settings are not set.</p>");
+            content.append("<p>If you haven't already, <a href=\"create-config\">add sdk config file</a></p>");
+            content.append("<p>or</p>") ;
+            content.append("<p>if SDK config file exists <a href=\"open-settings\">set SDK config path setting</a></p>");
+            content.append("<p>then <a href=\"update-config\">Update SDK config</a></p>");
         } else {
-            content += "<a href=\"update-config\">Update SDK config</a>";
+            content.append("<a href=\"update-config\">Update SDK config</a>");
         }
 
-        return content;
+        return content.toString();
     }
 
     private NotificationListener getNotificationListener() {
         Project project = this.project;
 
-        return new NotificationListener() {
-            @Override
-            public void hyperlinkUpdate(@NotNull Notification notification, @NotNull HyperlinkEvent event) {
-                if (event.getDescription().equals("create-config")) {
+        return (notification, event) -> {
+            switch (event.getDescription()) {
+                case Constants.CREATE_CONFIG:
                     new CreateConfigDialog(project).show();
-                } else if (event.getDescription().equals("open-settings")) {
+                    break;
+                case Constants.OPEN_SETTINGS:
                     ShowSettingsUtil.getInstance().showSettingsDialog(project, "AeroGear Mobile");
-                } else if (event.getDescription().equals("update-config")) {
+                    break;
+                case Constants.UPDATE_CONFIG:
                     try {
                         SDKConfigManager.getInstance(project).updateSDKConfig(project);
-                    } catch(CLIException ex) {
+                    } catch (CLIException ex) {
                         MobileNotificationsService.getInstance().notifyError("Error from mobile plugin: " + ex.toString());
                     }
-                }
+                    break;
+                 default:
+                     throw new IllegalArgumentException("no other settings are supported atm.");
             }
         };
+    }
+
+    public Object getDeployOutput() {
+        return deployOutput;
     }
 }

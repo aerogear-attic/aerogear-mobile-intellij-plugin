@@ -12,17 +12,22 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class CLIRunnerImpl implements CLIRunner {
-  
-  MobileNotificationsService notificationsService;
-  
-  public CLIRunnerImpl() {
+
+  private static final String OUTPUT_TYPE_ERROR = "error";
+  private static final String OUTPUT_TYPE_STD = "std";
+
+  private static final int CMD_TIMEOUT_SECONDS = 10;
+  private static final int EXECUTOR_NUM_THREADS = 3;
+
+  private final MobileNotificationsService notificationsService;
+  private final ExecutorService executorService;
+
+  private static final CLIRunner instance = new CLIRunnerImpl();
+
+  private CLIRunnerImpl() {
     this.notificationsService = new MobileNotificationsService();
+    this.executorService = Executors.newFixedThreadPool(EXECUTOR_NUM_THREADS);
   }
-  
-  private final String OUTPUT_TYPE_ERROR = "error";
-  private final String OUTPUT_TYPE_STD = "std";
-  
-  private static int CMD_TIMEOUT_SECONDS = 10;
 
   @Override
   public String executeSync(List<String> args) throws CLIException {
@@ -66,34 +71,28 @@ public class CLIRunnerImpl implements CLIRunner {
   }
 
   public void executeAsync(List<String> args, Watcher w) {
-    final ExecutorService ex = Executors.newFixedThreadPool(3);
-    List<String> cmd = prepareCmd(args);
-    ex.execute(() -> {
+    executorService.execute(() -> {
+          List<String> cmd = prepareCmd(args);
           ProcessBuilder pb = new ProcessBuilder(cmd);
-        
           try {
             final Process p = pb.start();
-            Callable<String> inputRead = new Callable<String>() {
-              @Override public String call() throws Exception {
-                return readOutput(OUTPUT_TYPE_STD,p.getInputStream(), true);
-              }
-            };
-            Callable<String> errorRead = new Callable<String>() {
-              @Override public String call() throws Exception {
-                return readOutput(OUTPUT_TYPE_ERROR,p.getErrorStream(),true);
-              }
-            } ;
-            Future<String>  cmdInput = ex.submit(inputRead);
-            Future<String>  cmdErr = Executors.newSingleThreadExecutor().submit(errorRead);
-            String input = cmdInput.get();
+            boolean finished = p.waitFor(CMD_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            Callable<String> inputRead = () -> readOutput(OUTPUT_TYPE_STD,p.getInputStream(), true);
+            Callable<String> errorRead = () -> readOutput(OUTPUT_TYPE_ERROR,p.getErrorStream(),true);
+            Future<String>  cmdOut = executorService.submit(inputRead);
+            Future<String>  cmdErr = executorService.submit(errorRead);
+            String out = cmdOut.get();
             String error = cmdErr.get();
             if (!error.isEmpty()) {
               w.onError(new CLIException(error));
             }
-            else if (!input.isEmpty()) {
-              w.onSuccess(input);
-            } else
-            p.destroyForcibly();
+            else if (!out.isEmpty()) {
+              w.onSuccess(out);
+            }
+            if (!finished) {
+              p.destroy();
+              p.waitFor();
+            }
           } catch (Exception e) {
             w.onError(e);
           }
@@ -107,14 +106,22 @@ public class CLIRunnerImpl implements CLIRunner {
     try (BufferedReader bf = new BufferedReader(new InputStreamReader(in))) {
       String line;
       while ((line = bf.readLine()) != null) {
-        if (outputType.equals("error") && shouldNotify){
-          this.notificationsService.notifyError("cli error",line);
-        } else if (shouldNotify) {
-          this.notificationsService.notifyInformation("cli output", line);
-        }
-        sb.append(line + "\n");
+        sb.append(line).append(System.lineSeparator());
       }
     }
-    return sb.toString();
+
+    String out =  sb.toString();
+    if (shouldNotify) {
+      if (outputType.equals(OUTPUT_TYPE_ERROR)) {
+        this.notificationsService.notifyError("cli error", out);
+      } else {
+        this.notificationsService.notifyInformation("cli output", out);
+      }
+    }
+    return out;
+  }
+
+  public static CLIRunner getInstance() {
+    return instance;
   }
 }

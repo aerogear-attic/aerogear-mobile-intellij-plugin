@@ -14,20 +14,19 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
-public class CreateConfigDialog extends DialogWrapper {
+class CreateConfigDialog extends DialogWrapper {
 
-    private Project project;
+    private final Project project;
     private TextFieldWithBrowseButton destination;
     private JTextField fileName;
 
-    protected CreateConfigDialog(@Nullable Project project) {
+    CreateConfigDialog(@Nullable Project project) {
         super(project);
         this.project = project;
 
         init();
-        setTitle("SDK config");
+        setTitle(Constants.SDK_CONFIG);
     }
-
 
     @Nullable
     @Override

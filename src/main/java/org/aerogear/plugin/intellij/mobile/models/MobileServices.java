@@ -1,5 +1,7 @@
 package org.aerogear.plugin.intellij.mobile.models;
 
+import java.util.Arrays;
+
 public class MobileServices
 {
     private ServiceClass[] items = new ServiceClass[0];
@@ -17,6 +19,6 @@ public class MobileServices
     @Override
     public String toString()
     {
-        return "items = " + items;
+        return "items = " + Arrays.toString(items);
     }
 }
