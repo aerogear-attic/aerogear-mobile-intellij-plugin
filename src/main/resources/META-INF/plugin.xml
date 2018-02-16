@@ -32,6 +32,7 @@
         <projectConfigurable groupId="tools" displayName="AeroGear Mobile" id="aerogear.mobile.configurable" instance="org.aerogear.plugin.intellij.mobile.ui.settings.AeroGearMobileConfigurable" />
         <projectService serviceImplementation="org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration"/>
         <projectService serviceImplementation="org.aerogear.plugin.intellij.mobile.services.sdkconfig.SDKConfigManager"/>
+        <projectService serviceImplementation="org.aerogear.plugin.intellij.mobile.services.configuration.ProjectConfiguration"/>
         <!-- HOOKS -->
         <postStartupActivity implementation="org.aerogear.plugin.intellij.mobile.ui.actions.ClientCreatedCheck"/>
     </extensions>

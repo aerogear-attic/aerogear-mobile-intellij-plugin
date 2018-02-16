@@ -10,9 +10,11 @@ import org.aerogear.plugin.intellij.mobile.api.MobileAPI;
 import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.aerogear.plugin.intellij.mobile.services.MobileNotificationsService;
+import org.aerogear.plugin.intellij.mobile.services.configuration.ProjectConfiguration;
 import org.aerogear.plugin.intellij.mobile.ui.createclientpopup.CreateClientForm;
 import org.aerogear.plugin.intellij.mobile.utils.WriteToFileRunnable;
 
+import java.io.File;
 import java.util.Objects;
 
 public class ClientCreatedCheckAction extends AnAction {
@@ -25,12 +27,15 @@ public class ClientCreatedCheckAction extends AnAction {
   @Override
   public void actionPerformed(AnActionEvent e) {
     MobileAPI mobileAPI = new MobileAPI(CLIRunnerImpl.getInstance());
-    String filePath = Objects.requireNonNull(e.getProject()).getBasePath() + "/" + Constants.DOT_FILENAME;
-    showCreateClientForm(e.getProject(), mobileAPI, filePath);
+    Project project = Objects.requireNonNull(e.getProject());
+    String filePath = project.getBasePath() + File.separator + Constants.DOT_FILENAME;
+
+    String appId = ProjectConfiguration.getInstance(project).getAppId(project);
+    showCreateClientForm(e.getProject(), mobileAPI, filePath, appId);
   }
 
-  public void showCreateClientForm(Project project, MobileAPI mobileAPI, String filePath) {
-    CreateClientForm clientForm = new CreateClientForm(project, mobileAPI);
+  public void showCreateClientForm(Project project, MobileAPI mobileAPI, String filePath, String appId) {
+    CreateClientForm clientForm = new CreateClientForm(project, mobileAPI, appId);
     clientForm.show();
 
     if (CreateClientForm.OK_EXIT_CODE == clientForm.getExitCode()) {
