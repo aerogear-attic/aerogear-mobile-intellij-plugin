@@ -1,6 +1,6 @@
 # Retrieving and saving mobile configuration
 
-The SDK config file is used to allow mobile clients to communicate with mobile services. It is intended to be used with the (Android SDK)[https://github.com/aerogear/aerogear-android-sdk]
+The SDK config file is used to allow mobile clients to communicate with mobile services. It is intended to be used with the [Android SDK](https://github.com/aerogear/aerogear-android-sdk)
 
 The Aerogear Mobile Android Studio Plugin allows you to do the following things:
 - View current client configuration
