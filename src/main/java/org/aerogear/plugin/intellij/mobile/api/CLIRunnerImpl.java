@@ -39,7 +39,7 @@ public class CLIRunnerImpl implements CLIRunner {
       p = pb.start();
       if (!p.waitFor(CMD_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
         //timed out
-        throw new CLIException("timed out waiting for the list of services. Is your OpenShift cluster running?");
+        throw new CLIException("Timed out waiting for the list of services. Is your OpenShift cluster running?");
       }
       if (p.exitValue() != 0) {
         outPut = readOutput(OUTPUT_TYPE_ERROR,p.getErrorStream(), false);
@@ -47,11 +47,11 @@ public class CLIRunnerImpl implements CLIRunner {
       }
       outPut = readOutput(OUTPUT_TYPE_STD,p.getInputStream(),false);
     } catch (IOException e) {
-      throw new CLIException("unexpected io error executing cli command : " + e.getMessage(), e.getCause());
+      throw new CLIException("Unexpected IO error executing CLI command: " + e.getMessage(), e.getCause());
     } catch (InterruptedException e) {
-      throw new CLIException("cli command was unexpectedly interrupted : " + e.getMessage(), e.getCause());
+      throw new CLIException("CLI command was unexpectedly interrupted: " + e.getMessage(), e.getCause());
     } catch (Exception e){
-      throw new CLIException("unexpected exception executing cli command : " + e.getMessage(), e.getCause());
+      throw new CLIException("Unexpected exception executing CLI command: " + e.getMessage(), e.getCause());
     }finally {
       if (p != null)
         p.destroyForcibly();
@@ -113,9 +113,9 @@ public class CLIRunnerImpl implements CLIRunner {
     String out =  sb.toString();
     if (shouldNotify) {
       if (outputType.equals(OUTPUT_TYPE_ERROR)) {
-        this.notificationsService.notifyError("cli error", out);
+        this.notificationsService.notifyError("CLI error", out);
       } else {
-        this.notificationsService.notifyInformation("cli output", out);
+        this.notificationsService.notifyInformation("CLI output", out);
       }
     }
     return out;
