@@ -31,10 +31,12 @@ public class CreateClientForm extends DialogWrapper {
   private Border defaultClientNameBorder;
   private CreateClientFormInputs formInputs;
   private final MobileAPI mobileAPI;
+  private String appId;
 
-  public CreateClientForm(@Nullable Project project, MobileAPI mobileAPI) {
+  public CreateClientForm(@Nullable Project project, MobileAPI mobileAPI, String appId) {
     super(project);
     this.mobileAPI = mobileAPI;
+    this.appId = appId;
     init();
     setTitle(Constants.CREATE_CLIENT);
   }
@@ -81,6 +83,7 @@ public class CreateClientForm extends DialogWrapper {
   @Nullable
   @Override
   protected JComponent createCenterPanel() {
+    clientAppIdTxtField.setText(this.appId);
     return clientPanel;
   }
 
