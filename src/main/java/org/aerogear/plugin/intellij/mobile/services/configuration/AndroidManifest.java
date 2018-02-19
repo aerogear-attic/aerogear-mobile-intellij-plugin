@@ -11,7 +11,8 @@ public class AndroidManifest extends ConfigurationXml{
 
     public String getPackage(Project project) {
         String packageName = "";
-        XmlTag manifest = this.getRootTag(project,project.getBasePath() + File.separator + "AndroidManifest.xml");
+        String manifestPath = project.getBasePath() + File.separator + "src" + File.separator + "main" + File.separator + "AndroidManifest.xml";
+        XmlTag manifest = this.getRootTag(project, manifestPath);
         if (manifest != null) {
             packageName = manifest.getAttributeValue("package");
         }
