@@ -59,9 +59,9 @@ public class ClientCreatedCheck implements StartupActivity {
                     createClientNotification(project, mobileAPI, filePath, title);
                 }
             } catch (IOException e) {
-                mobileNotificationsService.notifyError("Error reading client configuration","Unable to read config file");
+                mobileNotificationsService.notifyError("Error from Mobile plugin","Unable to read client configuration file: " + e.getMessage());
             } catch (JsonSyntaxException e) {
-                mobileNotificationsService.notifyError("Error reading client configuration","Unable to parse JSON");
+                mobileNotificationsService.notifyError("Error from Mobile plugin","Unable to parse client configuration file: " + e.getMessage());
             }
         }
     }
