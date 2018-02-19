@@ -19,13 +19,12 @@ public class CLIRunnerImpl implements CLIRunner {
   private static final int CMD_TIMEOUT_SECONDS = 10;
   private static final int EXECUTOR_NUM_THREADS = 3;
 
-  private final MobileNotificationsService notificationsService;
+  private final MobileNotificationsService notificationsService = MobileNotificationsService.getInstance();
   private final ExecutorService executorService;
 
   private static final CLIRunner instance = new CLIRunnerImpl();
 
   private CLIRunnerImpl() {
-    this.notificationsService = new MobileNotificationsService();
     this.executorService = Executors.newFixedThreadPool(EXECUTOR_NUM_THREADS);
   }
 
