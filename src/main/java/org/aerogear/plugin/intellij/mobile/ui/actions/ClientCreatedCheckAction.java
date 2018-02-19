@@ -31,7 +31,7 @@ public class ClientCreatedCheckAction extends AnAction {
     String filePath = project.getBasePath() + File.separator + Constants.DOT_FILENAME;
 
     String appId = ProjectConfiguration.getInstance(project).getAppId(project);
-    showCreateClientForm(e.getProject(), mobileAPI, filePath, appId);
+    showCreateClientForm(project, mobileAPI, filePath, appId);
   }
 
   public void showCreateClientForm(Project project, MobileAPI mobileAPI, String filePath, String appId) {
