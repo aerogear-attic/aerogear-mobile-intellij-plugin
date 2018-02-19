@@ -23,11 +23,8 @@ public class ClientCreatedCheck implements StartupActivity {
     }
 
     private void checkFile(String filePath, @NotNull Project project) {
-        VirtualFile file = ApplicationManager.getApplication().runReadAction(new Computable<VirtualFile>() {
-            @Override
-            public VirtualFile compute() {
-                return LocalFileSystem.getInstance().refreshAndFindFileByPath(filePath);
-            }
+        VirtualFile file = ApplicationManager.getApplication().runReadAction((Computable<VirtualFile>) () -> {
+            return LocalFileSystem.getInstance().refreshAndFindFileByPath(filePath);
         });
 
         if (file == null) {

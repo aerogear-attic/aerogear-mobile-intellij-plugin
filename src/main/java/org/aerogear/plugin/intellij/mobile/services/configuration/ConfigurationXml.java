@@ -14,11 +14,8 @@ public abstract class ConfigurationXml {
 
     protected XmlTag getRootTag(Project project, String path) {
         XmlTag rootTag = null;
-        VirtualFile vFile = ApplicationManager.getApplication().runReadAction(new Computable<VirtualFile>() {
-            @Override
-            public VirtualFile compute() {
-                return LocalFileSystem.getInstance().refreshAndFindFileByPath(path);
-            }
+        VirtualFile vFile = ApplicationManager.getApplication().runReadAction((Computable<VirtualFile>) () -> {
+            return LocalFileSystem.getInstance().refreshAndFindFileByPath(path);
         });
 
         if (vFile != null) {
