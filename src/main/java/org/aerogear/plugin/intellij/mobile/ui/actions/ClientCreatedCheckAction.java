@@ -18,11 +18,8 @@ import java.io.File;
 import java.util.Objects;
 
 public class ClientCreatedCheckAction extends AnAction {
-  private final MobileNotificationsService notificationsService;
 
-  public ClientCreatedCheckAction() {
-    this.notificationsService = new MobileNotificationsService();
-  }
+  private final MobileNotificationsService notificationsService = MobileNotificationsService.getInstance();
   
   @Override
   public void actionPerformed(AnActionEvent e) {
@@ -48,4 +45,5 @@ public class ClientCreatedCheckAction extends AnAction {
       this.notificationsService.notifyInformation(Constants.MOBILE_CLIENT, "successfully created a mobile client ");
     }
   }
+
 }

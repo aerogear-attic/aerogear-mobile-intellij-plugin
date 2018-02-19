@@ -12,7 +12,7 @@ public class MobileNotificationsService {
 
     public static final String AEROGEAR_NOTIFICATION_GROUP = "Aerogear Mobile Notifications";
 
-    public MobileNotificationsService() {}
+    private MobileNotificationsService() {}
 
     public void notifyInformation(String title, String content) {
         Notifications.Bus.notify(new Notification(AEROGEAR_NOTIFICATION_GROUP, title, content, NotificationType.INFORMATION));

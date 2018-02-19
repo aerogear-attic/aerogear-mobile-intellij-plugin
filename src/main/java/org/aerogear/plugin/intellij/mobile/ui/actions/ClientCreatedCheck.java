@@ -1,6 +1,7 @@
 package org.aerogear.plugin.intellij.mobile.ui.actions;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.intellij.notification.NotificationListener;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
@@ -18,12 +19,13 @@ import org.aerogear.plugin.intellij.mobile.ui.MobileIcons;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Properties;
 
 public class ClientCreatedCheck implements StartupActivity {
 
-    private CLIRunner cliRunner = CLIRunnerImpl.getInstance();
+    private final CLIRunner cliRunner = CLIRunnerImpl.getInstance();
+    private final MobileAPI mobileAPI = new MobileAPI(cliRunner);
+    private final MobileNotificationsService mobileNotificationsService = MobileNotificationsService.getInstance();
 
     @Override
     public void runActivity(@NotNull Project project) {
@@ -32,7 +34,6 @@ public class ClientCreatedCheck implements StartupActivity {
     }
 
     private void checkFile(String filePath, @NotNull Project project) {
-
         MobileAPI mobileAPI = new MobileAPI(cliRunner);
         VirtualFile file = ApplicationManager.getApplication().runReadAction((Computable<VirtualFile>) () -> {
             return LocalFileSystem.getInstance().refreshAndFindFileByPath(filePath);
@@ -58,7 +59,9 @@ public class ClientCreatedCheck implements StartupActivity {
                     createClientNotification(project, mobileAPI, filePath, title);
                 }
             } catch (IOException e) {
-                throw new CLIException("Unable to read client configuration");
+                mobileNotificationsService.notifyError("Error reading client configuration","Unable to read config file");
+            } catch (JsonSyntaxException e) {
+                mobileNotificationsService.notifyError("Error reading client configuration","Unable to parse JSON");
             }
         }
     }
@@ -73,7 +76,7 @@ public class ClientCreatedCheck implements StartupActivity {
             new ClientCreatedCheckAction().showCreateClientForm(project, mobileAPI, filePath, appId);
         };
 
-        new MobileNotificationsService().notifyWarning(
+        mobileNotificationsService.notifyWarning(
                 MobileIcons.AEROGEAR,
                 "<html>" + title,
                 " <a href=\"" + "here" + "\" target=\"blank\">Create a new client app definition</a> </html>",
@@ -87,7 +90,7 @@ public class ClientCreatedCheck implements StartupActivity {
      */
     private Boolean clientExists(String clientId) {
         try {
-            cliRunner.executeSync(Arrays.asList("get", "client", clientId, "--", "-o=json"));
+            mobileAPI.getClient(clientId);
         } catch (CLIException e) {
             return false;
         }
