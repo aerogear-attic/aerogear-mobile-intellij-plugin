@@ -64,7 +64,7 @@ class DeployServiceDialog extends DialogWrapper {
         List<String> params = this.centerPanel.getConfig();
         Project project = this.project;
         ServiceClass sc = this.sc;
-        ApplicationManager.getApplication().invokeLater(() -> mobileAPI.createService(sc, params, new Watcher() {
+        ApplicationManager.getApplication().invokeLater(() -> mobileAPI.createService(sc, params, "myproject", new Watcher() {
             @Override
             public void onError(Exception e) {
                 notifier.notifyError("", "Error while " + sc.getServiceName() + " deployed: " + e.toString());

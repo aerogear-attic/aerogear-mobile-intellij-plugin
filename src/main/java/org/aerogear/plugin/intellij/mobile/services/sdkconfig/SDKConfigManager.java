@@ -52,7 +52,7 @@ public class SDKConfigManager {
 
     private CharSequence getClientConfig(Project project) throws CLIException {
         String clientName = this.getClientName(project);
-        return new MobileAPI(CLIRunnerImpl.getInstance()).getClientConfig(clientName);
+        return new MobileAPI(CLIRunnerImpl.getInstance()).getClientConfig(clientName, "namespace");
     }
 
     public static SDKConfigManager getInstance(Project project) {

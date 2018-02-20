@@ -36,7 +36,7 @@ public class ClientCreatedCheckAction extends AnAction {
     clientForm.show();
 
     if (CreateClientForm.OK_EXIT_CODE == clientForm.getExitCode()) {
-      MobileClient mobileClient = mobileAPI.createClient(clientForm.getName(), clientForm.getClientType(), clientForm.getAppId());
+      MobileClient mobileClient = mobileAPI.createClient(clientForm.getName(), clientForm.getClientType(), clientForm.getAppId(), "myproject");
       Objects.requireNonNull(AeroGearMobileConfiguration.getInstance(project)).setClientName(mobileClient.getSpec().getName() + "-" + mobileClient.getSpec().getClientType());
 
       CharSequence charSeq = mobileClient.getSpec().toJsonPrettyPrint();
