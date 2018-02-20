@@ -20,7 +20,7 @@ public class ViewClientConfig extends AnAction {
         try {
             String clientName = Objects.requireNonNull(AeroGearMobileConfiguration.getInstance(e.getProject())).getClientName();
             if (clientName != null) {
-                String clientSdkConfig = new MobileAPI(CLIRunnerImpl.getInstance()).getClientConfig(clientName);
+                String clientSdkConfig = new MobileAPI(CLIRunnerImpl.getInstance()).getClientConfig(clientName, "myproject");
                 new ViewSDKConfigDialog(clientSdkConfig).show();
             } else {
                 mobileNotificationsService.notifyError("Error from mobile plugin", "Cannot get config: no mobile client exists");

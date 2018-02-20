@@ -71,7 +71,7 @@ public class CreateClientForm extends DialogWrapper {
     String clientId = (formInputs.getName() + "-" + formInputs.getClientType()).toLowerCase();
 
     try {
-      MobileClient mobileClient = this.mobileAPI.getClient(clientId);
+      MobileClient mobileClient = this.mobileAPI.getClient(clientId, "myproject");
       return new ValidationInfo(String.format("Client name and type duplicate: %s", mobileClient.spec.name));
     } catch (CLIException e) {
       // this is fine https://i.imgur.com/mtGc7Sl.gif

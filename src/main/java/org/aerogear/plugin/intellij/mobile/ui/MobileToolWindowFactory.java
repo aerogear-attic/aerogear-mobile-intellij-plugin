@@ -33,7 +33,7 @@ public class MobileToolWindowFactory implements ToolWindowFactory {
 
         MobileServices serviceList;
         try {
-            serviceList = new MobileAPI(cliRunner).getServices();
+            serviceList = new MobileAPI(cliRunner).getServices("myproject");
             if (serviceList.getItems() != null) {
                 mobileToolWindowContent.add(new ServiceListPane(project, serviceList.getItems()));
             } else {

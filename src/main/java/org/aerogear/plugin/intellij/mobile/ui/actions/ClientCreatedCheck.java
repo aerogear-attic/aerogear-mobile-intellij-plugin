@@ -90,7 +90,7 @@ public class ClientCreatedCheck implements StartupActivity {
      */
     private Boolean clientExists(String clientId) {
         try {
-            mobileAPI.getClient(clientId);
+            mobileAPI.getClient(clientId, "myproject");
         } catch (CLIException e) {
             return false;
         }
