@@ -17,7 +17,7 @@ class WriteToFileRunnable implements Runnable {
     private final CharSequence cs;
 
 
-    public WriteToFileRunnable(Project project, String path, CharSequence cs) {
+    WriteToFileRunnable(Project project, String path, CharSequence cs) {
         this.project = project;
         this.path = path;
         this.cs = cs;
