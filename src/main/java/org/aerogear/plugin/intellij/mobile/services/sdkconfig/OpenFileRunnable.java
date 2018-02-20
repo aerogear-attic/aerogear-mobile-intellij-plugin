@@ -14,7 +14,7 @@ class OpenFileRunnable implements Runnable {
     private final String path;
 
 
-    public OpenFileRunnable(Project project, String path) {
+    OpenFileRunnable(Project project, String path) {
         this.project = project;
         this.path = path;
     }

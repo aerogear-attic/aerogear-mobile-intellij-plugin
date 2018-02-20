@@ -35,8 +35,12 @@ public class ClientCreatedCheck implements StartupActivity {
 
     private void checkFile(String filePath, @NotNull Project project) {
         MobileAPI mobileAPI = new MobileAPI(cliRunner);
-        VirtualFile file = ApplicationManager.getApplication().runReadAction((Computable<VirtualFile>) () -> {
-            return LocalFileSystem.getInstance().refreshAndFindFileByPath(filePath);
+        VirtualFile file = ApplicationManager.getApplication().runReadAction(new Computable<VirtualFile>(){
+
+            @Override
+            public VirtualFile compute() {
+                return LocalFileSystem.getInstance().refreshAndFindFileByPath(filePath);
+            }
         });
 
         // If a client representation does not exist, prompt the user to create one

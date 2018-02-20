@@ -10,17 +10,22 @@ import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
 
-public abstract class ConfigurationXml {
+import java.util.Objects;
 
-    protected XmlTag getRootTag(Project project, String path) {
+abstract class ConfigurationXml {
+
+    XmlTag getRootTag(Project project, String path) {
         XmlTag rootTag = null;
-        VirtualFile vFile = ApplicationManager.getApplication().runReadAction((Computable<VirtualFile>) () -> {
-            return LocalFileSystem.getInstance().refreshAndFindFileByPath(path);
+        VirtualFile vFile = ApplicationManager.getApplication().runReadAction(new Computable<VirtualFile>() {
+            @Override
+            public VirtualFile compute() {
+                return LocalFileSystem.getInstance().refreshAndFindFileByPath(path);
+            }
         });
 
         if (vFile != null) {
             final XmlFile xmlFile = (XmlFile) PsiManager.getInstance(project).findFile(vFile);
-            final XmlDocument document = xmlFile.getDocument();
+            final XmlDocument document = Objects.requireNonNull(xmlFile).getDocument();
             if (document != null) {
                 rootTag = document.getRootTag();
             }
@@ -28,4 +33,8 @@ public abstract class ConfigurationXml {
 
         return rootTag;
     }
+
+    public abstract String getBundleId(Project project);
+
+    public abstract String attrValue();
 }
