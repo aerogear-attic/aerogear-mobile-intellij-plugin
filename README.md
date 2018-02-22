@@ -10,7 +10,9 @@ Introduction
 
 Installation
 ------------
-
+1. Download the `zip` file from [the page with a list of released versions](https://github.com/aerogear/aerogear-mobile-intellij-plugin/releases)
+1. Install the plugin (in Android Studio, IntelliJ IDEA, etc.) through `Preferences` -> `Plugins` -> `Install plugin from disk` and by selecting the `zip` file
+1. You will need to restart the IDE to enable the plugin
 
 Architecture
 ------------
