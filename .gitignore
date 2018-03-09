@@ -13,3 +13,6 @@ build/*
 lib/*
 out/*
 target/*
+nbproject/*
+manifest.mf
+buildNetbeans.xml

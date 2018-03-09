@@ -1,10 +1,7 @@
 package org.aerogear.plugin.intellij.mobile.ui.settings;
 
-import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.TextBrowseFolderListener;
-import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -12,10 +9,9 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 
 public class AeroGearMobileConfigurable implements Configurable {
-
+    private SettingsPanel settingsPanel;
     private final AeroGearMobileConfiguration config;
     private final Project project;
-    private TextFieldWithBrowseButton configPathValue;
 
     public AeroGearMobileConfigurable(Project project) {
         this.project = project;
@@ -31,28 +27,28 @@ public class AeroGearMobileConfigurable implements Configurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        SettingsPanel settingsPanel = new SettingsPanel();
-        this.configPathValue = settingsPanel.getSdkConfigValue();
-        this.configPathValue.addBrowseFolderListener(new TextBrowseFolderListener(FileChooserDescriptorFactory.createSingleFileDescriptor(), project));
+        settingsPanel = new SettingsPanel(project, config);
         return settingsPanel;
     }
 
     @Override
     public boolean isModified() {
         String configPath = this.config.getConfigPath();
-        return configPath != null && !configPath.equals(this.configPathValue.getText());
+        boolean configPathModified =  !settingsPanel.getConfigPath().equals(configPath);
+
+        boolean targetConfigModified = !config.getTargetConfig().equals(settingsPanel.getTargetConfig());
+        return configPathModified || targetConfigModified;
     }
 
     @Override
     public void apply() {
-        this.config.setConfigPath(this.configPathValue.getText());
+        System.out.println("apply");
+        this.config.setConfigPath(this.settingsPanel.getConfigPath());
+        this.config.setFromTargetConfig(this.settingsPanel.getTargetConfig());
     }
 
     @Override
     public void reset() {
-        String configPath = this.config.getConfigPath();
-        if (configPath != null) {
-            this.configPathValue.setText(configPath);
-        }
+        settingsPanel.resetFields(config);
     }
 }
