@@ -24,7 +24,8 @@ public class ConfigureTargetPanel extends javax.swing.JPanel {
 
 
     private void handleGetTokenBtnActionPerformed(ActionEvent evt) {
-
+        OpenshiftGetTokenHandler handler = new OpenshiftGetTokenHandler(getTargetConfig());
+        tokenValue.setText(handler.handle());
     }
 
 
