@@ -3,7 +3,6 @@ package org.aerogear.plugin.intellij.mobile.services.configuration;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 
-import java.util.Objects;
 
 public class ProjectConfiguration {
 
@@ -15,7 +14,7 @@ public class ProjectConfiguration {
             appId = new CordovaConfig().getBundleId(project);
         }
 
-        return Objects.requireNonNull(appId);
+        return appId;
     }
 
     public static ProjectConfiguration getInstance(Project project) {

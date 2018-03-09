@@ -46,8 +46,11 @@
             <action id="AerogearMobile.ViewClientConfig" class="org.aerogear.plugin.intellij.mobile.ui.actions.ViewClientConfig"
                     text="View Client Config" description="Display available mobile services">
             </action>
-            <action id="CreateClient" class="org.aerogear.plugin.intellij.mobile.ui.actions.ClientCreatedCheckAction"
+            <action id="AerogearMobile.CreateClient" class="org.aerogear.plugin.intellij.mobile.ui.actions.ClientCreatedCheckAction"
                     text="Create Client" description="Create client">
+            </action>
+            <action id="AerogearMobile.ConfigureTarget" class="org.aerogear.plugin.intellij.mobile.ui.actions.ConfigureTargetAction"
+                    text="Configure Target" description="Configure Openshift Target">
             </action>
         </group>
     </actions>
