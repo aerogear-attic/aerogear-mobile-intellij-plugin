@@ -6,6 +6,7 @@ import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.aerogear.plugin.intellij.mobile.ui.configuretarget.Constants;
+import org.aerogear.plugin.intellij.mobile.ui.configuretarget.OpenshiftGetTokenHandler;
 import org.aerogear.plugin.intellij.mobile.ui.configuretarget.TargetConfig;
 
 import javax.swing.GroupLayout;
@@ -84,7 +85,8 @@ public class SettingsPanel extends javax.swing.JPanel {
     }
 
     private void handleGetTokenBtnActionPerformed(ActionEvent evt) {
-        System.out.println(evt);
+        OpenshiftGetTokenHandler handler = new OpenshiftGetTokenHandler(getTargetConfig());
+        tokenValue.setText(handler.handle());
     }
 
     public void resetFields(AeroGearMobileConfiguration config){

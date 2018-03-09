@@ -11,9 +11,9 @@ public class ConfigureTargetDialog extends DialogWrapper {
     private AeroGearMobileConfiguration config;
     private ConfigureTargetPanel configureTargetPanel;
 
-    public ConfigureTargetDialog(@Nullable Project project) {
+    public ConfigureTargetDialog(@Nullable Project project, AeroGearMobileConfiguration config) {
         super(project);
-        config = AeroGearMobileConfiguration.getInstance(project);
+        this.config = config;
         init();
         setTitle(Constants.CONFIGURE_TARGET);
     }

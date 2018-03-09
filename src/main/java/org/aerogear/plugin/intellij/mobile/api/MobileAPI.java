@@ -2,6 +2,7 @@ package org.aerogear.plugin.intellij.mobile.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.thoughtworks.xstream.io.xml.AbstractXmlWriter;
 import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 import org.aerogear.plugin.intellij.mobile.models.MobileServices;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
@@ -68,5 +69,16 @@ public class MobileAPI {
         return cliRunner.executeSync(
                 Arrays.asList("get", "clientconfig", "--namespace=" + namespace, "--", clientId, "-o=json")
         );
+    }
+
+    public String ocLogin(String url, String login, String password){
+        return cliRunner.executeSync(
+                Arrays.asList("login", url, "--username=" + login, "--password=" + password, "--insecure-skip-tls-verify=false"),
+                false
+        );
+    }
+
+    public String getOpenshiftToken(){
+        return cliRunner.executeSync(Arrays.asList("whoami", "-t"), false);
     }
 }
