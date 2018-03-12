@@ -4,7 +4,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.jetbrains.annotations.Nullable;
-
 import javax.swing.JComponent;
 
 public class ConfigureTargetDialog extends DialogWrapper {
@@ -21,12 +20,30 @@ public class ConfigureTargetDialog extends DialogWrapper {
     @Nullable
     @Override
     protected JComponent createCenterPanel() {
-        configureTargetPanel = new ConfigureTargetPanel(config);
+        configureTargetPanel = new ConfigureTargetPanel();
+        configureTargetPanel.setUrlValue(config.getTargetConfig().getUrl());
+        configureTargetPanel.setLoginValue(config.getTargetConfig().getLogin());
+        configureTargetPanel.setTlsEnabledValue(config.getTargetConfig().getTlsEnabled());
+        configureTargetPanel.setTokenValue(config.getTargetConfig().getToken());
+        configureTargetPanel.setNamespaceValue(config.getTargetConfig().getNamespace());
+        configureTargetPanel.setPasswordNote(Constants.PASSWORD_NOTE);
+        configureTargetPanel.setTokenNote(Constants.TOKEN_NOTE);
         return configureTargetPanel;
+    }
+
+    @Override
+    protected void doOKAction() {
+        super.doOKAction();
+        config.setTargetConfig(this.getTargetConfig());
     }
 
 
     public TargetConfig getTargetConfig(){
-        return configureTargetPanel.getTargetConfig();
+        return new TargetConfig(configureTargetPanel.getUrlValue(),
+                                configureTargetPanel.getLoginValue(),
+                                configureTargetPanel.getPasswordValue(),
+                                configureTargetPanel.getTlsEnabledValue(),
+                                configureTargetPanel.getTokenValue(),
+                                configureTargetPanel.getNamespaceValue());
     }
 }

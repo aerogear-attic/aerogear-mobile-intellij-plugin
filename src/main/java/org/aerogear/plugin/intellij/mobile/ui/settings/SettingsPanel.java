@@ -4,97 +4,88 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
-import org.aerogear.plugin.intellij.mobile.ui.configuretarget.Constants;
 import org.aerogear.plugin.intellij.mobile.ui.configuretarget.OpenshiftGetTokenHandler;
-import org.aerogear.plugin.intellij.mobile.ui.configuretarget.TargetConfig;
+import org.aerogear.plugin.intellij.mobile.ui.configuretarget.OpenshiftGetTokenHandlerImpl;
 
 import javax.swing.GroupLayout;
-import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 
-public class SettingsPanel extends javax.swing.JPanel {
-    private AeroGearMobileConfiguration config;
+public class SettingsPanel extends javax.swing.JPanel implements OpenshiftGetTokenHandler {
     private TextFieldWithBrowseButton sdkConfigValue;
 
 
-    public SettingsPanel(Project project, AeroGearMobileConfiguration config) {
-        this.config = config;
+    public SettingsPanel(Project project) {
         initComponents();
         addTextBrowserWithButton(project);
     }
 
     private void addTextBrowserWithButton(Project project) {
         sdkConfigValue = new TextFieldWithBrowseButton();
-        sdkConfigValue.setText(config.getConfigPath());
         sdkConfigValue.addBrowseFolderListener(new TextBrowseFolderListener(FileChooserDescriptorFactory.createSingleFileDescriptor(), project));
 
         GroupLayout sdkConfigLayout = (GroupLayout) sdkConfigPanel.getLayout();
         sdkConfigLayout.replace(placeholderTextField, sdkConfigValue);
-
     }
 
     public String getConfigPath() {
         return sdkConfigValue.getText();
     }
 
-    public TargetConfig getTargetConfig() {
-        return new TargetConfig(getUrlValue(), getLoginValue(), getPasswordValue(), getTokenValue(), getNamespaceValue());
-    }
-
-    public String getLoginValue() {
-        return loginValue.getText();
-    }
-
-    public String getNamespaceValue() {
-        return namespaceValue.getText();
-    }
-
-    public String getPasswordValue() {
-        return passwordValue.getText();
-    }
-
-    public String getTokenValue() {
-        return tokenValue.getText();
+    public void setSdkConfigValue(String sdkConfigValue) {
+        this.sdkConfigValue.setText(sdkConfigValue);
     }
 
     public String getUrlValue() {
         return urlValue.getText();
     }
 
-    public void setSdkConfigValue(String sdkConfigValue) {
-        this.sdkConfigValue.setText(sdkConfigValue);
+    public void setUrlValue(String urlValue) {
+        this.urlValue.setText(urlValue);
+    }
+
+    public String getLoginValue() {
+        return loginValue.getText();
     }
 
     public void setLoginValue(String loginValue) {
         this.loginValue.setText(loginValue);
     }
 
-    public void setNamespaceValue(String namespaceValue) {
-        this.namespaceValue.setText(namespaceValue);
+    public String getPasswordValue() {
+        return passwordValue.getText();
+    }
+
+    public boolean getTlsEnabledValue() {
+        return tlsEnabledValue.isSelected();
+    }
+
+    public void setTlsEnabledValue(boolean tlsEnabledValue) {
+        this.tlsEnabledValue.setSelected(tlsEnabledValue);
+    }
+
+    public String getTokenValue() {
+        return tokenValue.getText();
     }
 
     public void setTokenValue(String tokenValue) {
         this.tokenValue.setText(tokenValue);
     }
 
-    public void setUrlValue(String urlValue) {
-        this.urlValue.setText(urlValue);
+    public String getNamespaceValue() {
+        return namespaceValue.getText();
     }
 
-    private void handleGetTokenBtnActionPerformed(ActionEvent evt) {
-        OpenshiftGetTokenHandler handler = new OpenshiftGetTokenHandler(getTargetConfig());
-        tokenValue.setText(handler.handle());
+    public void setNamespaceValue(String namespaceValue) {
+        this.namespaceValue.setText(namespaceValue);
+    }
+    public void setPasswordNote(String passwordNote) {
+        this.passwordNote.setText(passwordNote);
     }
 
-    public void resetFields(AeroGearMobileConfiguration config){
-        setSdkConfigValue(config.getConfigPath());
-        setUrlValue(config.getOpenshiftUrl());
-        setLoginValue(config.getOpenshiftLogin());
-        setTokenValue(config.getOpenshiftToken());
-        setNamespaceValue(config.getOpenshiftNamespace());
+    public void setTokenNote(String tokenNote) {
+        this.tokenNote.setText(tokenNote);
     }
 
     /**
@@ -128,6 +119,8 @@ public class SettingsPanel extends javax.swing.JPanel {
         loginValue = new javax.swing.JTextField();
         urlValue = new javax.swing.JTextField();
         getTokenBtn = new javax.swing.JButton();
+        tlsLabel = new javax.swing.JLabel();
+        tlsEnabledValue = new javax.swing.JCheckBox();
         notesPanel = new javax.swing.JPanel();
         passwordNote = new javax.swing.JTextArea();
         tokenNote = new javax.swing.JTextArea();
@@ -198,20 +191,18 @@ public class SettingsPanel extends javax.swing.JPanel {
 
         namespaceLabel.setText("Namespace");
 
-        namespaceValue.setText(config.getTargetConfig().getNamespace());
-
-        tokenValue.setText(config.getTargetConfig().getToken());
-
-        loginValue.setText(config.getTargetConfig().getLogin());
-
-        urlValue.setText(config.getTargetConfig().getUrl());
-
         getTokenBtn.setText("Get Token");
         getTokenBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 getTokenBtnActionPerformed(evt);
             }
         });
+
+        tlsLabel.setText("TLS enabled");
+
+        tlsEnabledValue.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        tlsEnabledValue.setMargin(new java.awt.Insets(1, 0, 0, 1));
+        tlsEnabledValue.setPreferredSize(new java.awt.Dimension(22, 18));
 
         javax.swing.GroupLayout targetConfigPanelLayout = new javax.swing.GroupLayout(targetConfigPanel);
         targetConfigPanel.setLayout(targetConfigPanelLayout);
@@ -226,11 +217,12 @@ public class SettingsPanel extends javax.swing.JPanel {
                             .addComponent(loginLabel)
                             .addComponent(urlLabel)
                             .addComponent(tokenLabel)
-                            .addComponent(passwordLabel)))
+                            .addComponent(passwordLabel)
+                            .addComponent(tlsLabel)))
                     .addGroup(targetConfigPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(targetLabel)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(25, 25, 25)
                 .addGroup(targetConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(targetSeparator)
                     .addComponent(namespaceValue)
@@ -240,7 +232,10 @@ public class SettingsPanel extends javax.swing.JPanel {
                     .addGroup(targetConfigPanelLayout.createSequentialGroup()
                         .addComponent(passwordValue)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(getTokenBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(getTokenBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(targetConfigPanelLayout.createSequentialGroup()
+                        .addComponent(tlsEnabledValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         targetConfigPanelLayout.setVerticalGroup(
             targetConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,6 +252,10 @@ public class SettingsPanel extends javax.swing.JPanel {
                 .addGroup(targetConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loginLabel)
                     .addComponent(loginValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(targetConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tlsLabel)
+                    .addComponent(tlsEnabledValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(targetConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordLabel)
@@ -277,7 +276,6 @@ public class SettingsPanel extends javax.swing.JPanel {
         passwordNote.setColumns(20);
         passwordNote.setLineWrap(true);
         passwordNote.setRows(2);
-        passwordNote.setText(Constants.PASSWORD_NOTE);
         passwordNote.setWrapStyleWord(true);
         passwordNote.setBorder(null);
 
@@ -286,18 +284,18 @@ public class SettingsPanel extends javax.swing.JPanel {
         tokenNote.setColumns(20);
         tokenNote.setLineWrap(true);
         tokenNote.setRows(2);
-        tokenNote.setText(Constants.TOKEN_NOTE);
         tokenNote.setBorder(null);
 
         javax.swing.GroupLayout notesPanelLayout = new javax.swing.GroupLayout(notesPanel);
         notesPanel.setLayout(notesPanelLayout);
         notesPanelLayout.setHorizontalGroup(
             notesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(notesPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, notesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(notesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(passwordNote)
-                    .addComponent(tokenNote)))
+                .addGroup(notesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tokenNote)
+                    .addComponent(passwordNote))
+                .addContainerGap())
         );
         notesPanelLayout.setVerticalGroup(
             notesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,8 +327,7 @@ public class SettingsPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(targetConfigPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(notesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(notesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -341,12 +338,17 @@ public class SettingsPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(projectSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(projectSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void getTokenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getTokenBtnActionPerformed
-        handleGetTokenBtnActionPerformed(evt);
+        setTokenValue(new OpenshiftGetTokenHandlerImpl().handle(
+                getUrlValue(),
+                getLoginValue(),
+                getPasswordValue(),
+                getTlsEnabledValue()
+        ));
     }//GEN-LAST:event_getTokenBtnActionPerformed
 
 
@@ -371,6 +373,8 @@ public class SettingsPanel extends javax.swing.JPanel {
     private javax.swing.JPanel targetConfigPanel;
     private javax.swing.JLabel targetLabel;
     private javax.swing.JSeparator targetSeparator;
+    private javax.swing.JCheckBox tlsEnabledValue;
+    private javax.swing.JLabel tlsLabel;
     private javax.swing.JLabel tokenLabel;
     private javax.swing.JTextArea tokenNote;
     private javax.swing.JTextField tokenValue;
