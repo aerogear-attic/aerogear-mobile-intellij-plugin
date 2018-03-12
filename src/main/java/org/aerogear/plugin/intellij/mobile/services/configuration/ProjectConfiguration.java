@@ -14,6 +14,8 @@ public class ProjectConfiguration {
             appId = new CordovaConfig().getBundleId(project);
         }
 
+        if (appId == null) throw new NullAppIdException(
+                "Unable to find Application ID, AndroidManifest.xml and Cordova config.xml appear to be missing");
         return appId;
     }
 

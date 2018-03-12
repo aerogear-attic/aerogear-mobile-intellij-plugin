@@ -29,13 +29,7 @@ public class CLIRunnerImpl implements CLIRunner {
   }
 
   @Override
-  public String executeSync(List<String> args) throws CLIException {
-    return executeSync(args, true);
-  }
-
-  @Override
-  public String executeSync(List<String> args, boolean plugin) throws CLIException {
-    List<String> cmd = prepareCmd(args, plugin);
+  public String executeSync(List<String> cmd) throws CLIException {
     String outPut;
     Process p = null;
     try {
@@ -63,31 +57,9 @@ public class CLIRunnerImpl implements CLIRunner {
     return outPut;
   }
 
-
-
-  private List<String> prepareCmd(@NotNull List<String> args, boolean plugin) {
-    List<String> cmd = new ArrayList<>();
-    cmd.add("oc");
-
-    if (plugin){
-      cmd.add("plugin");
-      cmd.add("mobile");
-    }
-
-    cmd.addAll(args);
-
-    return cmd;
-  }
-
   @Override
-  public void executeAsync(List<String> args, Watcher w) {
-      executeAsync(args, true, w);
-  }
-
-  @Override
-  public void executeAsync(List<String> args, boolean plugin, Watcher w) {
+  public void executeAsync(List<String> cmd, Watcher w) {
     executorService.execute(() -> {
-          List<String> cmd = prepareCmd(args, plugin);
           ProcessBuilder pb = new ProcessBuilder(cmd);
           try {
             final Process p = pb.start();

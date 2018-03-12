@@ -23,11 +23,8 @@ import org.jetbrains.annotations.Nullable;
 public class AeroGearMobileConfiguration implements PersistentStateComponent<AeroGearMobileConfiguration> {
     private String configPath;
     private String clientName;
+    private TargetConfig targetConfig;
 
-    private String openshiftUrl;
-    private String openshiftLogin;
-    private String openshiftToken;
-    private String openshiftNamespace;
 
     @Nullable
     @Override
@@ -61,49 +58,15 @@ public class AeroGearMobileConfiguration implements PersistentStateComponent<Aer
         return this.clientName;
     }
 
-    public String getOpenshiftUrl() {
-        return openshiftUrl;
+    public TargetConfig getTargetConfig() {
+        if (this.targetConfig == null){
+            this.targetConfig = new TargetConfig();
+        }
+        return targetConfig;
     }
 
-    public void setOpenshiftUrl(String openshiftUrl) {
-        this.openshiftUrl = openshiftUrl;
+    public void setTargetConfig(TargetConfig targetConfig) {
+        this.targetConfig = targetConfig;
     }
-
-    public String getOpenshiftLogin() {
-        return openshiftLogin;
-    }
-
-    public void setOpenshiftLogin(String openshiftLogin) {
-        this.openshiftLogin = openshiftLogin;
-    }
-
-    public String getOpenshiftToken() {
-        return openshiftToken;
-    }
-
-    public void setOpenshiftToken(String openshiftToken) {
-        this.openshiftToken = openshiftToken;
-    }
-
-    public String getOpenshiftNamespace() {
-        return openshiftNamespace;
-    }
-
-    public void setOpenshiftNamespace(String openshiftNamespace) {
-        this.openshiftNamespace = openshiftNamespace;
-    }
-
-    public void setFromTargetConfig(TargetConfig targetConfig){
-        setOpenshiftUrl(targetConfig.getUrl());
-        setOpenshiftLogin(targetConfig.getLogin());
-        setOpenshiftToken(targetConfig.getToken());
-        setOpenshiftNamespace(targetConfig.getNamespace());
-    }
-
-    public TargetConfig getTargetConfig(){
-        return new TargetConfig(this.openshiftUrl, this.openshiftLogin, "", this.openshiftToken, this.openshiftNamespace);
-    }
-
-
 }
 

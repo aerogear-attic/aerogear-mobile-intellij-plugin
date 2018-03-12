@@ -2,10 +2,10 @@ package org.aerogear.plugin.intellij.mobile.api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.thoughtworks.xstream.io.xml.AbstractXmlWriter;
 import org.aerogear.plugin.intellij.mobile.models.MobileClient;
 import org.aerogear.plugin.intellij.mobile.models.MobileServices;
 import org.aerogear.plugin.intellij.mobile.models.ServiceClass;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +21,8 @@ public class MobileAPI {
     }
 
     public MobileServices getServices(String namespace) throws CLIException {
-        String outPut = cliRunner.executeSync(Arrays.asList("get", "services", "--namespace=" + namespace, "--", "-o=json"));
+        List<String> cmd = preparePluginCmd(Arrays.asList("get", "services", "--namespace=" + namespace, "--", "-o=json"));
+        String outPut = cliRunner.executeSync(cmd);
         Gson gson = new Gson();
         try {
             return gson.fromJson(outPut, MobileServices.class);
@@ -31,7 +32,7 @@ public class MobileAPI {
     }
 
     public void createService(ServiceClass sc, List<String> params, String namespace, Watcher w) {
-        List<String> cmd = new ArrayList<>(Arrays.asList("create", "serviceinstance", sc.getServiceName(), "--namespace=" + namespace, "--"));
+        List<String> cmd = preparePluginCmd(Arrays.asList("create", "serviceinstance", sc.getServiceName(), "--namespace=" + namespace, "--"));
         for (String param : params) {
             cmd.add("-p");
             cmd.add(param);
@@ -43,7 +44,8 @@ public class MobileAPI {
         if (name.isEmpty() || clientType.isEmpty() || bundleID.isEmpty()) {
             throw new CLIException("Expected a client name, a client type and a bundle id");
         }
-        String res = cliRunner.executeSync(Arrays.asList("create", "client", "--namespace=" + namespace, "--", name, clientType, bundleID, "-o=json"));
+        List<String> cmd = preparePluginCmd(Arrays.asList("create", "client", "--namespace=" + namespace, "--", name, clientType, bundleID, "-o=json"));
+        String res = cliRunner.executeSync(cmd);
 
         return getMobileClientFromRes(res);
     }
@@ -52,8 +54,25 @@ public class MobileAPI {
         if (clientId.isEmpty()) {
             throw new CLIException("Expected a client ID");
         }
-        String res = cliRunner.executeSync(Arrays.asList("get", "client", "--namespace=" + namespace, "--", clientId, "-o=json"));
+        List<String> cmd = preparePluginCmd(Arrays.asList("get", "client", "--namespace=" + namespace, "--", clientId, "-o=json"));
+        String res = cliRunner.executeSync(cmd);
+
         return getMobileClientFromRes(res);
+    }
+
+    public String getClientConfig(String clientId, String namespace) throws CLIException {
+        List<String> cmd = preparePluginCmd(Arrays.asList("get", "clientconfig", "--namespace=" + namespace, "--", clientId, "-o=json"));
+        return cliRunner.executeSync(cmd);
+    }
+
+    public String ocLogin(String url, String login, String password, boolean tlsVerify){
+        List<String> cmd = prepareOcCmd(Arrays.asList("login", url, "--username=" + login, "--password=" + password, "--insecure-skip-tls-verify=" + tlsVerify));
+        return cliRunner.executeSync(cmd);
+    }
+
+    public String getOpenshiftToken(){
+        List<String> cmd = prepareOcCmd(Arrays.asList("whoami", "-t"));
+        return cliRunner.executeSync(cmd);
     }
 
     private MobileClient getMobileClientFromRes(String res) {
@@ -65,20 +84,21 @@ public class MobileAPI {
         }
     }
 
-    public String getClientConfig(String clientId, String namespace) throws CLIException {
-        return cliRunner.executeSync(
-                Arrays.asList("get", "clientconfig", "--namespace=" + namespace, "--", clientId, "-o=json")
-        );
+    private List<String> prepareOcCmd(@NotNull List<String> args) {
+        List<String> cmd = new ArrayList<>();
+        cmd.add("oc");
+        cmd.addAll(args);
+
+        return cmd;
     }
 
-    public String ocLogin(String url, String login, String password){
-        return cliRunner.executeSync(
-                Arrays.asList("login", url, "--username=" + login, "--password=" + password, "--insecure-skip-tls-verify=false"),
-                false
-        );
-    }
+    private List<String> preparePluginCmd(@NotNull List<String> args) {
+        List<String> cmd = new ArrayList<>();
+        cmd.add("oc");
+        cmd.add("plugin");
+        cmd.add("mobile");
+        cmd.addAll(args);
 
-    public String getOpenshiftToken(){
-        return cliRunner.executeSync(Arrays.asList("whoami", "-t"), false);
+        return cmd;
     }
 }
