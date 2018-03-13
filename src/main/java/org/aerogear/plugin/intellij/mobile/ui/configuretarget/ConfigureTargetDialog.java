@@ -21,15 +21,17 @@ public class ConfigureTargetDialog extends DialogWrapper {
     @Override
     protected JComponent createCenterPanel() {
         configureTargetPanel = new ConfigureTargetPanel();
-        configureTargetPanel.setUrlValue(config.getTargetConfig().getUrl());
-        configureTargetPanel.setLoginValue(config.getTargetConfig().getLogin());
-        configureTargetPanel.setTlsEnabledValue(config.getTargetConfig().getTlsEnabled());
-        configureTargetPanel.setTokenValue(config.getTargetConfig().getToken());
-        configureTargetPanel.setNamespaceValue(config.getTargetConfig().getNamespace());
-        configureTargetPanel.setPasswordNote(Constants.PASSWORD_NOTE);
-        configureTargetPanel.setTokenNote(Constants.TOKEN_NOTE);
+        configureTargetPanel.getUrlValue().setText(config.getTargetConfig().getUrl());
+        configureTargetPanel.getLoginValue().setText(config.getTargetConfig().getLogin());
+        configureTargetPanel.getTlsEnabledValue().setSelected(config.getTargetConfig().getTlsEnabled());
+        configureTargetPanel.getTokenValue().setText(config.getTargetConfig().getToken());
+        configureTargetPanel.getNamespaceValue().setText(config.getTargetConfig().getNamespace());
+
+        configureTargetPanel.getPasswordNote().setText(Constants.PASSWORD_NOTE);
+        configureTargetPanel.getTokenNote().setText(Constants.TOKEN_NOTE);
+
         configureTargetPanel.getGetTokenBtn().addActionListener(e ->
-                configureTargetPanel.setTokenValue(new OpenshiftGetTokenHandlerImpl().handle(configureTargetPanel)));
+                configureTargetPanel.getTokenValue().setText(new OpenshiftGetTokenHandlerImpl().handle(configureTargetPanel)));
 
         return configureTargetPanel;
     }
@@ -41,11 +43,11 @@ public class ConfigureTargetDialog extends DialogWrapper {
     }
 
     public TargetConfig getTargetConfig(){
-        return new TargetConfig(configureTargetPanel.getUrlValue(),
-                                configureTargetPanel.getLoginValue(),
-                                configureTargetPanel.getPasswordValue(),
-                                configureTargetPanel.getTlsEnabledValue(),
-                                configureTargetPanel.getTokenValue(),
-                                configureTargetPanel.getNamespaceValue());
+        return new TargetConfig(configureTargetPanel.getUrlValue().getText(),
+                                configureTargetPanel.getLoginValue().getText(),
+                                configureTargetPanel.getPasswordValue().getText(),
+                                configureTargetPanel.getTlsEnabledValue().isSelected(),
+                                configureTargetPanel.getTokenValue().getText(),
+                                configureTargetPanel.getNamespaceValue().getText());
     }
 }
