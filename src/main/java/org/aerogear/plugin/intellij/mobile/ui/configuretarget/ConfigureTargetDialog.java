@@ -28,6 +28,9 @@ public class ConfigureTargetDialog extends DialogWrapper {
         configureTargetPanel.setNamespaceValue(config.getTargetConfig().getNamespace());
         configureTargetPanel.setPasswordNote(Constants.PASSWORD_NOTE);
         configureTargetPanel.setTokenNote(Constants.TOKEN_NOTE);
+        configureTargetPanel.getGetTokenBtn().addActionListener(e ->
+                configureTargetPanel.setTokenValue(new OpenshiftGetTokenHandlerImpl().handle(configureTargetPanel)));
+
         return configureTargetPanel;
     }
 
@@ -36,7 +39,6 @@ public class ConfigureTargetDialog extends DialogWrapper {
         super.doOKAction();
         config.setTargetConfig(this.getTargetConfig());
     }
-
 
     public TargetConfig getTargetConfig(){
         return new TargetConfig(configureTargetPanel.getUrlValue(),

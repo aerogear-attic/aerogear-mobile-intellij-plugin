@@ -10,9 +10,9 @@ import java.util.Objects;
 
 public class ConfigureTargetAction extends AnAction {
 
-  @Override
-  public void actionPerformed(AnActionEvent e) {
-    Project project = Objects.requireNonNull(e.getProject());
-      new ConfigureTargetDialog(project, AeroGearMobileConfiguration.getInstance(project)).show();
-  }
+    @Override
+    public void actionPerformed(AnActionEvent e) {
+        Project project = Objects.requireNonNull(e.getProject());
+        new ConfigureTargetDialog(project, AeroGearMobileConfiguration.getInstance(project)).show();
+    }
 }

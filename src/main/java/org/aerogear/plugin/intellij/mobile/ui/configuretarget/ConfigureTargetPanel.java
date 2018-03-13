@@ -5,6 +5,7 @@
  */
 package org.aerogear.plugin.intellij.mobile.ui.configuretarget;
 
+import javax.swing.JButton;
 import java.awt.Color;
 
 public class ConfigureTargetPanel extends javax.swing.JPanel implements OpenshiftGetTokenHandler{
@@ -15,6 +16,10 @@ public class ConfigureTargetPanel extends javax.swing.JPanel implements Openshif
         initComponents();
     }
 
+    public JButton getGetTokenBtn() {
+        return getTokenBtn;
+    }
+
     public String getUrlValue() {
         return urlValue.getText();
     }
@@ -22,7 +27,6 @@ public class ConfigureTargetPanel extends javax.swing.JPanel implements Openshif
     public void setUrlValue(String urlValue) {
         this.urlValue.setText(urlValue);
     }
-
 
     public String getLoginValue() {
         return loginValue.getText();
@@ -113,11 +117,6 @@ public class ConfigureTargetPanel extends javax.swing.JPanel implements Openshif
         namespaceLabel.setText("Namespace");
 
         getTokenBtn.setText("Get Token");
-        getTokenBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getTokenBtnActionPerformed(evt);
-            }
-        });
 
         tlsLabel.setText("TLS enabled");
 
@@ -259,15 +258,6 @@ public class ConfigureTargetPanel extends javax.swing.JPanel implements Openshif
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void getTokenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getTokenBtnActionPerformed
-        setTokenValue(new OpenshiftGetTokenHandlerImpl().handle(
-                getUrlValue(),
-                getLoginValue(),
-                getPasswordValue(),
-                getTlsEnabledValue()
-        ));
-    }//GEN-LAST:event_getTokenBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel configTargetPanel;

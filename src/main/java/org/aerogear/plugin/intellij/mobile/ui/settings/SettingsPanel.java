@@ -1,40 +1,44 @@
 package org.aerogear.plugin.intellij.mobile.ui.settings;
 
-import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import org.aerogear.plugin.intellij.mobile.ui.configuretarget.OpenshiftGetTokenHandler;
-import org.aerogear.plugin.intellij.mobile.ui.configuretarget.OpenshiftGetTokenHandlerImpl;
 
-import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 
 
 public class SettingsPanel extends javax.swing.JPanel implements OpenshiftGetTokenHandler {
-    private TextFieldWithBrowseButton sdkConfigValue;
+    private TextFieldWithBrowseButton sdkConfigValue = new TextFieldWithBrowseButton();
 
 
-    public SettingsPanel(Project project) {
+    public SettingsPanel() {
         initComponents();
-        addTextBrowserWithButton(project);
     }
 
-    private void addTextBrowserWithButton(Project project) {
-        sdkConfigValue = new TextFieldWithBrowseButton();
-        sdkConfigValue.addBrowseFolderListener(new TextBrowseFolderListener(FileChooserDescriptorFactory.createSingleFileDescriptor(), project));
+    public JPanel getSdkConfigPanel() {
+        return sdkConfigPanel;
+    }
 
-        GroupLayout sdkConfigLayout = (GroupLayout) sdkConfigPanel.getLayout();
-        sdkConfigLayout.replace(placeholderTextField, sdkConfigValue);
+    public JTextField getPlaceholderTextField() {
+        return placeholderTextField;
     }
 
     public String getConfigPath() {
         return sdkConfigValue.getText();
     }
 
+    public void setSdkConfigValue(TextFieldWithBrowseButton sdkConfigValue) {
+        this.sdkConfigValue = sdkConfigValue;
+    }
+
     public void setSdkConfigValue(String sdkConfigValue) {
         this.sdkConfigValue.setText(sdkConfigValue);
+    }
+
+    public TextFieldWithBrowseButton getSdkConfigValue() {
+        return sdkConfigValue;
     }
 
     public String getUrlValue() {
@@ -47,6 +51,10 @@ public class SettingsPanel extends javax.swing.JPanel implements OpenshiftGetTok
 
     public String getLoginValue() {
         return loginValue.getText();
+    }
+
+    public JButton getGetTokenBtn() {
+        return this.getTokenBtn;
     }
 
     public void setLoginValue(String loginValue) {
@@ -192,11 +200,6 @@ public class SettingsPanel extends javax.swing.JPanel implements OpenshiftGetTok
         namespaceLabel.setText("Namespace");
 
         getTokenBtn.setText("Get Token");
-        getTokenBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getTokenBtnActionPerformed(evt);
-            }
-        });
 
         tlsLabel.setText("TLS enabled");
 
@@ -341,15 +344,6 @@ public class SettingsPanel extends javax.swing.JPanel implements OpenshiftGetTok
             .addComponent(projectSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void getTokenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getTokenBtnActionPerformed
-        setTokenValue(new OpenshiftGetTokenHandlerImpl().handle(
-                getUrlValue(),
-                getLoginValue(),
-                getPasswordValue(),
-                getTlsEnabledValue()
-        ));
-    }//GEN-LAST:event_getTokenBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
