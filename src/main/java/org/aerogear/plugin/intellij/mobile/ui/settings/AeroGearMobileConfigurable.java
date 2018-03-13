@@ -1,9 +1,12 @@
 package org.aerogear.plugin.intellij.mobile.ui.settings;
 
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.TextBrowseFolderListener;
 import org.aerogear.plugin.intellij.mobile.services.AeroGearMobileConfiguration;
 import org.aerogear.plugin.intellij.mobile.ui.configuretarget.Constants;
+import org.aerogear.plugin.intellij.mobile.ui.configuretarget.OpenshiftGetTokenHandlerImpl;
 import org.aerogear.plugin.intellij.mobile.ui.configuretarget.TargetConfig;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -29,15 +32,17 @@ public class AeroGearMobileConfigurable implements Configurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        settingsPanel = new SettingsPanel(project);
-
-        settingsPanel.setUrlValue(config.getTargetConfig().getUrl());
-        settingsPanel.setLoginValue(config.getTargetConfig().getLogin());
-        settingsPanel.setTlsEnabledValue(config.getTargetConfig().getTlsEnabled());
-        settingsPanel.setTokenValue(config.getTargetConfig().getToken());
-        settingsPanel.setNamespaceValue(config.getTargetConfig().getNamespace());
+        settingsPanel = new SettingsPanel();
         settingsPanel.setPasswordNote(Constants.PASSWORD_NOTE);
         settingsPanel.setTokenNote(Constants.TOKEN_NOTE);
+        settingsPanel.getGetTokenBtn().addActionListener(e ->
+                settingsPanel.setTokenValue(new OpenshiftGetTokenHandlerImpl().handle(settingsPanel)));
+
+        settingsPanel.getSdkConfigValue().addBrowseFolderListener(
+                new TextBrowseFolderListener(FileChooserDescriptorFactory.createSingleFileDescriptor(), project)
+        );
+        GroupLayout sdkConfigLayout = (GroupLayout)  settingsPanel.getSdkConfigPanel().getLayout();
+        sdkConfigLayout.replace(settingsPanel.getPlaceholderTextField(), settingsPanel.getSdkConfigValue());
         return settingsPanel;
     }
 
@@ -60,7 +65,7 @@ public class AeroGearMobileConfigurable implements Configurable {
     public void reset() {
         settingsPanel.setSdkConfigValue(config.getConfigPath());
         settingsPanel.setUrlValue(config.getTargetConfig().getUrl());
-        settingsPanel.setLoginValue(config.getTargetConfig().getUrl());
+        settingsPanel.setLoginValue(config.getTargetConfig().getLogin());
         settingsPanel.setTlsEnabledValue(config.getTargetConfig().getTlsEnabled());
         settingsPanel.setTokenValue(config.getTargetConfig().getToken());
         settingsPanel.setNamespaceValue(config.getTargetConfig().getNamespace());
