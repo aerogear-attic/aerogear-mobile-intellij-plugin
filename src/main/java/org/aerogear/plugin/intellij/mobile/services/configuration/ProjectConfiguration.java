@@ -3,6 +3,8 @@ package org.aerogear.plugin.intellij.mobile.services.configuration;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 
+import java.util.Objects;
+
 
 public class ProjectConfiguration {
 
@@ -14,9 +16,9 @@ public class ProjectConfiguration {
             appId = new CordovaConfig().getBundleId(project);
         }
 
-        if (appId == null) throw new NullAppIdException(
+        return Objects.requireNonNull(
+                         appId,
                 "Unable to find Application ID, AndroidManifest.xml and Cordova config.xml appear to be missing");
-        return appId;
     }
 
     public static ProjectConfiguration getInstance(Project project) {
