@@ -1,13 +1,15 @@
 package org.aerogear.plugin.intellij.mobile.ui.configuretarget;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JTextField;
 
 public interface OpenshiftGetTokenHandler {
-    String getUrlValue();
-    String getLoginValue();
+    JTextField getUrlValue();
+    JTextField getLoginValue();
     JButton getGetTokenBtn();
-    String getPasswordValue();
-    boolean getTlsEnabledValue();
-    String getTokenValue();
-    String getNamespaceValue();
+    JTextField getPasswordValue();
+    JCheckBox getTlsEnabledValue();
+    JTextField getTokenValue();
+    JTextField getNamespaceValue();
 }

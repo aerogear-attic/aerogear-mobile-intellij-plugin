@@ -4,7 +4,9 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import org.aerogear.plugin.intellij.mobile.ui.configuretarget.OpenshiftGetTokenHandler;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import java.awt.Color;
 
@@ -25,75 +27,47 @@ public class SettingsPanel extends javax.swing.JPanel implements OpenshiftGetTok
         return placeholderTextField;
     }
 
-    public String getConfigPath() {
-        return sdkConfigValue.getText();
-    }
-
-    public void setSdkConfigValue(TextFieldWithBrowseButton sdkConfigValue) {
-        this.sdkConfigValue = sdkConfigValue;
-    }
-
-    public void setSdkConfigValue(String sdkConfigValue) {
-        this.sdkConfigValue.setText(sdkConfigValue);
-    }
-
     public TextFieldWithBrowseButton getSdkConfigValue() {
         return sdkConfigValue;
     }
 
-    public String getUrlValue() {
-        return urlValue.getText();
+    public JTextField getUrlValue() {
+        return urlValue;
     }
 
-    public void setUrlValue(String urlValue) {
-        this.urlValue.setText(urlValue);
-    }
-
-    public String getLoginValue() {
-        return loginValue.getText();
+    public JTextField getLoginValue() {
+        return loginValue;
     }
 
     public JButton getGetTokenBtn() {
         return this.getTokenBtn;
     }
 
-    public void setLoginValue(String loginValue) {
-        this.loginValue.setText(loginValue);
+
+    public JTextField getPasswordValue() {
+        return passwordValue;
     }
 
-    public String getPasswordValue() {
-        return passwordValue.getText();
+    public JCheckBox getTlsEnabledValue() {
+        return tlsEnabledValue;
     }
 
-    public boolean getTlsEnabledValue() {
-        return tlsEnabledValue.isSelected();
+
+    public JTextField getTokenValue() {
+        return tokenValue;
     }
 
-    public void setTlsEnabledValue(boolean tlsEnabledValue) {
-        this.tlsEnabledValue.setSelected(tlsEnabledValue);
+
+    public JTextField getNamespaceValue() {
+        return namespaceValue;
     }
 
-    public String getTokenValue() {
-        return tokenValue.getText();
+    public JTextArea getPasswordNote() {
+        return passwordNote;
     }
 
-    public void setTokenValue(String tokenValue) {
-        this.tokenValue.setText(tokenValue);
-    }
-
-    public String getNamespaceValue() {
-        return namespaceValue.getText();
-    }
-
-    public void setNamespaceValue(String namespaceValue) {
-        this.namespaceValue.setText(namespaceValue);
-    }
-    public void setPasswordNote(String passwordNote) {
-        this.passwordNote.setText(passwordNote);
-    }
-
-    public void setTokenNote(String tokenNote) {
-        this.tokenNote.setText(tokenNote);
+    public JTextArea getTokenNote() {
+        return tokenNote;
     }
 
     /**

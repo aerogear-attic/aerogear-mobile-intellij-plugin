@@ -17,10 +17,10 @@ public class OpenshiftGetTokenHandlerImpl {
     public String handle(OpenshiftGetTokenHandler handler) {
         String token = null;
         try {
-            mobileAPI.ocLogin(handler.getUrlValue(),
-                              handler.getLoginValue(),
-                              handler.getPasswordValue(),
-                              handler.getTlsEnabledValue());
+            mobileAPI.ocLogin(handler.getUrlValue().getText(),
+                              handler.getLoginValue().getText(),
+                              handler.getPasswordValue().getText(),
+                              handler.getTlsEnabledValue().isSelected());
             token = mobileAPI.getOpenshiftToken();
         } catch (CLIException e) {
             mobileNotificationsService.notifyError(e.getMessage());

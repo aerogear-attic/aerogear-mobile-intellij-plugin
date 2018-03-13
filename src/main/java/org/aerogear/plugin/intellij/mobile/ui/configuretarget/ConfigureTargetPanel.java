@@ -6,6 +6,9 @@
 package org.aerogear.plugin.intellij.mobile.ui.configuretarget;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import java.awt.Color;
 
 public class ConfigureTargetPanel extends javax.swing.JPanel implements OpenshiftGetTokenHandler{
@@ -20,55 +23,36 @@ public class ConfigureTargetPanel extends javax.swing.JPanel implements Openshif
         return getTokenBtn;
     }
 
-    public String getUrlValue() {
-        return urlValue.getText();
+    public JTextField getUrlValue() {
+        return urlValue;
     }
 
-    public void setUrlValue(String urlValue) {
-        this.urlValue.setText(urlValue);
+    public JTextField getLoginValue() {
+        return loginValue;
     }
 
-    public String getLoginValue() {
-        return loginValue.getText();
+    public JTextField getPasswordValue() {
+        return passwordValue;
     }
 
-    public void setLoginValue(String loginValue) {
-        this.loginValue.setText(loginValue);
+    public JCheckBox getTlsEnabledValue() {
+        return tlsEnabledValue;
     }
 
-    public String getPasswordValue() {
-        return passwordValue.getText();
+    public JTextField getTokenValue() {
+        return tokenValue;
     }
 
-    public boolean getTlsEnabledValue() {
-        return tlsEnabledValue.isSelected();
+    public JTextField getNamespaceValue() {
+        return namespaceValue;
     }
 
-    public void setTlsEnabledValue(boolean tlsEnabledValue) {
-        this.tlsEnabledValue.setSelected(tlsEnabledValue);
+    public JTextArea getPasswordNote() {
+        return passwordNote;
     }
 
-    public String getTokenValue() {
-        return tokenValue.getText();
-    }
-
-    public void setTokenValue(String tokenValue) {
-        this.tokenValue.setText(tokenValue);
-    }
-
-    public String getNamespaceValue() {
-        return namespaceValue.getText();
-    }
-
-    public void setNamespaceValue(String namespaceValue) {
-        this.namespaceValue.setText(namespaceValue);
-    }
-    public void setPasswordNote(String passwordNote) {
-        this.passwordNote.setText(passwordNote);
-    }
-
-    public void setTokenNote(String tokenNote) {
-        this.tokenNote.setText(tokenNote);
+    public JTextArea getTokenNote() {
+        return tokenNote;
     }
 
 

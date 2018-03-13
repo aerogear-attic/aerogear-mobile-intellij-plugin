@@ -33,10 +33,10 @@ public class AeroGearMobileConfigurable implements Configurable {
     @Override
     public JComponent createComponent() {
         settingsPanel = new SettingsPanel();
-        settingsPanel.setPasswordNote(Constants.PASSWORD_NOTE);
-        settingsPanel.setTokenNote(Constants.TOKEN_NOTE);
+        settingsPanel.getPasswordNote().setText(Constants.PASSWORD_NOTE);
+        settingsPanel.getTokenNote().setText(Constants.TOKEN_NOTE);
         settingsPanel.getGetTokenBtn().addActionListener(e ->
-                settingsPanel.setTokenValue(new OpenshiftGetTokenHandlerImpl().handle(settingsPanel)));
+                settingsPanel.getTokenValue().setText(new OpenshiftGetTokenHandlerImpl().handle(settingsPanel)));
 
         settingsPanel.getSdkConfigValue().addBrowseFolderListener(
                 new TextBrowseFolderListener(FileChooserDescriptorFactory.createSingleFileDescriptor(), project)
@@ -49,7 +49,7 @@ public class AeroGearMobileConfigurable implements Configurable {
     @Override
     public boolean isModified() {
         String configPath = this.config.getConfigPath();
-        boolean configPathModified =  !settingsPanel.getConfigPath().equals(configPath);
+        boolean configPathModified =  !settingsPanel.getSdkConfigValue().getText().equals(configPath);
 
         boolean targetConfigModified = !config.getTargetConfig().equals(this.getTargetConfig());
         return configPathModified || targetConfigModified;
@@ -57,27 +57,27 @@ public class AeroGearMobileConfigurable implements Configurable {
 
     @Override
     public void apply() {
-        this.config.setConfigPath(this.settingsPanel.getConfigPath());
+        this.config.setConfigPath(this.settingsPanel.getSdkConfigValue().getText());
         this.config.setTargetConfig(this.getTargetConfig());
     }
 
     @Override
     public void reset() {
-        settingsPanel.setSdkConfigValue(config.getConfigPath());
-        settingsPanel.setUrlValue(config.getTargetConfig().getUrl());
-        settingsPanel.setLoginValue(config.getTargetConfig().getLogin());
-        settingsPanel.setTlsEnabledValue(config.getTargetConfig().getTlsEnabled());
-        settingsPanel.setTokenValue(config.getTargetConfig().getToken());
-        settingsPanel.setNamespaceValue(config.getTargetConfig().getNamespace());
+        settingsPanel.getSdkConfigValue().setText(config.getConfigPath());
+        settingsPanel.getUrlValue().setText(config.getTargetConfig().getUrl());
+        settingsPanel.getLoginValue().setText(config.getTargetConfig().getLogin());
+        settingsPanel.getTlsEnabledValue().setSelected(config.getTargetConfig().getTlsEnabled());
+        settingsPanel.getTokenValue().setText(config.getTargetConfig().getToken());
+        settingsPanel.getNamespaceValue().setText(config.getTargetConfig().getNamespace());
     }
 
     public TargetConfig getTargetConfig(){
-        return new TargetConfig(settingsPanel.getUrlValue(),
-                                settingsPanel.getLoginValue(),
-                                settingsPanel.getPasswordValue(),
-                                settingsPanel.getTlsEnabledValue(),
-                                settingsPanel.getTokenValue(),
-                                settingsPanel.getNamespaceValue());
+        return new TargetConfig(settingsPanel.getUrlValue().getText(),
+                                settingsPanel.getLoginValue().getText(),
+                                settingsPanel.getPasswordValue().getText(),
+                                settingsPanel.getTlsEnabledValue().isSelected(),
+                                settingsPanel.getTokenValue().getText(),
+                                settingsPanel.getNamespaceValue().getText());
     }
 
 }
