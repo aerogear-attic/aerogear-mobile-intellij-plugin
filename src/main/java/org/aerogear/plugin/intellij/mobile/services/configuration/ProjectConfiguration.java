@@ -15,10 +15,11 @@ public class ProjectConfiguration {
         if (appId == null) {
             appId = new CordovaConfig().getBundleId(project);
         }
-
-        return Objects.requireNonNull(
-                         appId,
-                "Unable to find Application ID, AndroidManifest.xml and Cordova config.xml appear to be missing");
+        // not supported project, preffil with empty string rather than crash
+        if (appId == null){
+            appId = ""; 
+        }
+        return appId;
     }
 
     public static ProjectConfiguration getInstance(Project project) {
